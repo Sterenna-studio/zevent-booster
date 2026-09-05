@@ -86,6 +86,21 @@ complète demande **≈ 173 boosters**, soit ~43 h au rythme du cooldown.
 Tout se règle dans [`js/config.js`](js/config.js) : intervalle, boosters offerts,
 plafond de stock, chaîne par défaut, composition, taux de surclassement.
 
+## Regarder une Kard en grand
+
+Clic droit sur une carte — dans la grille, dans le bandeau d'un booster ouvert, ou
+sur celle qu'on vient de retourner — l'affiche plein écran, assez grande pour lire
+sa description et sa synergie. Sur une carte encore face cachée le clic droit ne
+fait rien : pas question de déflorer la révélation.
+
+Le clic droit n'existant pas au doigt, la carte de la fiche détaillée ouvre le même
+zoom au clic gauche.
+
+Les artworks font 620 px de large et le zoom plafonne à 1000 px de haut : on reste
+au ras du 1:1 plutôt que d'afficher un agrandissement flou. Pour viser plus grand,
+`node tools/fetch-artworks.mjs --width 900 --force` — mais les assets passent alors
+de 20 à 49 Mo.
+
 ## Progression
 
 Tout est en `localStorage` (clé `zevent-booster.v1`) : horodatage du cooldown,
@@ -105,6 +120,8 @@ js/streamers.js       plateau du ZEvent et sélecteur de chaîne
 js/packs.js           tirage d'un booster
 js/opening.js         scène d'ouverture et de révélation
 js/collection.js      grille, filtres, fiche détaillée
+js/lightbox.js        zoom plein écran sur une carte
+js/tilt.js            inclinaison 3D partagée par la fiche et le zoom
 js/app.js             navigation et tableau de bord
 data/cards.json       manifeste des 255 Kards
 data/streamers.json   plateau du ZEvent (~340 chaînes)

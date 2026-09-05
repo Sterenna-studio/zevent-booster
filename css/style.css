@@ -1703,6 +1703,18 @@ body.is-quaking main {
   gap: 1.6rem 1.3rem;
 }
 
+.opening__subhint,
+.grid__tip {
+  margin-top: 0.4rem;
+  font-size: 0.76rem;
+  color: var(--txt-faint);
+}
+
+.grid__tip {
+  margin: -1rem 0 1.4rem;
+  text-align: right;
+}
+
 .grid__empty {
   padding: 4rem 0;
   text-align: center;
@@ -1994,6 +2006,126 @@ dialog::backdrop {
   font-family: 'Geist Mono', monospace;
   font-weight: 500;
   color: var(--txt);
+}
+
+/* ─────────────────────────────  ZOOM CARTE  ─────────────────────────── */
+.lightbox {
+  width: 100vw;
+  max-width: 100vw;
+  height: 100vh;
+  max-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  overflow: hidden;
+}
+
+.lightbox::backdrop {
+  background: rgba(4, 2, 8, 0.92);
+  backdrop-filter: blur(10px);
+}
+
+.lightbox[open] {
+  animation: zoomIn 0.28s var(--ease-out);
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+}
+
+.lightbox__body {
+  display: grid;
+  justify-items: center;
+  gap: 1.1rem;
+}
+
+/* Les artworks font 620 px de large : on plafonne la hauteur pour rester au
+   ras du 1:1 plutôt que d'afficher un agrandissement flou. */
+.lightbox__card {
+  height: min(82vh, 1000px);
+  aspect-ratio: var(--card-ratio);
+  max-width: calc(100vw - 3rem);
+  perspective: 1400px;
+}
+
+.lightbox__card .tilt__inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 14px;
+  box-shadow: 0 50px 110px -30px #000;
+}
+
+.lightbox__close {
+  position: fixed;
+  top: 1.2rem;
+  right: 1.2rem;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line-strong);
+  border-radius: 11px;
+  background: rgba(0, 0, 0, 0.5);
+  color: var(--txt-dim);
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.lightbox__close:hover {
+  color: var(--txt);
+  border-color: var(--txt-dim);
+}
+
+.lightbox__close svg {
+  width: 18px;
+  height: 18px;
+}
+
+.lightbox__caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 0.85rem;
+}
+
+.lightbox__caption strong {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(1.2rem, 2.6vw, 1.7rem);
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.lightbox__num {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.76rem;
+  color: var(--txt-faint);
+}
+
+.lightbox__rarity {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--txt-dim);
+}
+
+.lightbox__dupes {
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--txt-faint);
+}
+
+/* La fiche indique que sa carte est cliquable pour aller plus grand. */
+.card-modal .tilt {
+  cursor: zoom-in;
 }
 
 /* ──────────────────────────────  TOAST  ─────────────────────────────── */

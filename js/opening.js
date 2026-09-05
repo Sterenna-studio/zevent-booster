@@ -4,6 +4,7 @@ import { state, consumeBooster, grant, commit, msToNextBooster } from './state.j
 import { rollPack } from './packs.js';
 import { sfx } from './audio.js';
 import { openCard } from './collection.js';
+import { bindZoom } from './lightbox.js';
 
 const root = document.querySelector('.opening');
 const scenes = {
@@ -278,6 +279,11 @@ export function initOpening() {
       openPack();
     }
   });
+
+  // Clic droit : on agrandit. Sur la carte en cours seulement si elle est déjà
+  // retournée — pas question de déflorer une carte encore face cachée.
+  bindZoom(document.querySelector('[data-reveal-stage]'), null, () => (shown ? queue[cursor] : null));
+  bindZoom(trayEl, '[data-card-id]', (el) => el.dataset.cardId);
 
   trayEl?.addEventListener('click', (event) => {
     const node = event.target.closest('[data-card-id]');

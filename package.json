@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Ouverture de boosters ZEVENT x LITTLEBIGWHALE : 1 booster toutes les 10 min de stream regardé",
+  "description": "Ouverture de boosters ZEVENT x LITTLEBIGWHALE : 1 booster toutes les 15 min",
   "scripts": {
     "dev": "npx serve . -l 8080",
     "artworks": "node tools/fetch-artworks.mjs",

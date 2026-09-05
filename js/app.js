@@ -8,6 +8,7 @@ import { initCollection, renderGrid } from './collection.js';
 import { initOpening, refreshOpening } from './opening.js';
 import { sfx, toggleSound } from './audio.js';
 import { loadStreamers, initStreamerPicker } from './streamers.js';
+import { initLightbox } from './lightbox.js';
 
 const GAUGE_CIRCUMFERENCE = 2 * Math.PI * 86;
 
@@ -158,6 +159,7 @@ async function main() {
     return;
   }
 
+  initLightbox();
   initCollection();
   initOpening();
   initStreamerPicker(setChannel);
@@ -165,6 +167,15 @@ async function main() {
   for (const el of document.querySelectorAll('[data-view], [data-goto]')) {
     el.addEventListener('click', () => showView(el.dataset.view ?? el.dataset.goto));
   }
+
+  // Échap ferme la modale du dessus. Les <dialog> le font nativement, mais on
+  // ne s'en remet pas à ça seul : selon le contexte d'affichage, la touche
+  // arrive à la page sans déclencher la fermeture native.
+  window.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    const open = [...document.querySelectorAll('dialog[open]')];
+    open.at(-1)?.close();
+  });
 
   document.querySelector('[data-sound]')?.addEventListener('click', () => {
     toggleSound();

@@ -2,6 +2,8 @@
 import { RARITY_LABEL } from './config.js';
 import { getCards } from './cards.js';
 import { state, ownedCount } from './state.js';
+import { bindTilt } from './tilt.js';
+import { openLightbox, bindZoom } from './lightbox.js';
 
 const RARITY_RANK = { common: 0, rare: 1, epic: 2 };
 
@@ -123,31 +125,9 @@ export function openCard(cardId) {
       </dl>
     </div>`;
 
+  modalBody.dataset.cardId = card.id;
   bindTilt(modalBody.querySelector('[data-tilt]'));
   modal.showModal();
-}
-
-/** Inclinaison 3D suivant le curseur + déplacement du voile holographique. */
-function bindTilt(root) {
-  if (!root) return;
-  const inner = root.querySelector('[data-tilt-inner]');
-  const holo = root.querySelector('[data-holo]');
-  if (!inner) return;
-
-  const move = (event) => {
-    const rect = root.getBoundingClientRect();
-    const px = (event.clientX - rect.left) / rect.width;
-    const py = (event.clientY - rect.top) / rect.height;
-    inner.style.transform = `rotateY(${(px - 0.5) * 22}deg) rotateX(${(0.5 - py) * 22}deg) scale(1.02)`;
-    if (holo) holo.style.backgroundPosition = `${px * 100}% ${py * 100}%`;
-  };
-
-  const reset = () => {
-    inner.style.transform = '';
-  };
-
-  root.addEventListener('pointermove', move);
-  root.addEventListener('pointerleave', reset);
 }
 
 /* ── câblage des contrôles ─────────────────────────────────────────────── */
@@ -186,6 +166,13 @@ export function initCollection() {
   grid?.addEventListener('click', (event) => {
     const btn = event.target.closest('[data-card-id]');
     if (btn) openCard(btn.dataset.cardId);
+  });
+
+  bindZoom(grid, '[data-card-id]', (el) => el.dataset.cardId);
+  // Sur tactile le clic droit n'existe pas : la carte de la fiche sert de porte.
+  modalBody?.addEventListener('click', (event) => {
+    const tilt = event.target.closest('[data-tilt]');
+    if (tilt) openLightbox(modalBody.dataset.cardId);
   });
 
   document.querySelector('[data-modal-close]')?.addEventListener('click', () => modal.close());

@@ -207,6 +207,7 @@
             </div>
             <p class="reveal-caption" data-reveal-caption hidden></p>
             <p class="opening__hint" data-reveal-hint>Clique pour retourner la carte</p>
+            <p class="opening__subhint">Clic droit sur une carte pour la voir en grand</p>
             <div class="reveal-tray" data-tray aria-live="polite"></div>
             <div class="opening__actions" data-reveal-actions hidden>
               <button class="btn btn--primary" type="button" data-open-again>Ouvrir un autre booster</button>
@@ -255,6 +256,7 @@
           </div>
         </div>
 
+        <p class="grid__tip">Clic droit sur une Kard pour la voir en grand.</p>
         <div class="grid" data-grid></div>
         <p class="grid__empty" data-grid-empty hidden>Aucune Kard ne correspond à ces filtres.</p>
       </section>
@@ -284,6 +286,13 @@
       <p data-toast-text></p>
       <button class="btn btn--primary btn--sm" type="button" data-goto="opening" data-toast-action>Ouvrir</button>
     </div>
+
+    <dialog class="lightbox" data-lightbox>
+      <button class="lightbox__close" type="button" data-lightbox-close aria-label="Fermer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+      </button>
+      <div class="lightbox__body" data-lightbox-body></div>
+    </dialog>
 
     <dialog class="channels" data-channel-picker>
       <header class="channels__head">
