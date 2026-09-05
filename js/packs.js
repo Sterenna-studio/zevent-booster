@@ -5,6 +5,9 @@ import { state } from './state.js';
 
 const pick = (list) => list[Math.floor(Math.random() * list.length)];
 
+/** Le cran au-dessus, pour le surclassement d'un slot ordinaire. */
+const UPGRADE_TO = { common: 'rare', rare: 'epic' };
+
 /**
  * Tire une carte de la rareté demandée. Avec une probabilité `newBias`, on
  * privilégie une carte encore absente de la collection — assez pour que la
@@ -32,6 +35,8 @@ export function rollPack() {
     if (slot === 'hit') {
       const wantsEpic = pityHit || Math.random() < CONFIG.pack.epicChance;
       rarity = wantsEpic ? 'epic' : 'rare';
+    } else if (Math.random() < (CONFIG.pack.upgrade[slot] ?? 0)) {
+      rarity = UPGRADE_TO[slot];
     }
     if (rarity === 'epic') epicDrawn = true;
     return drawOne(rarity);

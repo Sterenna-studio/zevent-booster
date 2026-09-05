@@ -1,11 +1,12 @@
 /** Point d'entrée : navigation entre les vues, tableau de bord, câblage global. */
 import { CONFIG, RARITIES } from './config.js';
 import { loadCards, getCards } from './cards.js';
-import { state, subscribe, commit, reset, addWatchTime, msToNextBooster } from './state.js';
-import { initPlayer, onTick, onBoosterEarned, watchStatus } from './twitch.js';
+import { state, subscribe, commit, reset, addWatchTime, claimWelcome, msToNextBooster } from './state.js';
+import { initPlayer, onTick, onBoosterEarned, watchStatus, setChannel, getPlayer } from './twitch.js';
 import { initCollection, renderGrid } from './collection.js';
 import { initOpening, refreshOpening } from './opening.js';
 import { sfx, toggleSound } from './audio.js';
+import { loadStreamers, initStreamerPicker } from './streamers.js';
 
 const GAUGE_CIRCUMFERENCE = 2 * Math.PI * 86;
 
@@ -101,6 +102,39 @@ function renderDashboard() {
   soundBtn?.setAttribute('aria-pressed', String(state.sound));
 }
 
+/* ── toast ─────────────────────────────────────────────────────────────── */
+
+let toastTimer = null;
+
+function showToast(text, actionLabel) {
+  const toast = document.querySelector('[data-toast]');
+  const textEl = document.querySelector('[data-toast-text]');
+  const action = document.querySelector('[data-toast-action]');
+  if (!toast || !textEl) return;
+
+  textEl.textContent = text;
+  if (action) action.textContent = actionLabel;
+  toast.hidden = false;
+  toast.classList.remove('is-leaving');
+
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toast.classList.add('is-leaving');
+    setTimeout(() => {
+      toast.hidden = true;
+    }, 350);
+  }, 9000);
+}
+
+/** Crédite les boosters d'accueil et le fait savoir. */
+function welcome() {
+  const given = claimWelcome(CONFIG.welcomeBoosters);
+  if (!given) return;
+  commit('welcome');
+  refreshOpening();
+  showToast(`Bienvenue — ${given} boosters offerts pour commencer.`, 'Ouvrir');
+}
+
 function renderStatus() {
   const status = watchStatus();
   const dot = document.querySelector('[data-status-dot]');
@@ -112,7 +146,7 @@ function renderStatus() {
 
 async function main() {
   try {
-    await loadCards();
+    await Promise.all([loadCards(), loadStreamers()]);
   } catch (err) {
     document.querySelector('main').innerHTML = `
       <section class="view is-active">
@@ -127,6 +161,7 @@ async function main() {
 
   initCollection();
   initOpening();
+  initStreamerPicker(setChannel);
 
   for (const el of document.querySelectorAll('[data-view], [data-goto]')) {
     el.addEventListener('click', () => showView(el.dataset.view ?? el.dataset.goto));
@@ -140,6 +175,7 @@ async function main() {
   document.querySelector('[data-reset]')?.addEventListener('click', () => {
     if (!confirm('Effacer toute ta progression (temps, boosters et cartes) ?')) return;
     reset();
+    welcome();
     renderGrid();
     refreshOpening();
   });
@@ -164,6 +200,7 @@ async function main() {
 
   initPlayer();
   renderStatus();
+  welcome();
 
   // Console de test en local : le ZEvent n'est en direct que quatre jours par an,
   // il faut bien pouvoir vérifier l'ouverture le reste du temps.
@@ -186,6 +223,10 @@ async function main() {
         return { gained, boosters: state.boosters };
       },
       reset,
+      /** Le player Twitch, pour lancer la lecture sans viser le bouton. */
+      get player() {
+        return getPlayer();
+      },
     };
     console.info('[zevent-booster] console de test : zb.addBoosters(3), zb.addMinutes(10), zb.reset()');
   }

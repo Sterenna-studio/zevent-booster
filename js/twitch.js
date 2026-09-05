@@ -11,6 +11,7 @@
  */
 import { CONFIG } from './config.js';
 import { addWatchTime, commit } from './state.js';
+import { currentChannel } from './streamers.js';
 
 const TICK_MS = 1000;
 const MAX_DELTA_MS = 2000;
@@ -95,6 +96,23 @@ function loop() {
   const delta = Math.min(now - last, MAX_DELTA_MS);
   last = now;
 
+  // On relit la visibilité à chaque tick plutôt que de se fier au seul
+  // événement visibilitychange : certains contextes (webviews, onglets
+  // restaurés) changent l'état sans jamais l'émettre, et le compteur restait
+  // alors bloqué en « arrière-plan » devant un stream pourtant à l'écran.
+  const visible = document.visibilityState === 'visible';
+  if (visible !== watcher.visible) {
+    watcher.visible = visible;
+    // Le temps passé onglet caché ne doit pas être crédité au retour.
+    last = now;
+  }
+
+  // Filet de sécurité : un événement PAUSE manqué (fin de stream, coupure
+  // réseau, pré-roll publicitaire) laisserait le compteur tourner à vide. On
+  // redemande son état au player, qui lui est fiable. Ce contrôle ne peut que
+  // mettre en pause, jamais relancer : c'est l'événement PLAY qui fait ça.
+  if (watcher.playing && watcher.player?.isPaused?.()) watcher.playing = false;
+
   if (watchStatus() === 'live') {
     const gained = addWatchTime(delta);
     watcher.sinceInteraction += delta;
@@ -113,11 +131,10 @@ function loop() {
   for (const fn of tickHandlers) fn(watchStatus());
 }
 
+// La boucle fait déjà foi pour la visibilité ; l'événement ne sert plus qu'à
+// sauvegarder tout de suite quand l'onglet part en arrière-plan.
 document.addEventListener('visibilitychange', () => {
-  watcher.visible = document.visibilityState === 'visible';
-  // Le temps passé onglet caché ne doit jamais être crédité au retour.
-  last = Date.now();
-  if (!watcher.visible) commit('tick-save');
+  if (document.visibilityState !== 'visible') commit('tick-save');
 });
 
 /* ── mise en place du player ───────────────────────────────────────────── */
@@ -149,7 +166,7 @@ export function initPlayer() {
 
   try {
     const player = new window.Twitch.Player('twitch-player', {
-      channel: CONFIG.channel,
+      channel: currentChannel(),
       parent: [location.hostname],
       width: '100%',
       height: '100%',
@@ -179,4 +196,22 @@ export function initPlayer() {
   } catch (err) {
     failPlayer(`Impossible d'initialiser le player : ${err.message}`);
   }
+}
+
+/** Accès au player embarqué, pour la console de test locale. */
+export function getPlayer() {
+  return watcher.player;
+}
+
+/**
+ * Bascule le player sur une autre chaîne du plateau. Le temps déjà compté est
+ * conservé : c'est du visionnage ZEvent, peu importe chez qui.
+ */
+export function setChannel(login) {
+  if (!watcher.player) return;
+  // On repart de « en pause » : c'est l'événement PLAY de la nouvelle chaîne
+  // qui relancera le compteur, pas la simple bascule.
+  watcher.playing = false;
+  last = Date.now();
+  watcher.player.setChannel(login);
 }

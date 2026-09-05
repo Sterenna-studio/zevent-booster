@@ -1,10 +1,16 @@
 /** Tous les réglages du jeu au même endroit. */
 export const CONFIG = {
-  /** Chaîne Twitch suivie par le compteur. */
+  /** Chaîne Twitch par défaut, quand le viewer n'en a pas encore choisi une. */
   channel: 'zevent',
 
   /** Temps de visionnage compté nécessaire pour gagner un booster. */
   boosterMs: 10 * 60 * 1000,
+
+  /**
+   * Boosters offerts à la première visite : de quoi ouvrir tout de suite et
+   * comprendre le jeu, sans attendre dix minutes devant un écran vide.
+   */
+  welcomeBoosters: 10,
 
   /** Composition d'un booster : 3 classiques, 1 rare, 1 slot « chance ». */
   pack: {
@@ -15,6 +21,12 @@ export const CONFIG = {
     epicPity: 15,
     /** Probabilité de privilégier une carte non possédée à rareté égale. */
     newBias: 0.6,
+    /**
+     * Chance qu'un slot ordinaire monte d'un cran. C'est ce qui rend un
+     * booster « gros » possible : deux épiques dans le même paquet arrivent
+     * environ une fois par collection complète.
+     */
+    upgrade: { common: 0.08, rare: 0.05 },
   },
 
   /** Anti-AFK : au bout de ce temps compté sans interaction, on demande confirmation. */

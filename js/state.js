@@ -19,6 +19,10 @@ const EMPTY = {
   order: [],
   /** Sons activés. */
   sound: true,
+  /** Chaîne Twitch choisie par le viewer (null = celle par défaut). */
+  channel: null,
+  /** Les boosters d'accueil ont-ils déjà été crédités ? */
+  welcomed: false,
 };
 
 const listeners = new Set();
@@ -90,8 +94,21 @@ export function ownedCount(cardId) {
   return state.owned[cardId] ?? 0;
 }
 
+/**
+ * Crédite les boosters d'accueil à la première visite. Après un reset le
+ * drapeau repart à false : recommencer, c'est recommencer pour de bon.
+ * Renvoie le nombre offert, 0 si c'était déjà fait.
+ */
+export function claimWelcome(amount) {
+  if (state.welcomed || amount <= 0) return 0;
+  state.welcomed = true;
+  state.boosters += amount;
+  state.earned += amount;
+  return amount;
+}
+
 export function reset() {
-  Object.assign(state, EMPTY, { owned: {}, order: [], sound: state.sound });
+  Object.assign(state, EMPTY, { owned: {}, order: [], sound: state.sound, channel: state.channel });
   commit('reset');
 }
 

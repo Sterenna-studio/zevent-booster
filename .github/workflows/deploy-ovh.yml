@@ -39,6 +39,13 @@ jobs:
           test "$missing" = "0" || { echo "$missing artworks manquants dans assets/cards/"; exit 1; }
           echo "255 Kards et leurs artworks : OK"
 
+      - name: Refresh ZEvent roster
+        # Le plateau bouge d'une édition à l'autre. On le régénère à chaque
+        # déploiement, mais sans bloquer : si zevent.fr ne répond pas, on part
+        # avec le fichier déjà commité plutôt que d'annuler la mise en ligne.
+        continue-on-error: true
+        run: node tools/fetch-streamers.mjs
+
       - name: Cache-bust module imports
         # Estampille un ?v=<run_number> sur les imports locaux avant l'envoi,
         # pour que les navigateurs rechargent les modules modifiés. Non commité :

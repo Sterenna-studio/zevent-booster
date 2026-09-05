@@ -590,6 +590,233 @@ main {
   font-size: 0.9rem;
 }
 
+/* barre de chaîne au-dessus du player */
+.chan {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem 0.6rem 0.5rem 0.5rem;
+  border-radius: 999px;
+  background: var(--glass);
+  border: 1px solid var(--line);
+}
+
+.chan__current {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.chan__avatar {
+  width: 34px;
+  height: 34px;
+  flex: none;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--plum-500);
+  border: 1px solid var(--line-strong);
+}
+
+.chan__avatar--letter {
+  display: grid;
+  place-items: center;
+  font-family: 'Anton', sans-serif;
+  font-size: 1rem;
+  color: var(--txt-dim);
+}
+
+.chan__names {
+  display: grid;
+  min-width: 0;
+  line-height: 1.25;
+}
+
+.chan__names strong {
+  font-size: 0.98rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chan__login {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--txt-faint);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btn--sm {
+  padding: 0.45rem 0.9rem;
+  font-size: 0.84rem;
+}
+
+.btn--sm svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* modale du plateau */
+.channels {
+  display: flex;
+  flex-direction: column;
+  width: min(560px, calc(100vw - 2rem));
+  max-height: min(76vh, 720px);
+  margin: auto;
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(165deg, var(--plum-600), var(--ink-800));
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 60px 120px -40px #000;
+}
+
+.channels[open] {
+  animation: modalIn 0.3s var(--ease-out);
+}
+
+.channels__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.channels__head h2 {
+  font-family: 'Anton', sans-serif;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+}
+
+.channels__head p {
+  margin-top: 0.15rem;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--txt-faint);
+}
+
+.channels__head .card-modal__close {
+  position: static;
+  flex: none;
+}
+
+.channels__search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.9rem;
+}
+
+.channels__search svg {
+  position: absolute;
+  left: 0.85rem;
+  width: 16px;
+  height: 16px;
+  color: var(--txt-faint);
+  pointer-events: none;
+}
+
+.channels__search input {
+  width: 100%;
+  padding: 0.6rem 0.9rem 0.6rem 2.5rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--txt);
+  font: inherit;
+  font-size: 0.92rem;
+}
+
+.channels__search input::placeholder {
+  color: var(--txt-faint);
+}
+
+.channels__list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  margin: 0 -0.4rem;
+  padding: 0 0.4rem;
+}
+
+.chan-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  width: 100%;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  text-align: left;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.chan-row:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.chan-row.is-active {
+  background: rgba(58, 243, 64, 0.09);
+  border-color: rgba(58, 243, 64, 0.45);
+}
+
+.chan-row__avatar {
+  width: 30px;
+  height: 30px;
+  flex: none;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--plum-500);
+}
+
+.chan-row__avatar--letter {
+  display: grid;
+  place-items: center;
+  font-family: 'Anton', sans-serif;
+  font-size: 0.85rem;
+  color: var(--txt-dim);
+}
+
+.chan-row__name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.92rem;
+}
+
+.chan-row__tag {
+  flex: none;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  color: var(--txt-faint);
+}
+
+.chan-row__tag.is-main {
+  color: var(--zgreen);
+  border-color: rgba(58, 243, 64, 0.5);
+}
+
+.channels__foot {
+  margin-top: 0.9rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.76rem;
+  color: var(--txt-faint);
+}
+
 .stream__hint {
   margin-top: 0.9rem;
   font-size: 0.82rem;
@@ -1783,6 +2010,79 @@ dialog::backdrop {
   font-family: 'Geist Mono', monospace;
   font-size: 0.78rem;
   color: var(--txt-faint);
+}
+
+/* ──────────────────────────────  TOAST  ─────────────────────────────── */
+/* Centré par `margin-inline: auto` plutôt qu'un translate : les animations
+   n'ont alors qu'un axe à gérer, et le passage en mobile ne casse rien. */
+.toast {
+  position: fixed;
+  z-index: 80;
+  inset-inline: 1rem;
+  bottom: 1.75rem;
+  width: max-content;
+  max-width: calc(100% - 2rem);
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.7rem 0.7rem 0.7rem 1rem;
+  border-radius: 999px;
+  background: var(--glass-strong);
+  border: 1px solid rgba(58, 243, 64, 0.4);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 24px 60px -20px #000, 0 0 40px -18px rgba(58, 243, 64, 0.7);
+  animation: toastIn 0.5s var(--ease-back) both;
+}
+
+.toast[hidden] {
+  display: none;
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+}
+
+.toast.is-leaving {
+  animation: toastOut 0.35s var(--ease-out) forwards;
+}
+
+@keyframes toastOut {
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+.toast__icon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border-radius: 9px;
+  background: rgba(58, 243, 64, 0.14);
+  color: var(--zgreen);
+}
+
+.toast__icon svg {
+  width: 17px;
+  height: 17px;
+}
+
+.toast p {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 560px) {
+  .toast {
+    bottom: 1rem;
+    width: auto;
+    border-radius: var(--radius);
+  }
 }
 
 /* ──────────────────────────────  FOOTER  ────────────────────────────── */

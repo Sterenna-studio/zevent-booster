@@ -6,6 +6,7 @@
   "description": "Ouverture de boosters ZEVENT x LITTLEBIGWHALE : 1 booster toutes les 10 min de stream regardé",
   "scripts": {
     "dev": "npx serve . -l 8080",
-    "artworks": "node tools/fetch-artworks.mjs"
+    "artworks": "node tools/fetch-artworks.mjs",
+    "streamers": "node tools/fetch-streamers.mjs"
   }
 }
