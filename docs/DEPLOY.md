@@ -32,19 +32,29 @@ sont inaccessibles :
 
 ### 1. Donner au repo l'accès aux secrets d'organisation
 
-`chronicles-tcg` n'a aucun secret au niveau repo : `OVH_SSH_KEY`, `OVH_HOST` et
-`OVH_USER` sont donc des **secrets d'organisation**. Si leur politique d'accès est
-« Selected repositories », le nouveau repo doit y être ajouté, sinon le job échoue
-sur une clé SSH vide.
+**C'est le blocage actuel**, confirmé par le premier run : `OVH_SSH_KEY` et
+`OVH_HOST` arrivent vides dans le job, qui s'arrête à l'étape *Setup SSH key*
+(`ssh-keyscan -H ""`). Les trois secrets sont définis **au niveau de
+l'organisation** avec une politique « Selected repositories », et `zevent-booster`
+n'y est pas encore.
 
 > GitHub → organisation **Sterenna-studio** → Settings → Secrets and variables →
-> Actions → pour chacun des trois secrets, **Repository access** → ajouter
-> `zevent-booster`.
+> Actions → pour chacun de `OVH_SSH_KEY`, `OVH_HOST`, `OVH_USER` :
+> **Repository access** → ajouter `zevent-booster`.
 
-Si la politique est déjà « All repositories », il n'y a rien à faire.
+Puis relancer :
 
-Vérification : onglet **Actions** du repo → le run doit passer l'étape
-*Ensure remote target directory exists* sans erreur SSH.
+```bash
+gh run rerun --failed --repo Sterenna-studio/zevent-booster
+```
+
+Le run doit alors passer *Setup SSH key* et *Ensure remote target directory exists*
+sans erreur.
+
+> Ni moi ni le token `gh` local ne pouvons le faire : lister ou modifier les secrets
+> d'organisation demande le scope `admin:org`, que le token n'a pas. Les créer au
+> niveau du repo n'est pas une option non plus — il faudrait manipuler la clé SSH
+> privée en clair, ce que je ne fais pas.
 
 ### 2. Servir le dossier (seulement si `~/nitro/` n'est pas déjà un catch-all)
 
