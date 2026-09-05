@@ -1,12 +1,12 @@
 # ZEVENT BOOSTERS
 
 Site d'ouverture de boosters adossé à la collection **ZEVENT x LITTLEBIGWHALE** :
-on regarde le ZEvent dans le player embarqué, et **toutes les 10 minutes de
-visionnage** on gagne un booster de 5 Kards à ouvrir. **10 boosters sont offerts
-à la première visite**, pour pouvoir jouer tout de suite.
+on regarde le ZEvent dans le player embarqué, et **un booster de 5 Kards tombe
+toutes les 15 minutes**. **10 boosters sont offerts à la première visite**, pour
+pouvoir jouer tout de suite.
 
-Le ZEvent, ce sont ~340 chaînes en parallèle : le site embarque le plateau
-complet et laisse choisir qui on regarde. Toutes comptent pareil.
+Le ZEvent, ce sont ~340 chaînes en parallèle : le sélecteur liste celles qui sont
+en direct et laisse choisir qui on regarde.
 
 > Fan project non officiel. Les 255 visuels de Kards proviennent de
 > [MemoryKard](https://www.memorykard.com/galerie/zevent-x-littlebigwhale) et sont
@@ -31,7 +31,7 @@ Le ZEvent n'est en direct que quelques jours par an. En local, la console expose
 ```js
 zb.addBoosters(5);   // crédite 5 boosters
 zb.player.play();    // lance la lecture sans viser le bouton
-zb.addMinutes(30);   // avance le compteur de visionnage de 30 min
+zb.advance(30);      // fait comme si 30 min avaient passé
 zb.reset();          // remet la progression à zéro
 zb.state;            // état brut
 ```
@@ -40,39 +40,34 @@ zb.state;            // état brut
 
 Le plateau vient de `https://zevent.fr/api/`, mais **cette API ne renvoie aucun
 en-tête CORS** : un appel depuis la page est bloqué. Il est donc servi en statique
-(`data/streamers.json`), régénéré à chaque déploiement par
-[`tools/fetch-streamers.mjs`](tools/fetch-streamers.mjs).
+(`data/streamers.json`), écrit par [`tools/fetch-streamers.mjs`](tools/fetch-streamers.mjs).
 
-Le statut « en direct » n'est volontairement pas figé dans ce fichier : c'est le
-player Twitch qui fait foi, et c'est lui qui conditionne le compteur. Choisir une
-chaîne hors ligne ne rapporte donc rien, sans qu'on ait besoin de le savoir à
-l'avance.
+Le sélecteur **ne liste que les chaînes en direct**, les plus regardées d'abord.
+Comme ce statut ne peut pas être lu depuis le navigateur, le fichier est une photo
+datée : le workflow [`refresh-roster.yml`](.github/workflows/refresh-roster.yml) en
+pousse une fraîche **toutes les dix minutes** sur le serveur, sans repasser par un
+déploiement complet. La modale affiche l'âge de cette photo — elle peut avoir
+jusqu'à une dizaine de minutes de retard.
 
-## Comment le temps est compté
+Hors événement plus personne ne diffuse : le sélecteur bascule alors sur le plateau
+complet en le disant, plutôt que d'afficher une liste vide.
 
-Le compteur n'avance que si les trois conditions sont réunies :
+## Comment les boosters arrivent
 
-1. le player Twitch joue réellement ;
-2. l'onglet est au premier plan ;
-3. l'utilisateur n'est pas marqué AFK.
+Un cooldown en temps réel, et rien d'autre : **un booster toutes les 15 minutes**.
+Il court même site fermé — l'écart accumulé est crédité au retour, calculé à partir
+d'horodatages, si bien qu'un onglet mis en veille ne fausse rien.
 
-Deux détails qui comptent :
+Le stock est **plafonné à 24 boosters** (six heures d'absence). Sans plafond,
+revenir après trois jours donnerait de quoi compléter la collection d'un coup. Stock
+plein, le cooldown est gelé et repart à la première ouverture — comme une jauge
+d'énergie. Mettre `maxStock: Infinity` dans [`js/config.js`](js/config.js) pour
+retirer la limite.
 
-- La visibilité est **relue à chaque tick** plutôt que déduite du seul événement
-  `visibilitychange`. Certains contextes (webviews, onglets restaurés) changent
-  l'état sans jamais l'émettre, et le compteur restait alors bloqué en
-  « arrière-plan » devant un stream pourtant à l'écran.
-- L'état du player est **recroisé à chaque tick** avec `isPaused()`. Un événement
-  `PAUSE` manqué — fin de stream, coupure réseau, pré-roll publicitaire — laisserait
-  sinon le compteur tourner à vide. Ce contrôle ne peut que mettre en pause.
-
-Le delta est mesuré sur l'horloge réelle et **plafonné à 2 s par tick**, pour qu'un
-onglet mis en veille par le navigateur ne crédite pas un gros bloc d'un coup. Toutes
-les 25 minutes comptées sans la moindre interaction, une confirmation « toujours
-là ? » met le compteur en pause jusqu'au prochain clic.
-
-L'API Twitch n'expose pas les heures de visionnage d'un viewer : ce comptage
-côté site est le seul moyen honnête d'y arriver.
+Le player Twitch ne conditionne rien : il est là pour regarder, et l'indicateur
+« en direct / en pause » de la vue Stream est purement informatif. C'est un choix
+assumé — obliger à garder un stream ouvert pour progresser aurait été plus fidèle
+au thème, mais plus contraignant qu'utile.
 
 ## Composition d'un booster
 
@@ -85,16 +80,16 @@ rare, le slot rare 5 % de monter en épique — ce qui rend possible un booster 
 
 Mesuré sur 20 000 tirages du code réel : 2,76 classiques, 2,07 rares et 0,17 épique
 par booster ; 16,3 % des paquets contiennent au moins une épique. Une collection
-complète demande **≈ 173 boosters, soit ~29 h de stream**.
+complète demande **≈ 173 boosters**, soit ~43 h au rythme du cooldown.
 
-Tout se règle dans [`js/config.js`](js/config.js) : durée par booster, boosters
-offerts, chaîne par défaut, composition, taux de surclassement, seuils AFK.
+Tout se règle dans [`js/config.js`](js/config.js) : intervalle, boosters offerts,
+plafond de stock, chaîne par défaut, composition, taux de surclassement.
 
 ## Progression
 
-Tout est en `localStorage` (clé `zevent-booster.v1`) : temps regardé, boosters en
-attente, cartes possédées et leurs doublons. Pas de compte, pas de serveur, pas de
-données qui sortent du navigateur.
+Tout est en `localStorage` (clé `zevent-booster.v1`) : horodatage du cooldown,
+boosters en attente, cartes possédées et leurs doublons, chaîne choisie. Pas de
+compte, pas de serveur, pas de données qui sortent du navigateur.
 
 ## Structure
 
@@ -103,7 +98,8 @@ index.html            une seule page, trois vues (Stream / Ouverture / Collectio
 css/style.css         feuille unique
 js/config.js          tous les réglages
 js/state.js           sauvegarde locale + bus d'événements
-js/twitch.js          player embarqué + compteur de visionnage
+js/twitch.js          player embarqué (affichage seul)
+js/cooldown.js        boucle du cooldown des boosters
 js/streamers.js       plateau du ZEvent et sélecteur de chaîne
 js/packs.js           tirage d'un booster
 js/opening.js         scène d'ouverture et de révélation

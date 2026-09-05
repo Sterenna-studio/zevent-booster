@@ -3,14 +3,22 @@ export const CONFIG = {
   /** Chaîne Twitch par défaut, quand le viewer n'en a pas encore choisi une. */
   channel: 'zevent',
 
-  /** Temps de visionnage compté nécessaire pour gagner un booster. */
-  boosterMs: 10 * 60 * 1000,
+  /** Intervalle du cooldown : un booster de plus toutes les 15 minutes. */
+  boosterMs: 15 * 60 * 1000,
 
   /**
    * Boosters offerts à la première visite : de quoi ouvrir tout de suite et
-   * comprendre le jeu, sans attendre dix minutes devant un écran vide.
+   * comprendre le jeu, sans attendre le premier cooldown.
    */
   welcomeBoosters: 10,
+
+  /**
+   * Plafond de boosters en attente. Le cooldown tourne en temps réel, site
+   * fermé compris ; sans plafond, revenir après trois jours d'absence donnerait
+   * de quoi compléter la collection d'un coup. À 24, on peut s'absenter six
+   * heures sans rien perdre. Mettre `Infinity` pour retirer la limite.
+   */
+  maxStock: 24,
 
   /** Composition d'un booster : 3 classiques, 1 rare, 1 slot « chance ». */
   pack: {
@@ -27,12 +35,6 @@ export const CONFIG = {
      * environ une fois par collection complète.
      */
     upgrade: { common: 0.08, rare: 0.05 },
-  },
-
-  /** Anti-AFK : au bout de ce temps compté sans interaction, on demande confirmation. */
-  afk: {
-    afterMs: 25 * 60 * 1000,
-    graceMs: 90 * 1000,
   },
 
   /** Clé de sauvegarde locale. */

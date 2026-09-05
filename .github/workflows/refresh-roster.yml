@@ -1,0 +1,51 @@
+name: Refresh ZEvent roster
+
+# Le sélecteur ne montre que les chaînes en direct, or ce statut ne peut pas
+# être lu depuis le navigateur : l'API de zevent.fr ne renvoie pas d'en-tête
+# CORS. On pousse donc une photo fraîche du plateau toutes les dix minutes,
+# sans repasser par un déploiement complet.
+#
+# Le fichier n'est pas commité : seule la copie sur le serveur est mise à jour.
+# Le repo garde celle du dernier déploiement, qui sert de repli.
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: refresh-roster-zevent-booster
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    name: Push a fresh roster to OVH
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch roster
+        run: node tools/fetch-streamers.mjs
+
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.OVH_SSH_KEY }}" > ~/.ssh/ovh_key
+          chmod 600 ~/.ssh/ovh_key
+          ssh-keyscan -H "${{ secrets.OVH_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Upload roster only
+        run: |
+          scp -i ~/.ssh/ovh_key data/streamers.json \
+            "${{ secrets.OVH_USER }}@${{ secrets.OVH_HOST }}:~/nitro/zevent-booster/data/streamers.json"
+
+      - name: Cleanup
+        if: always()
+        run: rm -f ~/.ssh/ovh_key

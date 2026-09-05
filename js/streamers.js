@@ -14,6 +14,11 @@ import { state, commit } from './state.js';
 
 let roster = [];
 let byLogin = new Map();
+/** Chaînes réellement proposées : celles en direct, ou tout le plateau à défaut. */
+let listed = [];
+let generatedAt = null;
+/** Vrai quand plus personne ne diffusait au dernier rafraîchissement. */
+let showingAll = false;
 
 const dialog = document.querySelector('[data-channel-picker]');
 const listEl = document.querySelector('[data-channel-list]');
@@ -35,12 +40,33 @@ export async function loadStreamers() {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     roster = data.streamers ?? [];
+    generatedAt = data.generatedAt ? new Date(data.generatedAt) : null;
   } catch {
     // Sans le plateau, le site reste jouable sur la chaîne par défaut.
-    roster = [{ login: CONFIG.channel, display: 'ZEVENT', avatar: null, location: 'Officielle', main: true }];
+    roster = [
+      { login: CONFIG.channel, display: 'ZEVENT', avatar: null, location: 'Officielle', online: true, main: true },
+    ];
+    generatedAt = null;
   }
   byLogin = new Map(roster.map((s) => [s.login, s]));
+
+  // On ne propose que ce qui diffuse. Hors événement plus personne n'est en
+  // direct : plutôt qu'une liste vide, on montre tout le plateau en le disant.
+  const live = roster.filter((s) => s.online);
+  showingAll = live.length <= 1;
+  listed = showingAll ? roster : live;
+
   return roster;
+}
+
+/** « il y a 4 min », pour dire honnêtement l'âge de la photo du plateau. */
+function freshness() {
+  if (!generatedAt) return '';
+  const min = Math.max(0, Math.round((Date.now() - generatedAt.getTime()) / 60000));
+  if (min < 1) return " · à l'instant";
+  if (min < 60) return ` · il y a ${min} min`;
+  const h = Math.round(min / 60);
+  return ` · il y a ${h} h`;
 }
 
 /** Vignette : l'avatar Twitch, ou l'initiale si l'image manque ou tombe. */
@@ -77,8 +103,9 @@ function renderList(query = '') {
       .normalize('NFD')
       .replace(/[̀-ͯ]/g, '');
 
-  const matches = q ? roster.filter((s) => norm(s.display).includes(q) || norm(s.login).includes(q)) : roster;
+  const matches = q ? listed.filter((s) => norm(s.display).includes(q) || norm(s.login).includes(q)) : listed;
   const active = currentChannel();
+  const viewers = new Intl.NumberFormat('fr-FR');
 
   listEl.innerHTML = matches
     .map(
@@ -86,15 +113,20 @@ function renderList(query = '') {
       <button type="button" class="chan-row${s.login === active ? ' is-active' : ''}" data-pick="${escapeAttr(s.login)}">
         ${avatarHtml(s, 'chan-row__avatar')}
         <span class="chan-row__name">${escapeAttr(s.display)}</span>
+        ${s.viewers ? `<span class="chan-row__viewers">${viewers.format(s.viewers)}</span>` : ''}
         <span class="chan-row__tag${s.main ? ' is-main' : ''}">${escapeAttr(s.location)}</span>
       </button>`
     )
     .join('');
 
   if (countEl) {
-    countEl.textContent = q
-      ? `${matches.length} chaîne${matches.length > 1 ? 's' : ''} trouvée${matches.length > 1 ? 's' : ''}`
-      : `${roster.length} chaînes du plateau`;
+    if (q) {
+      countEl.textContent = `${matches.length} chaîne${matches.length > 1 ? 's' : ''} trouvée${matches.length > 1 ? 's' : ''}`;
+    } else if (showingAll) {
+      countEl.textContent = `aucune chaîne en direct — plateau complet, ${listed.length} chaînes`;
+    } else {
+      countEl.textContent = `${listed.length} chaînes en direct${freshness()}`;
+    }
   }
 }
 

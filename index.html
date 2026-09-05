@@ -6,7 +6,7 @@
     <title>ZEVENT BOOSTERS — ouvre des Kards en regardant le ZEvent</title>
     <meta
       name="description"
-      content="Regarde le ZEvent, gagne un booster toutes les 10 minutes, et complète les 255 Kards de la collection ZEVENT x LITTLEBIGWHALE."
+      content="Regarde le ZEvent sur la chaîne de ton choix, gagne un booster toutes les 15 minutes, et complète les 255 Kards de la collection ZEVENT x LITTLEBIGWHALE."
     />
     <meta name="theme-color" content="#0d0713" />
 
@@ -81,8 +81,9 @@
           </ul>
 
           <p class="hero__lead">
-            Regarde le ZEvent ici même : <strong>toutes les 10 minutes de visionnage</strong>, tu gagnes un booster
-            de 5 Kards. 255 cartes à collectionner, dont 25 uniques réalisées par des artistes invités.
+            Regarde le ZEvent ici même, sur la chaîne de ton choix. <strong>Un booster de 5 Kards toutes les
+            15 minutes</strong>, et 10 offerts dès l'arrivée. 255 cartes à collectionner, dont 25 uniques
+            réalisées par des artistes invités.
           </p>
 
           <div class="hero__cta">
@@ -115,8 +116,7 @@
               </div>
             </div>
             <p class="stream__hint">
-              Toutes les chaînes du plateau comptent. Le compteur avance quand le stream tourne <em>et</em> que
-              cet onglet est au premier plan.
+              Le plateau complet est là : change de chaîne quand tu veux, les boosters tombent de la même façon.
             </p>
           </div>
 
@@ -140,15 +140,15 @@
                 <circle class="gauge__fill" data-gauge cx="100" cy="100" r="86" />
               </svg>
               <div class="gauge__center">
-                <span class="gauge__time" data-countdown>10:00</span>
-                <span class="gauge__caption">avant le prochain booster</span>
+                <span class="gauge__time" data-countdown>15:00</span>
+                <span class="gauge__caption" data-gauge-caption>avant le prochain booster</span>
               </div>
             </div>
 
             <dl class="stats">
               <div>
-                <dt>Temps regardé</dt>
-                <dd data-total-watched>0 min</dd>
+                <dt>En attente</dt>
+                <dd><span data-stock>0</span><span class="stats__slash" data-stock-max>/24</span></dd>
               </div>
               <div>
                 <dt>Boosters gagnés</dt>
@@ -175,8 +175,8 @@
             <div class="opening__empty-art" aria-hidden="true"><span></span><span></span><span></span></div>
             <h2>Pas encore de booster</h2>
             <p>
-              Lance le stream sur l'onglet <button class="linkish" type="button" data-goto="stream">Stream</button> et
-              reviens dans <span data-empty-eta>10 minutes</span>.
+              Le prochain arrive dans <span data-empty-eta>15 minutes</span>, que tu restes ici ou non. En attendant,
+              va voir le <button class="linkish" type="button" data-goto="stream">stream</button>.
             </p>
           </div>
 
@@ -298,15 +298,8 @@
       </label>
       <div class="channels__list" data-channel-list></div>
       <p class="channels__foot">
-        Le compteur ne tourne que si la chaîne choisie est réellement en direct.
+        Seules les chaînes en direct sont listées. Le rythme des boosters ne dépend pas de celle que tu choisis.
       </p>
-    </dialog>
-
-    <dialog class="afk" data-afk>
-      <h2>Toujours devant le stream ?</h2>
-      <p>Le compteur est en pause. Confirme ta présence pour le relancer.</p>
-      <button class="btn btn--primary" type="button" data-afk-confirm>Je suis là</button>
-      <p class="afk__timer" data-afk-timer></p>
     </dialog>
 
     <script src="https://player.twitch.tv/js/embed/v1.js"></script>

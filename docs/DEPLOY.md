@@ -11,7 +11,19 @@ Même chaîne que `chronicles-tcg`, `bzh-universe` et `nitro-clicker` : push sur
 | URL publique | https://nitro.sterenna.fr/zevent-booster/ |
 | Secrets | `OVH_SSH_KEY`, `OVH_HOST`, `OVH_USER` (au niveau de l'organisation) |
 
-## Ce que fait le workflow
+## Deuxième workflow : le plateau
+
+[`refresh-roster.yml`](../.github/workflows/refresh-roster.yml) tourne **toutes les
+dix minutes** et envoie en `scp` un `data/streamers.json` frais, sans repasser par
+un déploiement complet. C'est ce qui permet au sélecteur de n'afficher que les
+chaînes en direct, statut que le navigateur ne peut pas lire lui-même (l'API de
+zevent.fr n'a pas d'en-tête CORS).
+
+Le fichier n'est jamais commité : le repo garde celui du dernier déploiement, qui
+sert de repli. Hors ZEvent, ce workflow n'a plus d'utilité — le désactiver depuis
+l'onglet Actions du repo si les runs à vide gênent.
+
+## Ce que fait le workflow de déploiement
 
 1. **Vérifie les entrées statiques** — `index.html`, `css/style.css`, `js/app.js`,
    `data/cards.json`, les 255 cartes du manifeste et la présence de chaque artwork

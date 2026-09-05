@@ -1,8 +1,9 @@
 /** Point d'entrée : navigation entre les vues, tableau de bord, câblage global. */
 import { CONFIG, RARITIES } from './config.js';
 import { loadCards, getCards } from './cards.js';
-import { state, subscribe, commit, reset, addWatchTime, claimWelcome, msToNextBooster } from './state.js';
-import { initPlayer, onTick, onBoosterEarned, watchStatus, setChannel, getPlayer } from './twitch.js';
+import { state, subscribe, commit, reset, claimWelcome, msToNextBooster } from './state.js';
+import { initPlayer, playerStatus, setChannel, getPlayer } from './twitch.js';
+import { startCooldown, onTick, onBoosterEarned } from './cooldown.js';
 import { initCollection, renderGrid } from './collection.js';
 import { initOpening, refreshOpening } from './opening.js';
 import { sfx, toggleSound } from './audio.js';
@@ -13,8 +14,6 @@ const GAUGE_CIRCUMFERENCE = 2 * Math.PI * 86;
 const STATUS_LABEL = {
   live: 'En direct',
   paused: 'En pause',
-  hidden: 'Arrière-plan',
-  afk: 'AFK',
   error: 'Indisponible',
 };
 
@@ -36,13 +35,6 @@ function showView(name) {
 
 /* ── tableau de bord ───────────────────────────────────────────────────── */
 
-function formatDuration(ms) {
-  const totalMin = Math.floor(ms / 60000);
-  const h = Math.floor(totalMin / 60);
-  const m = totalMin % 60;
-  return h > 0 ? `${h} h ${String(m).padStart(2, '0')}` : `${m} min`;
-}
-
 function formatClock(ms) {
   const total = Math.max(0, Math.ceil(ms / 1000));
   return `${String(Math.floor(total / 60)).padStart(2, '0')}:${String(total % 60).padStart(2, '0')}`;
@@ -55,17 +47,24 @@ function setText(selector, value) {
 function renderDashboard() {
   const { cards } = getCards();
   const ownedIds = Object.keys(state.owned);
+  const full = state.boosters >= CONFIG.maxStock;
 
   // jauge + compte à rebours
   const remaining = msToNextBooster();
-  const progress = 1 - remaining / CONFIG.boosterMs;
+  const progress = full ? 1 : 1 - remaining / CONFIG.boosterMs;
   const gauge = document.querySelector('[data-gauge]');
   if (gauge) {
     gauge.style.strokeDasharray = String(GAUGE_CIRCUMFERENCE);
     gauge.style.strokeDashoffset = String(GAUGE_CIRCUMFERENCE * (1 - progress));
   }
-  setText('[data-countdown]', formatClock(remaining));
-  setText('[data-total-watched]', formatDuration(state.watchedMs));
+  setText('[data-countdown]', full ? 'PLEIN' : formatClock(remaining));
+  setText(
+    '[data-gauge-caption]',
+    full ? 'ouvre un booster pour relancer le compte' : 'avant le prochain booster'
+  );
+
+  setText('[data-stock]', `${state.boosters}`);
+  setText('[data-stock-max]', `/${CONFIG.maxStock}`);
   setText('[data-total-earned]', String(state.earned));
   setText('[data-owned-count]', String(ownedIds.length));
 
@@ -102,6 +101,13 @@ function renderDashboard() {
   soundBtn?.setAttribute('aria-pressed', String(state.sound));
 }
 
+function renderStatus() {
+  const status = playerStatus();
+  const dot = document.querySelector('[data-status-dot]');
+  if (dot) dot.dataset.state = status;
+  setText('[data-status-label]', STATUS_LABEL[status] ?? status);
+}
+
 /* ── toast ─────────────────────────────────────────────────────────────── */
 
 let toastTimer = null;
@@ -135,13 +141,6 @@ function welcome() {
   showToast(`Bienvenue — ${given} boosters offerts pour commencer.`, 'Ouvrir');
 }
 
-function renderStatus() {
-  const status = watchStatus();
-  const dot = document.querySelector('[data-status-dot]');
-  if (dot) dot.dataset.state = status;
-  setText('[data-status-label]', STATUS_LABEL[status] ?? status);
-}
-
 /* ── démarrage ─────────────────────────────────────────────────────────── */
 
 async function main() {
@@ -173,7 +172,7 @@ async function main() {
   });
 
   document.querySelector('[data-reset]')?.addEventListener('click', () => {
-    if (!confirm('Effacer toute ta progression (temps, boosters et cartes) ?')) return;
+    if (!confirm('Effacer toute ta progression (boosters et cartes) ?')) return;
     reset();
     welcome();
     renderGrid();
@@ -193,17 +192,21 @@ async function main() {
     renderStatus();
     renderDashboard();
   });
-  onBoosterEarned(() => {
+  onBoosterEarned((n) => {
     sfx.booster();
     refreshOpening();
+    showToast(
+      n > 1 ? `${n} boosters sont arrivés pendant ton absence.` : 'Un booster vient de tomber.',
+      'Ouvrir'
+    );
   });
 
   initPlayer();
   renderStatus();
   welcome();
+  startCooldown();
 
-  // Console de test en local : le ZEvent n'est en direct que quatre jours par an,
-  // il faut bien pouvoir vérifier l'ouverture le reste du temps.
+  // Console de test en local, pour ne pas avoir à attendre le cooldown.
   if (['localhost', '127.0.0.1', ''].includes(location.hostname)) {
     window.zb = {
       state,
@@ -215,12 +218,11 @@ async function main() {
         refreshOpening();
         return state.boosters;
       },
-      /** Avance le compteur de visionnage de n minutes. */
-      addMinutes(n = 10) {
-        const gained = addWatchTime(n * 60000);
+      /** Recule le cooldown de n minutes, comme si le temps avait passé. */
+      advance(minutes = 15) {
+        state.cooldownAt -= minutes * 60000;
         commit('debug');
-        refreshOpening();
-        return { gained, boosters: state.boosters };
+        return msToNextBooster();
       },
       reset,
       /** Le player Twitch, pour lancer la lecture sans viser le bouton. */
@@ -228,11 +230,8 @@ async function main() {
         return getPlayer();
       },
     };
-    console.info('[zevent-booster] console de test : zb.addBoosters(3), zb.addMinutes(10), zb.reset()');
+    console.info('[zevent-booster] console de test : zb.addBoosters(3), zb.advance(30), zb.reset()');
   }
-
-  // Sauvegarde de sécurité si l'onglet se ferme en plein visionnage.
-  window.addEventListener('pagehide', () => commit('unload'));
 }
 
 main();

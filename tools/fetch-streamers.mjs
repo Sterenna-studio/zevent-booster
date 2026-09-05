@@ -4,12 +4,12 @@
  *
  * Pourquoi un fichier statique plutôt qu'un fetch depuis le navigateur :
  * l'API ne renvoie aucun en-tête Access-Control-Allow-Origin, un appel direct
- * depuis la page est donc bloqué par CORS. Le fichier est régénéré à chaque
- * déploiement (voir .github/workflows/deploy-ovh.yml).
+ * depuis la page est donc bloqué par CORS.
  *
- * On ne garde que ce qui est stable — identité de la chaîne. Le statut « en
- * direct » n'est volontairement pas figé ici : c'est le player Twitch qui fait
- * foi côté site, et lui est à jour.
+ * Le fichier porte le statut « en direct » et le nombre de viewers, qui servent
+ * à n'afficher que les chaînes actives. C'est donc une photo datée : il est
+ * régénéré à chaque déploiement ET toutes les dix minutes par le workflow
+ * refresh-roster.yml. `generatedAt` permet à la page d'afficher sa fraîcheur.
  *
  *   node tools/fetch-streamers.mjs
  */
@@ -21,12 +21,17 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'data', 'streamers.json');
 const API = 'https://zevent.fr/api/';
 
-/** Chaîne officielle de l'événement, toujours proposée en premier. */
+/**
+ * Chaîne officielle de l'événement, toujours proposée en premier et jamais
+ * filtrée : c'est le repli quand plus personne ne diffuse.
+ */
 const MAIN = {
   login: 'zevent',
   display: 'ZEVENT',
   avatar: null,
   location: 'Officielle',
+  online: true,
+  viewers: 0,
   main: true,
 };
 
@@ -46,8 +51,11 @@ const streamers = data.live
     avatar: s.profileUrl ?? null,
     // "LAN" = sur place à Montpellier, "Online" = en distanciel.
     location: s.location === 'LAN' ? 'Sur place' : 'À distance',
+    online: Boolean(s.online),
+    viewers: s.viewersAmount?.number ?? 0,
   }))
-  .sort((a, b) => a.display.localeCompare(b.display, 'fr', { sensitivity: 'base' }));
+  // Les plus regardés d'abord : c'est l'ordre utile quand on cherche où aller.
+  .sort((a, b) => b.viewers - a.viewers || a.display.localeCompare(b.display, 'fr', { sensitivity: 'base' }));
 
 // La chaîne officielle est parfois déjà dans le plateau : on évite le doublon.
 const roster = [MAIN, ...streamers.filter((s) => s.login.toLowerCase() !== MAIN.login)];
@@ -65,4 +73,5 @@ fs.writeFileSync(
   )
 );
 
-console.log(`${roster.length} chaînes → ${path.relative(ROOT, OUT)}`);
+const live = roster.filter((s) => s.online).length;
+console.log(`${roster.length} chaînes dont ${live} en direct → ${path.relative(ROOT, OUT)}`);

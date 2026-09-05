@@ -5,8 +5,12 @@
 import { CONFIG } from './config.js';
 
 const EMPTY = {
-  /** Millisecondes de visionnage effectivement comptées. */
-  watchedMs: 0,
+  /**
+   * Horodatage à partir duquel le cooldown court. Il avance par tranches
+   * entières de `boosterMs`, si bien que le reste donne directement le temps
+   * restant avant le prochain booster.
+   */
+  cooldownAt: 0,
   /** Boosters gagnés mais pas encore ouverts. */
   boosters: 0,
   /** Total de boosters gagnés depuis le début (stat). */
@@ -61,24 +65,55 @@ export function subscribe(fn) {
   return () => listeners.delete(fn);
 }
 
-/* ── mutations ─────────────────────────────────────────────────────────── */
+/* ── cooldown ──────────────────────────────────────────────────────────── */
 
-/** Ajoute du temps compté et convertit en boosters. Renvoie le nombre gagné. */
-export function addWatchTime(ms) {
-  const before = Math.floor(state.watchedMs / CONFIG.boosterMs);
-  state.watchedMs += ms;
-  const after = Math.floor(state.watchedMs / CONFIG.boosterMs);
-  const gained = after - before;
-  if (gained > 0) {
-    state.boosters += gained;
-    state.earned += gained;
+const atCap = () => state.boosters >= CONFIG.maxStock;
+
+/**
+ * Convertit le temps écoulé en boosters. Le cooldown court en temps réel, site
+ * fermé compris : au retour, on crédite d'un coup ce qui s'est accumulé.
+ *
+ * Tant que le stock est plein, le cooldown est gelé — comme une jauge
+ * d'énergie : il repart quand on a ouvert quelque chose. Renvoie le nombre de
+ * boosters crédités.
+ */
+export function tickCooldown(now = Date.now()) {
+  // Première visite, ou horloge remise en arrière : on (re)part de maintenant.
+  if (!state.cooldownAt || state.cooldownAt > now) {
+    state.cooldownAt = now;
+    return 0;
   }
+
+  if (atCap()) {
+    state.cooldownAt = now;
+    return 0;
+  }
+
+  const due = Math.floor((now - state.cooldownAt) / CONFIG.boosterMs);
+  if (due <= 0) return 0;
+
+  const room = CONFIG.maxStock - state.boosters;
+  const gained = Math.min(due, room);
+  state.cooldownAt += due * CONFIG.boosterMs;
+  state.boosters += gained;
+  state.earned += gained;
   return gained;
 }
 
+/** Millisecondes restantes avant le prochain booster. */
+export function msToNextBooster(now = Date.now()) {
+  if (atCap()) return 0;
+  return Math.max(0, CONFIG.boosterMs - (now - state.cooldownAt));
+}
+
+/* ── mutations ─────────────────────────────────────────────────────────── */
+
 export function consumeBooster() {
   if (state.boosters <= 0) return false;
+  const wasFull = atCap();
   state.boosters -= 1;
+  // Le cooldown était gelé stock plein : il redémarre à cet instant.
+  if (wasFull) state.cooldownAt = Date.now();
   return true;
 }
 
@@ -108,11 +143,13 @@ export function claimWelcome(amount) {
 }
 
 export function reset() {
-  Object.assign(state, EMPTY, { owned: {}, order: [], sound: state.sound, channel: state.channel });
+  Object.assign(state, EMPTY, {
+    owned: {},
+    order: [],
+    // Préférences et chaîne choisie ne font pas partie de la progression.
+    sound: state.sound,
+    channel: state.channel,
+    cooldownAt: Date.now(),
+  });
   commit('reset');
-}
-
-/** Millisecondes restantes avant le prochain booster. */
-export function msToNextBooster() {
-  return CONFIG.boosterMs - (state.watchedMs % CONFIG.boosterMs);
 }
