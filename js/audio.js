@@ -7,8 +7,26 @@ import { state, commit } from './state.js';
 
 let ctx = null;
 
+/**
+ * Les navigateurs refusent de démarrer un AudioContext tant que l'utilisateur
+ * n'a pas interagi avec la page, et se plaignent en console à chaque tentative.
+ * Or des sons peuvent survenir sans geste — un booster crédité au chargement,
+ * par exemple. On attend donc la première interaction réelle avant de créer
+ * quoi que ce soit : les sons d'avant sont simplement passés sous silence.
+ */
+let gestured = false;
+for (const evt of ['pointerdown', 'keydown']) {
+  window.addEventListener(
+    evt,
+    () => {
+      gestured = true;
+    },
+    { once: true }
+  );
+}
+
 function ac() {
-  if (!state.sound) return null;
+  if (!state.sound || !gestured) return null;
   if (!ctx) {
     const Ctor = window.AudioContext ?? window.webkitAudioContext;
     if (!Ctor) return null;
