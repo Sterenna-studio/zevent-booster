@@ -11,7 +11,8 @@ en direct et laisse choisir qui on regarde.
 > Fan project non officiel. Les 255 visuels de Kards proviennent de
 > [MemoryKard](https://www.memorykard.com/galerie/zevent-x-littlebigwhale) et sont
 > utilisés **avec l'autorisation de l'auteur**. L'habillage du site (typo, mise en
-> page, animations, icônes) est réécrit, aucun asset d'interface n'est repris.
+> page, animations, icônes) est réécrit. Le logo ZEVENT 26 (`assets/zevent-logo-2026.webp`)
+> est la propriété de l'événement ; il habille le paquet et le dos des cartes.
 
 **En ligne :** https://nitro.sterenna.fr/zevent-booster/
 

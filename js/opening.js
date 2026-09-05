@@ -44,11 +44,19 @@ export function refreshOpening() {
   if (busy || queue.length) return;
 
   if (state.boosters > 0) {
-    if (readyCount) readyCount.textContent = String(state.boosters);
+    setReadyCount();
     showScene('ready');
   } else {
     if (emptyEta) emptyEta.textContent = formatEta(msToNextBooster());
     showScene('empty');
+  }
+}
+
+/** Le compteur de la scène « prêt », pluriels compris. */
+function setReadyCount() {
+  if (readyCount) readyCount.textContent = String(state.boosters);
+  for (const el of document.querySelectorAll('[data-ready-plural]')) {
+    el.textContent = state.boosters > 1 ? 's' : '';
   }
 }
 
@@ -97,7 +105,9 @@ function buildDeck() {
     flipper.style.zIndex = String(queue.length - i);
     flipper.style.transform = `translate(${i * 4}px, ${i * -5}px)`;
     flipper.innerHTML = `
-      <div class="flipper__face flipper__face--back"><span>Z</span></div>
+      <div class="flipper__face flipper__face--back">
+        <img src="assets/zevent-logo-2026.webp" alt="" decoding="async" />
+      </div>
       <div class="flipper__face flipper__face--front">
         <img src="${card.image}" alt="" decoding="async" />
       </div>`;
@@ -264,7 +274,7 @@ export function initOpening() {
   document.querySelector('[data-open-again]')?.addEventListener('click', () => {
     if (state.boosters > 0) {
       showScene('ready');
-      if (readyCount) readyCount.textContent = String(state.boosters);
+      setReadyCount();
       openPack();
     }
   });

@@ -1039,8 +1039,8 @@ main {
 }
 
 .opening__empty-art span {
-  width: 46px;
-  height: 66px;
+  width: 55px;
+  height: 79px;
   border-radius: 6px;
   border: 1px dashed var(--line-strong);
   background: rgba(255, 255, 255, 0.02);
@@ -1061,16 +1061,16 @@ main {
   }
 }
 
-/* le paquet */
+/* le paquet — habillage ZEvent : fond noir, vert, et le logo de l'édition */
 .pack {
   position: relative;
-  width: 232px;
+  width: 278px;
   aspect-ratio: var(--card-ratio);
   padding: 0;
   border: 0;
   border-radius: 12px;
-  background: linear-gradient(165deg, #4b2263 0%, #22112f 48%, #3d1a4f 100%);
-  box-shadow: 0 44px 80px -34px rgba(0, 0, 0, 0.95), inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+  background: linear-gradient(165deg, #14181a 0%, #050706 52%, #0d1412 100%);
+  box-shadow: 0 44px 80px -34px rgba(0, 0, 0, 0.95), inset 0 0 0 1px rgba(58, 243, 64, 0.28);
   overflow: hidden;
   transition: transform 0.35s var(--ease-back), box-shadow 0.35s;
   animation: packFloat 5s ease-in-out infinite;
@@ -1078,8 +1078,8 @@ main {
 
 .pack:hover {
   transform: translateY(-10px) scale(1.03) rotate(-1deg);
-  box-shadow: 0 60px 100px -34px rgba(0, 0, 0, 0.95), 0 0 60px -14px rgba(255, 77, 141, 0.55),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+  box-shadow: 0 60px 100px -34px rgba(0, 0, 0, 0.95), 0 0 64px -14px rgba(58, 243, 64, 0.55),
+    inset 0 0 0 1px rgba(58, 243, 64, 0.6);
 }
 
 @keyframes packFloat {
@@ -1094,8 +1094,8 @@ main {
   background: conic-gradient(
     from 210deg,
     transparent 0deg,
-    rgba(255, 77, 141, 0.5) 42deg,
-    rgba(58, 243, 64, 0.32) 96deg,
+    rgba(58, 243, 64, 0.55) 42deg,
+    rgba(31, 174, 58, 0.3) 96deg,
     transparent 150deg,
     transparent 360deg
   );
@@ -1116,24 +1116,24 @@ main {
   align-content: center;
   justify-items: center;
   gap: 0.35rem;
+  padding-inline: 0.6rem;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: linear-gradient(180deg, rgba(12, 6, 18, 0.72), rgba(12, 6, 18, 0.92));
+  border: 1px solid rgba(58, 243, 64, 0.22);
+  background: linear-gradient(180deg, rgba(4, 6, 5, 0.7), rgba(4, 6, 5, 0.94));
 }
 
 .pack__logo {
-  font-family: 'Anton', sans-serif;
-  font-size: 1.9rem;
-  letter-spacing: 0.02em;
-  color: #fff;
-  text-shadow: 0 0 26px rgba(255, 77, 141, 0.8);
+  width: 100%;
+  height: auto;
+  margin-bottom: 0.2rem;
+  filter: drop-shadow(0 0 22px rgba(58, 243, 64, 0.45));
 }
 
 .pack__sub {
   font-family: 'Geist Mono', monospace;
-  font-size: 0.58rem;
+  font-size: 0.6rem;
   letter-spacing: 0.2em;
-  color: var(--txt-dim);
+  color: rgba(255, 255, 255, 0.62);
 }
 
 .pack__rule {
@@ -1200,7 +1200,7 @@ main {
   display: grid;
   place-items: center;
   width: 100%;
-  min-height: 380px;
+  min-height: 456px;
 }
 
 .reveal-flash {
@@ -1229,7 +1229,7 @@ main {
 
 .reveal-deck {
   position: relative;
-  width: 250px;
+  width: 300px;
   aspect-ratio: var(--card-ratio);
   perspective: 1400px;
 }
@@ -1280,8 +1280,8 @@ main {
 }
 
 .flipper__face--back {
-  background: linear-gradient(160deg, #3a1c4d, #150b1f 60%, #2b1439);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(160deg, #14181a, #050706 58%, #0d1412);
+  border: 1px solid rgba(58, 243, 64, 0.24);
   display: grid;
   place-items: center;
 }
@@ -1291,23 +1291,19 @@ main {
   position: absolute;
   inset: 12px;
   border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(58, 243, 64, 0.16);
   background-image: repeating-linear-gradient(
     -45deg,
-    rgba(255, 255, 255, 0.045) 0 2px,
+    rgba(58, 243, 64, 0.05) 0 2px,
     transparent 2px 9px
   );
 }
 
-.flipper__face--back span {
+.flipper__face--back img {
   position: relative;
-  font-family: 'Anton', sans-serif;
-  font-size: 3.4rem;
-  color: transparent;
-  background: linear-gradient(150deg, var(--zgreen), var(--rose-400));
-  -webkit-background-clip: text;
-  background-clip: text;
-  filter: drop-shadow(0 0 18px rgba(58, 243, 64, 0.4));
+  width: 78%;
+  height: auto;
+  filter: drop-shadow(0 0 20px rgba(58, 243, 64, 0.4));
 }
 
 /* aura selon la rareté, derrière la carte retournée */
@@ -1431,14 +1427,14 @@ main {
   display: flex;
   justify-content: center;
   gap: 0.7rem;
-  min-height: 128px;
+  min-height: 154px;
   margin-top: 1.6rem;
   flex-wrap: wrap;
 }
 
 .tray-card {
   position: relative;
-  width: 84px;
+  width: 101px;
   aspect-ratio: var(--card-ratio);
   border-radius: 7px;
   overflow: hidden;
@@ -1703,7 +1699,7 @@ body.is-quaking main {
 /* grille */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(158px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
   gap: 1.6rem 1.3rem;
 }
 
@@ -1836,7 +1832,7 @@ dialog::backdrop {
 }
 
 .card-modal {
-  width: min(880px, calc(100vw - 2rem));
+  width: min(980px, calc(100vw - 2rem));
   margin: auto;
   border-radius: var(--radius-lg);
   background: linear-gradient(165deg, var(--plum-600), var(--ink-800));
@@ -1882,7 +1878,7 @@ dialog::backdrop {
 
 .card-modal__body {
   display: grid;
-  grid-template-columns: 300px minmax(0, 1fr);
+  grid-template-columns: 360px minmax(0, 1fr);
   gap: 2rem;
   padding: 2rem;
   align-items: center;
@@ -2144,7 +2140,7 @@ dialog::backdrop {
   }
 
   .grid {
-    grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(154px, 1fr));
     gap: 1.2rem 0.9rem;
   }
 
@@ -2154,7 +2150,7 @@ dialog::backdrop {
   }
 
   .tilt {
-    max-width: 240px;
+    max-width: 288px;
     margin-inline: auto;
   }
 }
