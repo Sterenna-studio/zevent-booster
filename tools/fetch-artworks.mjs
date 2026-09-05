@@ -53,6 +53,8 @@ const cards = raw.map((c) => {
     name: c.name,
     rarity: c.rarity.toLowerCase(),
     image: `assets/cards/${file}`,
+    // Présent uniquement sur les épiques (voir tools/fetch-artists.mjs).
+    ...(c.artist ? { artist: c.artist } : {}),
     _src: cdn(c.url),
     _file: path.join(OUT_DIR, file),
   };

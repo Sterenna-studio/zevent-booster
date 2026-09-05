@@ -101,6 +101,27 @@ au ras du 1:1 plutôt que d'afficher un agrandissement flou. Pour viser plus gra
 `node tools/fetch-artworks.mjs --width 900 --force` — mais les assets passent alors
 de 20 à 49 Mo.
 
+## Les 25 épiques
+
+Ce sont les collaborations d'artistes, numérotées #1 à #25, et elles ont droit à
+deux traitements à part.
+
+**À l'obtention** : flash, secousse, rayons tournants, deux ondes de choc, une
+gerbe de 28 éclats projetée de derrière la carte, un balayage lumineux sur son
+artwork, et un son plus grave et plus long. Les animations de transform sont
+décalées de 0,3 s pour ne pas couper le retournement encore en cours.
+
+**Dans leur fiche** : le nom de l'artiste, sa bio et ses liens (site, Instagram,
+Twitch, TikTok, YouTube, X, Bluesky). Ces crédits viennent du payload de la
+galerie MemoryKard, extraits par
+[`tools/fetch-artists.mjs`](tools/fetch-artists.mjs) qui les écrit dans
+`data/cards.raw.json` ; `fetch-artworks.mjs` les reprend dans le manifeste.
+
+```bash
+npm run artists    # rafraîchit les crédits
+npm run artworks   # réécrit data/cards.json
+```
+
 ## Progression
 
 Tout est en `localStorage` (clé `zevent-booster.v1`) : horodatage du cooldown,
@@ -127,7 +148,7 @@ data/cards.json       manifeste des 255 Kards
 data/streamers.json   plateau du ZEvent (~340 chaînes)
 data/cards.raw.json   extraction brute (source du manifeste, non déployée)
 assets/cards/         les 255 artworks en webp
-tools/                récupération des artworks et du plateau, cache-busting
+tools/                récupération des artworks, des artistes et du plateau
 ```
 
 ## Régénérer les artworks

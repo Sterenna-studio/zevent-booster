@@ -1614,174 +1614,614 @@
     "number": "1",
     "name": "ZEVENT x VIVIZAMA",
     "rarity": "EPIC",
-    "url": "https://s3.memorykard.com/card-models/cmsof9t2n0005jt04fmwwlts1/front-77927d5a-b68a-489b-aed6-f6605af999e3.jpg"
+    "url": "https://s3.memorykard.com/card-models/cmsof9t2n0005jt04fmwwlts1/front-77927d5a-b68a-489b-aed6-f6605af999e3.jpg",
+    "artist": {
+      "name": "Vivizama",
+      "bio": "Illustrateur qui revisite la pop culture dans son style manga/anime !",
+      "profileUrl": "https://linktr.ee/ViviZama",
+      "links": [
+        {
+          "network": "website",
+          "label": "Linktree",
+          "url": "https://linktr.ee/ViviZama"
+        },
+        {
+          "network": "instagram",
+          "label": "vivizama",
+          "url": "https://instagram.com/vivizama"
+        },
+        {
+          "network": "twitch",
+          "label": "vivizama",
+          "url": "https://twitch.tv/vivizama"
+        },
+        {
+          "network": "tiktok",
+          "label": "thevivizama",
+          "url": "https://tiktok.com/@thevivizama"
+        }
+      ]
+    }
   },
   {
     "id": "cmsof9t3s0007jt0458lmcmqa",
     "number": "2",
     "name": "ZEVENT x UGO PETULLA",
     "rarity": "EPIC",
-    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9t3s0007jt0458lmcmqa/front-00cfab63-a84e-47d0-96f6-e0100060c875.jpg"
+    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9t3s0007jt0458lmcmqa/front-00cfab63-a84e-47d0-96f6-e0100060c875.jpg",
+    "artist": {
+      "name": "Ugo Petulla",
+      "bio": null,
+      "profileUrl": "https://instagram.com/ugopetulla",
+      "links": [
+        {
+          "network": "instagram",
+          "label": "ugopetulla",
+          "url": "https://instagram.com/ugopetulla"
+        }
+      ]
+    }
   },
   {
     "id": "cmsof9t4y0009jt043t9pxgla",
     "number": "3",
     "name": "ZEVENT x PAWM",
     "rarity": "EPIC",
-    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9t4y0009jt043t9pxgla/front-d69f9da8-bd52-4ca6-986b-e29cc54f6772.jpg"
+    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9t4y0009jt043t9pxgla/front-d69f9da8-bd52-4ca6-986b-e29cc54f6772.jpg",
+    "artist": {
+      "name": "Pawm",
+      "bio": "Streameuse artiste peintre et pyrogravure spécialisée dans les jeux video, la fantasy et la science fiction.",
+      "profileUrl": "https://instagram.com/pawm__",
+      "links": [
+        {
+          "network": "instagram",
+          "label": "pawm__",
+          "url": "https://instagram.com/pawm__"
+        },
+        {
+          "network": "twitch",
+          "label": "pawm_",
+          "url": "https://twitch.tv/pawm_"
+        }
+      ]
+    }
   },
   {
     "id": "cmsof9t5r000bjt04y0fbggpf",
     "number": "4",
     "name": "ZEVENT x KAEVANE",
     "rarity": "EPIC",
-    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9t5r000bjt04y0fbggpf/front-ae0ef7bc-b184-4a34-a457-a39846bde17a.jpg"
+    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9t5r000bjt04y0fbggpf/front-ae0ef7bc-b184-4a34-a457-a39846bde17a.jpg",
+    "artist": {
+      "name": "Kaevane",
+      "bio": null,
+      "profileUrl": "https://linktr.ee/kaevane_",
+      "links": [
+        {
+          "network": "website",
+          "label": "Linktree",
+          "url": "https://linktr.ee/kaevane_"
+        },
+        {
+          "network": "instagram",
+          "label": "kaevane_",
+          "url": "https://instagram.com/kaevane_"
+        },
+        {
+          "network": "tiktok",
+          "label": "kaevane",
+          "url": "https://tiktok.com/@kaevane"
+        },
+        {
+          "network": "youtube",
+          "label": "channel/UCI7aPzWBIPXcNyDRtxGDTLg",
+          "url": "https://youtube.com/@channel/UCI7aPzWBIPXcNyDRtxGDTLg"
+        }
+      ]
+    }
   },
   {
     "id": "cmsof9t6c000djt047pgmqdpq",
     "number": "5",
     "name": "ZEVENT x ENCREMECANIQUE",
     "rarity": "EPIC",
-    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9t6c000djt047pgmqdpq/front-fa1def77-ba8f-4192-bfd6-e7ab72eb7ea5.jpg"
+    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9t6c000djt047pgmqdpq/front-fa1def77-ba8f-4192-bfd6-e7ab72eb7ea5.jpg",
+    "artist": {
+      "name": "EncreMecanique",
+      "bio": "Encre Mécanique est un tatoueur/illustrateur français. ​ Il travaille aussi sur la direction artistique de jeux vidéos indépendants tel que Run the world in-between et Broken Lens. Il lui arrive aussi de partager son travail, ses créations et ses sessions de dessin ou de tatouage en direct sur Twitch au rythme d'un stream par siècle.",
+      "profileUrl": "https://instagram.com/encremecaniquetatoo",
+      "links": [
+        {
+          "network": "instagram",
+          "label": "encremecaniquetatoo",
+          "url": "https://instagram.com/encremecaniquetatoo"
+        },
+        {
+          "network": "twitch",
+          "label": "encremecanique",
+          "url": "https://twitch.tv/encremecanique"
+        }
+      ]
+    }
   },
   {
     "id": "cmsof9t6x000fjt04z3ih5tg0",
     "number": "6",
     "name": "ZEVENT x LENACADABRA",
     "rarity": "EPIC",
-    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9t6x000fjt04z3ih5tg0/front-ada05e8c-3543-4a99-b349-99cf0a5d595b.jpg"
+    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9t6x000fjt04z3ih5tg0/front-ada05e8c-3543-4a99-b349-99cf0a5d595b.jpg",
+    "artist": {
+      "name": "Lenacadabra",
+      "bio": "Léna Mée (Lenacadabra) est une illustratrice à l'univers poétique et coloré. Elle imagine et fabrique des produits en papier, des cartes de vœux aux oracles, et expérimente différents médiums pour créer des objets insolites. On peut trouver dans ses traits la spontanéité de l'illustration jeunesse, mais également une touche d'humour et parfois, de mélancolie, le tout souvent teinté d'un attrait particulier pour les motifs célestes et cosmiques.",
+      "profileUrl": "https://ko-fi.com/lenacadabra/shop",
+      "links": [
+        {
+          "network": "website",
+          "label": "ko-fi.com",
+          "url": "https://ko-fi.com/lenacadabra/shop"
+        },
+        {
+          "network": "instagram",
+          "label": "lenacadabra",
+          "url": "https://instagram.com/lenacadabra"
+        }
+      ]
+    }
   },
   {
     "id": "cmsof9t7i000hjt04xtdghko7",
     "number": "7",
     "name": "ZEVENT x MEYUU",
     "rarity": "EPIC",
-    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9t7i000hjt04xtdghko7/front-56185632-5975-4a11-b36b-2dc7d4f73b76.jpg"
+    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9t7i000hjt04xtdghko7/front-56185632-5975-4a11-b36b-2dc7d4f73b76.jpg",
+    "artist": {
+      "name": "Meyuu",
+      "bio": "Meyuu est animatrice 2D, illustratice et streameuse sur twitch ! Elle aime créer des œuvres un univers fantasy et poétique !",
+      "profileUrl": "https://instagram.com/meyuuart",
+      "links": [
+        {
+          "network": "instagram",
+          "label": "meyuuart",
+          "url": "https://instagram.com/meyuuart"
+        },
+        {
+          "network": "twitch",
+          "label": "meyuuart",
+          "url": "https://twitch.tv/meyuuart"
+        }
+      ]
+    }
   },
   {
     "id": "cmsof9t85000jjt047zzadwfr",
     "number": "8",
     "name": "ZEVENT x KINMEKI",
     "rarity": "EPIC",
-    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9t85000jjt047zzadwfr/front-cfc1ed38-3711-4d38-b847-d9803a13996b.jpg"
+    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9t85000jjt047zzadwfr/front-cfc1ed38-3711-4d38-b847-d9803a13996b.jpg",
+    "artist": {
+      "name": "Kinmeki",
+      "bio": "Né en l'an de grâce 1990... Animateur 3D dans la vie, Kinmeki fait depuis plusieurs années des illustrations et des animations sur son temps libre et en commissions dans un style proche des vieux cartoon ou Disney.",
+      "profileUrl": "https://kinmeki.carrd.co00.",
+      "links": [
+        {
+          "network": "website",
+          "label": "kinmeki.carrd.co00.",
+          "url": "https://kinmeki.carrd.co00."
+        },
+        {
+          "network": "instagram",
+          "label": "kinmeki_art",
+          "url": "https://instagram.com/kinmeki_art"
+        }
+      ]
+    }
   },
   {
     "id": "cmsof9t8r000ljt04vo2y3hzv",
     "number": "9",
     "name": "ZEVENT x SAKASHET",
     "rarity": "EPIC",
-    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9t8r000ljt04vo2y3hzv/front-61ce4924-9fa4-4a56-860d-b9a167a40e27.jpg"
+    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9t8r000ljt04vo2y3hzv/front-61ce4924-9fa4-4a56-860d-b9a167a40e27.jpg",
+    "artist": {
+      "name": "Sakashet",
+      "bio": "Illustrateur/artiste peintre, je mets en image des scènes tirées de l’enfance des années 90/2000. Inspiré par la culture de l’époque et le passage du no-phone vers la technologie que l’on connait aujourd’hui, les sujets baignent dans un sentiment d’ennui enfantin combiné aux biens culturels d’antan.",
+      "profileUrl": "https://instagram.com/sakashet",
+      "links": [
+        {
+          "network": "instagram",
+          "label": "sakashet",
+          "url": "https://instagram.com/sakashet"
+        }
+      ]
+    }
   },
   {
     "id": "cmsof9t9b000njt041m7va0vn",
     "number": "10",
     "name": "ZEVENT x MONSTRENASH",
     "rarity": "EPIC",
-    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9t9b000njt041m7va0vn/front-b7689db6-c5bb-4d65-a663-19b7beac7cf6.jpg"
+    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9t9b000njt041m7va0vn/front-b7689db6-c5bb-4d65-a663-19b7beac7cf6.jpg",
+    "artist": {
+      "name": "Monstre_Nash",
+      "bio": "Nash – Nicolas Ryffel, graphiste et illustrateur suisse basé à Lausanne. Sur Twitch, il crée des illustrations inspirées du street art et de la subculture geek. À travers le dessin et le design, il développe un univers graphique coloré et original.",
+      "profileUrl": "https://nashshop.fr/",
+      "links": [
+        {
+          "network": "website",
+          "label": "nashshop.fr",
+          "url": "https://nashshop.fr/"
+        },
+        {
+          "network": "instagram",
+          "label": "nash_nicolas_ryffel",
+          "url": "https://instagram.com/nash_nicolas_ryffel"
+        },
+        {
+          "network": "twitch",
+          "label": "monstre_nash",
+          "url": "https://twitch.tv/monstre_nash"
+        }
+      ]
+    }
   },
   {
     "id": "cmsof9t9v000pjt044jcz3p0b",
     "number": "11",
     "name": "ZEVENT x TCHOUUKI",
     "rarity": "EPIC",
-    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9t9v000pjt044jcz3p0b/front-800ece8e-3326-4ae7-8360-80dfab9f8204.jpg"
+    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9t9v000pjt044jcz3p0b/front-800ece8e-3326-4ae7-8360-80dfab9f8204.jpg",
+    "artist": {
+      "name": "Tchouuki",
+      "bio": "Passionnée par Nintendo et l'animation japonaise depuis l'enfance, je suis une illustratrice qui touche malheureusement plus de pinceaux que d'herbe. J'aime partager ma passion en stream mais aussi en vidéo avec de merveilleux tutos dessin, et j'espère un jour créer des images qui vous touchent en plein cœur",
+      "profileUrl": "https://instagram.com/tchouuuki",
+      "links": [
+        {
+          "network": "instagram",
+          "label": "tchouuuki",
+          "url": "https://instagram.com/tchouuuki"
+        },
+        {
+          "network": "twitch",
+          "label": "tchouuki",
+          "url": "https://twitch.tv/tchouuki"
+        },
+        {
+          "network": "youtube",
+          "label": "Tchouuuki",
+          "url": "https://youtube.com/@Tchouuuki"
+        }
+      ]
+    }
   },
   {
     "id": "cmsof9tah000rjt04c41tv5vl",
     "number": "12",
     "name": "ZEVENT x SUZIRAPTOR",
     "rarity": "EPIC",
-    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9tah000rjt04c41tv5vl/front-4d150700-1a34-4b18-a3ee-0f69599ae81d.jpg"
+    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9tah000rjt04c41tv5vl/front-4d150700-1a34-4b18-a3ee-0f69599ae81d.jpg",
+    "artist": {
+      "name": "Suziraptor",
+      "bio": null,
+      "profileUrl": "https://linktr.ee/Suziraptor",
+      "links": [
+        {
+          "network": "website",
+          "label": "Linktree",
+          "url": "https://linktr.ee/Suziraptor"
+        },
+        {
+          "network": "instagram",
+          "label": "suziraptor",
+          "url": "https://instagram.com/suziraptor"
+        }
+      ]
+    }
   },
   {
     "id": "cmsof9taz000tjt043w9cddp7",
     "number": "13",
     "name": "ZEVENT x NTSENG",
     "rarity": "EPIC",
-    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9taz000tjt043w9cddp7/front-3c032e52-fe15-49d0-bfc0-60325f8c79e4.jpg"
+    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9taz000tjt043w9cddp7/front-3c032e52-fe15-49d0-bfc0-60325f8c79e4.jpg",
+    "artist": {
+      "name": "Ntseng",
+      "bio": "Freelance concept artiste et illustratrice, Ntseng adore durant son temps libre dessiner des scènes oniriques, douces et naïves. Remplies d'étoiles et de souris, ses œuvres témoignent de son goût pour les couleurs et le story telling !",
+      "profileUrl": "https://ntseng.carrd.co/",
+      "links": [
+        {
+          "network": "website",
+          "label": "ntseng.carrd.co",
+          "url": "https://ntseng.carrd.co/"
+        },
+        {
+          "network": "instagram",
+          "label": "n.t.s.e.n.g",
+          "url": "https://instagram.com/n.t.s.e.n.g"
+        },
+        {
+          "network": "x",
+          "label": "Ntseng",
+          "url": "https://x.com/Ntseng"
+        }
+      ]
+    }
   },
   {
     "id": "cmsof9tbi000vjt04mmsyje15",
     "number": "14",
     "name": "ZEVENT x NOTORI",
     "rarity": "EPIC",
-    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9tbi000vjt04mmsyje15/front-83aef368-4d8d-4ddb-91f0-b0ba0ed22da1.jpg"
+    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9tbi000vjt04mmsyje15/front-83aef368-4d8d-4ddb-91f0-b0ba0ed22da1.jpg",
+    "artist": {
+      "name": "Notori",
+      "bio": "Illustrateur & graphiste, Notori développe un univers graphique inspiré des esthétiques rétro, où se mêlent imaginaire urbain, pop culture et nature qui reprend ses droits",
+      "profileUrl": "https://instagram.com/notoristudio",
+      "links": [
+        {
+          "network": "instagram",
+          "label": "notoristudio",
+          "url": "https://instagram.com/notoristudio"
+        }
+      ]
+    }
   },
   {
     "id": "cmsof9tc2000xjt04apbikegm",
     "number": "15",
     "name": "ZEVENT x UNE PETITE MARIE",
     "rarity": "EPIC",
-    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9tc2000xjt04apbikegm/front-cf0acece-6543-4ef1-8335-a1a41246631b.jpg"
+    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9tc2000xjt04apbikegm/front-cf0acece-6543-4ef1-8335-a1a41246631b.jpg",
+    "artist": {
+      "name": "UnePetiteMarie",
+      "bio": "Artiste peintre et illustratrice, elle développe un univers coloré, doux et pétillant, inspiré par l’imaginaire et les petits plaisirs du quotidien. Elle aime jouer avec les couleurs, les textures et les détails pour créer des œuvres pleines de vie.",
+      "profileUrl": "https://instagram.com/marie_guerineau",
+      "links": [
+        {
+          "network": "instagram",
+          "label": "marie_guerineau",
+          "url": "https://instagram.com/marie_guerineau"
+        }
+      ]
+    }
   },
   {
     "id": "cmsof9tcn000zjt04f9omlkx6",
     "number": "16",
     "name": "ZEVENT x OWAKITA",
     "rarity": "EPIC",
-    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9tcn000zjt04f9omlkx6/front-45a15a67-fff7-4484-b755-2a105cf73714.jpg"
+    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9tcn000zjt04f9omlkx6/front-45a15a67-fff7-4484-b755-2a105cf73714.jpg",
+    "artist": {
+      "name": "Owakita",
+      "bio": "Je m'appelle Elora, j'ai grandi en Savoie, un endroit qui a profondément influencé mon intérêt pour tout ce qui m'entoure, ainsi que mon amour pour l'art et les couleurs. Influencée par les films Ghibli, l'ukiyo-e, l'impressionnisme et la psychologie des couleurs, j'aime créer des illustrations inspirées des estampes japonaises, avec une touche de modernité et une palette de couleurs apaisantes.  À l'image de la véritable signification des estampes Ukiyo-e : je m'efforce de transmettre, à travers mon art et plus particulièrement mes illustrations, l'image d'un monde onirique et flottant, qui inspire nostalgie et sérénité à ceux qui les contemplent.",
+      "profileUrl": "http://eloraowakita.com/",
+      "links": [
+        {
+          "network": "website",
+          "label": "eloraowakita.com",
+          "url": "http://eloraowakita.com/"
+        },
+        {
+          "network": "instagram",
+          "label": "elora.owakita",
+          "url": "https://instagram.com/elora.owakita"
+        }
+      ]
+    }
   },
   {
     "id": "cmsof9td60011jt04hnwd8e54",
     "number": "17",
     "name": "ZEVENT x ADRIEN LOPES",
     "rarity": "EPIC",
-    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9td60011jt04hnwd8e54/front-518a2185-2562-4a0c-8cdc-5a454346a477.jpg"
+    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9td60011jt04hnwd8e54/front-518a2185-2562-4a0c-8cdc-5a454346a477.jpg",
+    "artist": {
+      "name": "Adrien Lopes",
+      "bio": "Adrien Lopes, illustrateur basé à Paris. Plongeant ses œuvres dans des nuances de bleu et de rose, il crée des illustrations oniriques autour du Japon et de la culture asiatique. À travers son trait, il façonne un univers graphique doux et captivant, pensé comme une véritable invitation à la rêverie.",
+      "profileUrl": "https://lopesadrien.com",
+      "links": [
+        {
+          "network": "website",
+          "label": "lopesadrien.com",
+          "url": "https://lopesadrien.com"
+        },
+        {
+          "network": "instagram",
+          "label": "adrienlopes",
+          "url": "https://instagram.com/adrienlopes"
+        }
+      ]
+    }
   },
   {
     "id": "cmsof9tdq0013jt0440oec8mw",
     "number": "18",
     "name": "ZEVENT x  OD.WAV",
     "rarity": "EPIC",
-    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9tdq0013jt0440oec8mw/front-7c9d74fc-4e26-4cbe-8738-7c492e19420b.jpg"
+    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9tdq0013jt0440oec8mw/front-7c9d74fc-4e26-4cbe-8738-7c492e19420b.jpg",
+    "artist": {
+      "name": "Mr_Do (Bado)",
+      "bio": "Description : « Dans le dessin depuis tout petit, j’aime explorer tous types de production visuelle comme l’illustration, le manga, l’animation 2D, jeux vidéos et autres !",
+      "profileUrl": "https://instagram.com/_od.wav",
+      "links": [
+        {
+          "network": "instagram",
+          "label": "_od.wav",
+          "url": "https://instagram.com/_od.wav"
+        }
+      ]
+    }
   },
   {
     "id": "cmsof9tea0015jt0488xrnfwn",
     "number": "19",
     "name": "ZEVENT x MISUFANY",
     "rarity": "EPIC",
-    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9tea0015jt0488xrnfwn/front-8e9ca642-8a1f-4e5b-b041-a5703cbf0692.jpg"
+    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9tea0015jt0488xrnfwn/front-8e9ca642-8a1f-4e5b-b041-a5703cbf0692.jpg",
+    "artist": {
+      "name": "Misufany",
+      "bio": "Je suis Misu Fany, illustratrice freelance. Passionnée de goodies, je vous propose des créations originales mais aussi inspirées de culture pop, dans la palette rose-bleu-violet qui m'est chère.",
+      "profileUrl": "https://www.misufany.com/",
+      "links": [
+        {
+          "network": "website",
+          "label": "misufany.com",
+          "url": "https://www.misufany.com/"
+        },
+        {
+          "network": "instagram",
+          "label": "misufany",
+          "url": "https://instagram.com/misufany"
+        }
+      ]
+    }
   },
   {
     "id": "cmsof9tet0017jt04kk7q8wex",
     "number": "20",
     "name": "ZEVENT x POMELYNE",
     "rarity": "EPIC",
-    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9tet0017jt04kk7q8wex/front-40930757-1ec2-4b02-b780-bb36f6a17e2c.jpg"
+    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9tet0017jt04kk7q8wex/front-40930757-1ec2-4b02-b780-bb36f6a17e2c.jpg",
+    "artist": {
+      "name": "Pomelyne",
+      "bio": null,
+      "profileUrl": "https://instagram.com/pomelyne",
+      "links": [
+        {
+          "network": "instagram",
+          "label": "pomelyne",
+          "url": "https://instagram.com/pomelyne"
+        }
+      ]
+    }
   },
   {
     "id": "cmsof9tfc0019jt04aepb12gb",
     "number": "21",
     "name": "ZEVENT x JENIFAIL",
     "rarity": "EPIC",
-    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9tfc0019jt04aepb12gb/front-daea2605-c0cb-4288-add3-4ae317715202.jpg"
+    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9tfc0019jt04aepb12gb/front-daea2605-c0cb-4288-add3-4ae317715202.jpg",
+    "artist": {
+      "name": "Jenifail",
+      "bio": null,
+      "profileUrl": "https://linktr.ee/jenifail",
+      "links": [
+        {
+          "network": "website",
+          "label": "Linktree",
+          "url": "https://linktr.ee/jenifail"
+        },
+        {
+          "network": "instagram",
+          "label": "Jenifail",
+          "url": "https://instagram.com/Jenifail"
+        },
+        {
+          "network": "x",
+          "label": "Jenifail",
+          "url": "https://x.com/Jenifail"
+        }
+      ]
+    }
   },
   {
     "id": "cmsof9tfy001bjt043fryc0gd",
     "number": "22",
     "name": "ZEVENT - DZOHO",
     "rarity": "EPIC",
-    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9tfy001bjt043fryc0gd/front-228088d2-cfab-4691-b80d-f8f4ed342e91.jpg"
+    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9tfy001bjt043fryc0gd/front-228088d2-cfab-4691-b80d-f8f4ed342e91.jpg",
+    "artist": {
+      "name": "Dzoho",
+      "bio": "DzoHo (Dzoan Ho) est un UI/UX designer, graphiste et illustrateur. Basé à Paris, il a déjà prêté ses talents à de nombreux milieux allant du divertissement à l’industrie tech, en passant aussi par la mode. Familier du paysage Twitch/streaming, il participe depuis plus d’une décennie aux events tels que les Games Done Quick, SpeeDons et l’Ultimate Fighting Arena.",
+      "profileUrl": "https://dzoho.framer.website/",
+      "links": [
+        {
+          "network": "website",
+          "label": "dzoho.framer.website",
+          "url": "https://dzoho.framer.website/"
+        },
+        {
+          "network": "instagram",
+          "label": "DzoHo",
+          "url": "https://instagram.com/DzoHo"
+        },
+        {
+          "network": "x",
+          "label": "DzoHo",
+          "url": "https://x.com/DzoHo"
+        },
+        {
+          "network": "bluesky",
+          "label": "DzoHo",
+          "url": "https://bsky.app/profile/DzoHo"
+        }
+      ]
+    }
   },
   {
     "id": "cmsof9tgh001djt043uy42d1w",
     "number": "23",
     "name": "ZEVENT x ETHEMOS",
     "rarity": "EPIC",
-    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9tgh001djt043uy42d1w/front-bb9d1ddb-e3e2-4331-8671-8023924c4217.jpg"
+    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9tgh001djt043uy42d1w/front-bb9d1ddb-e3e2-4331-8671-8023924c4217.jpg",
+    "artist": {
+      "name": "Ethemos",
+      "bio": null,
+      "profileUrl": "https://instagram.com/ethemos_art",
+      "links": [
+        {
+          "network": "instagram",
+          "label": "ethemos_art",
+          "url": "https://instagram.com/ethemos_art"
+        },
+        {
+          "network": "tiktok",
+          "label": "ethemos_art",
+          "url": "https://tiktok.com/@ethemos_art"
+        }
+      ]
+    }
   },
   {
     "id": "cmsof9tgz001fjt04zdnm4g1a",
     "number": "24",
     "name": "ZEVENT x MCDIBOU",
     "rarity": "EPIC",
-    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9tgz001fjt04zdnm4g1a/front-3a361c2b-b53d-4b8c-a917-e364902d9a1a.jpg"
+    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9tgz001fjt04zdnm4g1a/front-3a361c2b-b53d-4b8c-a917-e364902d9a1a.jpg",
+    "artist": {
+      "name": "McDibou",
+      "bio": "Si je peux au moins vous procurer une émotion, j'ai tout gagné !",
+      "profileUrl": "https://instagram.com/mcdibou___",
+      "links": [
+        {
+          "network": "instagram",
+          "label": "mcdibou___",
+          "url": "https://instagram.com/mcdibou___"
+        }
+      ]
+    }
   },
   {
     "id": "cmsof9thp001hjt04o0kjbpdi",
     "number": "25",
     "name": "ZEVENT x COKOOOOOO",
     "rarity": "EPIC",
-    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9thp001hjt04o0kjbpdi/front-f7f0b63d-8f24-48ed-89e1-e1773a8aa510.jpg"
+    "url": "https://s3.memorykard.maximebaudoin.fr/card-models/cmsof9thp001hjt04o0kjbpdi/front-f7f0b63d-8f24-48ed-89e1-e1773a8aa510.jpg",
+    "artist": {
+      "name": "cokoooooo",
+      "bio": null,
+      "profileUrl": "https://instagram.com/cokoo",
+      "links": [
+        {
+          "network": "instagram",
+          "label": "cokoo",
+          "url": "https://instagram.com/cokoo"
+        },
+        {
+          "network": "twitch",
+          "label": "cokoooooo",
+          "url": "https://twitch.tv/cokoooooo"
+        }
+      ]
+    }
   }
 ]

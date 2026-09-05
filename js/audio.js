@@ -84,10 +84,16 @@ export const sfx = {
   },
   reveal(rarity) {
     if (rarity === 'epic') {
-      [523.25, 659.25, 783.99, 1046.5].forEach((f, i) =>
-        tone({ freq: f, dur: 0.5, type: 'triangle', gain: 0.11, delay: i * 0.075 })
+      // Coup grave d'abord — c'est lui qui donne le poids —, puis l'arpège
+      // monte par-dessus et se referme sur une quinte tenue.
+      tone({ freq: 110, slideTo: 42, dur: 0.9, type: 'sine', gain: 0.16 });
+      noise({ dur: 1.1, gain: 0.09, filter: 5200 });
+      [523.25, 659.25, 783.99, 1046.5, 1318.5].forEach((f, i) =>
+        tone({ freq: f, dur: 0.55, type: 'triangle', gain: 0.11, delay: i * 0.07 })
       );
-      noise({ dur: 0.8, gain: 0.07, filter: 5200 });
+      [783.99, 1174.66].forEach((f) =>
+        tone({ freq: f, dur: 1.4, type: 'sine', gain: 0.06, delay: 0.42 })
+      );
     } else if (rarity === 'rare') {
       [493.88, 739.99].forEach((f, i) =>
         tone({ freq: f, dur: 0.3, type: 'triangle', gain: 0.09, delay: i * 0.07 })

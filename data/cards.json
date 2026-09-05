@@ -1624,175 +1624,615 @@
       "number": "1",
       "name": "ZEVENT x VIVIZAMA",
       "rarity": "epic",
-      "image": "assets/cards/001-zevent-x-vivizama.webp"
+      "image": "assets/cards/001-zevent-x-vivizama.webp",
+      "artist": {
+        "name": "Vivizama",
+        "bio": "Illustrateur qui revisite la pop culture dans son style manga/anime !",
+        "profileUrl": "https://linktr.ee/ViviZama",
+        "links": [
+          {
+            "network": "website",
+            "label": "Linktree",
+            "url": "https://linktr.ee/ViviZama"
+          },
+          {
+            "network": "instagram",
+            "label": "vivizama",
+            "url": "https://instagram.com/vivizama"
+          },
+          {
+            "network": "twitch",
+            "label": "vivizama",
+            "url": "https://twitch.tv/vivizama"
+          },
+          {
+            "network": "tiktok",
+            "label": "thevivizama",
+            "url": "https://tiktok.com/@thevivizama"
+          }
+        ]
+      }
     },
     {
       "id": "cmsof9t3s0007jt0458lmcmqa",
       "number": "2",
       "name": "ZEVENT x UGO PETULLA",
       "rarity": "epic",
-      "image": "assets/cards/002-zevent-x-ugo-petulla.webp"
+      "image": "assets/cards/002-zevent-x-ugo-petulla.webp",
+      "artist": {
+        "name": "Ugo Petulla",
+        "bio": null,
+        "profileUrl": "https://instagram.com/ugopetulla",
+        "links": [
+          {
+            "network": "instagram",
+            "label": "ugopetulla",
+            "url": "https://instagram.com/ugopetulla"
+          }
+        ]
+      }
     },
     {
       "id": "cmsof9t4y0009jt043t9pxgla",
       "number": "3",
       "name": "ZEVENT x PAWM",
       "rarity": "epic",
-      "image": "assets/cards/003-zevent-x-pawm.webp"
+      "image": "assets/cards/003-zevent-x-pawm.webp",
+      "artist": {
+        "name": "Pawm",
+        "bio": "Streameuse artiste peintre et pyrogravure spécialisée dans les jeux video, la fantasy et la science fiction.",
+        "profileUrl": "https://instagram.com/pawm__",
+        "links": [
+          {
+            "network": "instagram",
+            "label": "pawm__",
+            "url": "https://instagram.com/pawm__"
+          },
+          {
+            "network": "twitch",
+            "label": "pawm_",
+            "url": "https://twitch.tv/pawm_"
+          }
+        ]
+      }
     },
     {
       "id": "cmsof9t5r000bjt04y0fbggpf",
       "number": "4",
       "name": "ZEVENT x KAEVANE",
       "rarity": "epic",
-      "image": "assets/cards/004-zevent-x-kaevane.webp"
+      "image": "assets/cards/004-zevent-x-kaevane.webp",
+      "artist": {
+        "name": "Kaevane",
+        "bio": null,
+        "profileUrl": "https://linktr.ee/kaevane_",
+        "links": [
+          {
+            "network": "website",
+            "label": "Linktree",
+            "url": "https://linktr.ee/kaevane_"
+          },
+          {
+            "network": "instagram",
+            "label": "kaevane_",
+            "url": "https://instagram.com/kaevane_"
+          },
+          {
+            "network": "tiktok",
+            "label": "kaevane",
+            "url": "https://tiktok.com/@kaevane"
+          },
+          {
+            "network": "youtube",
+            "label": "channel/UCI7aPzWBIPXcNyDRtxGDTLg",
+            "url": "https://youtube.com/@channel/UCI7aPzWBIPXcNyDRtxGDTLg"
+          }
+        ]
+      }
     },
     {
       "id": "cmsof9t6c000djt047pgmqdpq",
       "number": "5",
       "name": "ZEVENT x ENCREMECANIQUE",
       "rarity": "epic",
-      "image": "assets/cards/005-zevent-x-encremecanique.webp"
+      "image": "assets/cards/005-zevent-x-encremecanique.webp",
+      "artist": {
+        "name": "EncreMecanique",
+        "bio": "Encre Mécanique est un tatoueur/illustrateur français. ​ Il travaille aussi sur la direction artistique de jeux vidéos indépendants tel que Run the world in-between et Broken Lens. Il lui arrive aussi de partager son travail, ses créations et ses sessions de dessin ou de tatouage en direct sur Twitch au rythme d'un stream par siècle.",
+        "profileUrl": "https://instagram.com/encremecaniquetatoo",
+        "links": [
+          {
+            "network": "instagram",
+            "label": "encremecaniquetatoo",
+            "url": "https://instagram.com/encremecaniquetatoo"
+          },
+          {
+            "network": "twitch",
+            "label": "encremecanique",
+            "url": "https://twitch.tv/encremecanique"
+          }
+        ]
+      }
     },
     {
       "id": "cmsof9t6x000fjt04z3ih5tg0",
       "number": "6",
       "name": "ZEVENT x LENACADABRA",
       "rarity": "epic",
-      "image": "assets/cards/006-zevent-x-lenacadabra.webp"
+      "image": "assets/cards/006-zevent-x-lenacadabra.webp",
+      "artist": {
+        "name": "Lenacadabra",
+        "bio": "Léna Mée (Lenacadabra) est une illustratrice à l'univers poétique et coloré. Elle imagine et fabrique des produits en papier, des cartes de vœux aux oracles, et expérimente différents médiums pour créer des objets insolites. On peut trouver dans ses traits la spontanéité de l'illustration jeunesse, mais également une touche d'humour et parfois, de mélancolie, le tout souvent teinté d'un attrait particulier pour les motifs célestes et cosmiques.",
+        "profileUrl": "https://ko-fi.com/lenacadabra/shop",
+        "links": [
+          {
+            "network": "website",
+            "label": "ko-fi.com",
+            "url": "https://ko-fi.com/lenacadabra/shop"
+          },
+          {
+            "network": "instagram",
+            "label": "lenacadabra",
+            "url": "https://instagram.com/lenacadabra"
+          }
+        ]
+      }
     },
     {
       "id": "cmsof9t7i000hjt04xtdghko7",
       "number": "7",
       "name": "ZEVENT x MEYUU",
       "rarity": "epic",
-      "image": "assets/cards/007-zevent-x-meyuu.webp"
+      "image": "assets/cards/007-zevent-x-meyuu.webp",
+      "artist": {
+        "name": "Meyuu",
+        "bio": "Meyuu est animatrice 2D, illustratice et streameuse sur twitch ! Elle aime créer des œuvres un univers fantasy et poétique !",
+        "profileUrl": "https://instagram.com/meyuuart",
+        "links": [
+          {
+            "network": "instagram",
+            "label": "meyuuart",
+            "url": "https://instagram.com/meyuuart"
+          },
+          {
+            "network": "twitch",
+            "label": "meyuuart",
+            "url": "https://twitch.tv/meyuuart"
+          }
+        ]
+      }
     },
     {
       "id": "cmsof9t85000jjt047zzadwfr",
       "number": "8",
       "name": "ZEVENT x KINMEKI",
       "rarity": "epic",
-      "image": "assets/cards/008-zevent-x-kinmeki.webp"
+      "image": "assets/cards/008-zevent-x-kinmeki.webp",
+      "artist": {
+        "name": "Kinmeki",
+        "bio": "Né en l'an de grâce 1990... Animateur 3D dans la vie, Kinmeki fait depuis plusieurs années des illustrations et des animations sur son temps libre et en commissions dans un style proche des vieux cartoon ou Disney.",
+        "profileUrl": "https://kinmeki.carrd.co00.",
+        "links": [
+          {
+            "network": "website",
+            "label": "kinmeki.carrd.co00.",
+            "url": "https://kinmeki.carrd.co00."
+          },
+          {
+            "network": "instagram",
+            "label": "kinmeki_art",
+            "url": "https://instagram.com/kinmeki_art"
+          }
+        ]
+      }
     },
     {
       "id": "cmsof9t8r000ljt04vo2y3hzv",
       "number": "9",
       "name": "ZEVENT x SAKASHET",
       "rarity": "epic",
-      "image": "assets/cards/009-zevent-x-sakashet.webp"
+      "image": "assets/cards/009-zevent-x-sakashet.webp",
+      "artist": {
+        "name": "Sakashet",
+        "bio": "Illustrateur/artiste peintre, je mets en image des scènes tirées de l’enfance des années 90/2000. Inspiré par la culture de l’époque et le passage du no-phone vers la technologie que l’on connait aujourd’hui, les sujets baignent dans un sentiment d’ennui enfantin combiné aux biens culturels d’antan.",
+        "profileUrl": "https://instagram.com/sakashet",
+        "links": [
+          {
+            "network": "instagram",
+            "label": "sakashet",
+            "url": "https://instagram.com/sakashet"
+          }
+        ]
+      }
     },
     {
       "id": "cmsof9t9b000njt041m7va0vn",
       "number": "10",
       "name": "ZEVENT x MONSTRENASH",
       "rarity": "epic",
-      "image": "assets/cards/010-zevent-x-monstrenash.webp"
+      "image": "assets/cards/010-zevent-x-monstrenash.webp",
+      "artist": {
+        "name": "Monstre_Nash",
+        "bio": "Nash – Nicolas Ryffel, graphiste et illustrateur suisse basé à Lausanne. Sur Twitch, il crée des illustrations inspirées du street art et de la subculture geek. À travers le dessin et le design, il développe un univers graphique coloré et original.",
+        "profileUrl": "https://nashshop.fr/",
+        "links": [
+          {
+            "network": "website",
+            "label": "nashshop.fr",
+            "url": "https://nashshop.fr/"
+          },
+          {
+            "network": "instagram",
+            "label": "nash_nicolas_ryffel",
+            "url": "https://instagram.com/nash_nicolas_ryffel"
+          },
+          {
+            "network": "twitch",
+            "label": "monstre_nash",
+            "url": "https://twitch.tv/monstre_nash"
+          }
+        ]
+      }
     },
     {
       "id": "cmsof9t9v000pjt044jcz3p0b",
       "number": "11",
       "name": "ZEVENT x TCHOUUKI",
       "rarity": "epic",
-      "image": "assets/cards/011-zevent-x-tchouuki.webp"
+      "image": "assets/cards/011-zevent-x-tchouuki.webp",
+      "artist": {
+        "name": "Tchouuki",
+        "bio": "Passionnée par Nintendo et l'animation japonaise depuis l'enfance, je suis une illustratrice qui touche malheureusement plus de pinceaux que d'herbe. J'aime partager ma passion en stream mais aussi en vidéo avec de merveilleux tutos dessin, et j'espère un jour créer des images qui vous touchent en plein cœur",
+        "profileUrl": "https://instagram.com/tchouuuki",
+        "links": [
+          {
+            "network": "instagram",
+            "label": "tchouuuki",
+            "url": "https://instagram.com/tchouuuki"
+          },
+          {
+            "network": "twitch",
+            "label": "tchouuki",
+            "url": "https://twitch.tv/tchouuki"
+          },
+          {
+            "network": "youtube",
+            "label": "Tchouuuki",
+            "url": "https://youtube.com/@Tchouuuki"
+          }
+        ]
+      }
     },
     {
       "id": "cmsof9tah000rjt04c41tv5vl",
       "number": "12",
       "name": "ZEVENT x SUZIRAPTOR",
       "rarity": "epic",
-      "image": "assets/cards/012-zevent-x-suziraptor.webp"
+      "image": "assets/cards/012-zevent-x-suziraptor.webp",
+      "artist": {
+        "name": "Suziraptor",
+        "bio": null,
+        "profileUrl": "https://linktr.ee/Suziraptor",
+        "links": [
+          {
+            "network": "website",
+            "label": "Linktree",
+            "url": "https://linktr.ee/Suziraptor"
+          },
+          {
+            "network": "instagram",
+            "label": "suziraptor",
+            "url": "https://instagram.com/suziraptor"
+          }
+        ]
+      }
     },
     {
       "id": "cmsof9taz000tjt043w9cddp7",
       "number": "13",
       "name": "ZEVENT x NTSENG",
       "rarity": "epic",
-      "image": "assets/cards/013-zevent-x-ntseng.webp"
+      "image": "assets/cards/013-zevent-x-ntseng.webp",
+      "artist": {
+        "name": "Ntseng",
+        "bio": "Freelance concept artiste et illustratrice, Ntseng adore durant son temps libre dessiner des scènes oniriques, douces et naïves. Remplies d'étoiles et de souris, ses œuvres témoignent de son goût pour les couleurs et le story telling !",
+        "profileUrl": "https://ntseng.carrd.co/",
+        "links": [
+          {
+            "network": "website",
+            "label": "ntseng.carrd.co",
+            "url": "https://ntseng.carrd.co/"
+          },
+          {
+            "network": "instagram",
+            "label": "n.t.s.e.n.g",
+            "url": "https://instagram.com/n.t.s.e.n.g"
+          },
+          {
+            "network": "x",
+            "label": "Ntseng",
+            "url": "https://x.com/Ntseng"
+          }
+        ]
+      }
     },
     {
       "id": "cmsof9tbi000vjt04mmsyje15",
       "number": "14",
       "name": "ZEVENT x NOTORI",
       "rarity": "epic",
-      "image": "assets/cards/014-zevent-x-notori.webp"
+      "image": "assets/cards/014-zevent-x-notori.webp",
+      "artist": {
+        "name": "Notori",
+        "bio": "Illustrateur & graphiste, Notori développe un univers graphique inspiré des esthétiques rétro, où se mêlent imaginaire urbain, pop culture et nature qui reprend ses droits",
+        "profileUrl": "https://instagram.com/notoristudio",
+        "links": [
+          {
+            "network": "instagram",
+            "label": "notoristudio",
+            "url": "https://instagram.com/notoristudio"
+          }
+        ]
+      }
     },
     {
       "id": "cmsof9tc2000xjt04apbikegm",
       "number": "15",
       "name": "ZEVENT x UNE PETITE MARIE",
       "rarity": "epic",
-      "image": "assets/cards/015-zevent-x-une-petite-marie.webp"
+      "image": "assets/cards/015-zevent-x-une-petite-marie.webp",
+      "artist": {
+        "name": "UnePetiteMarie",
+        "bio": "Artiste peintre et illustratrice, elle développe un univers coloré, doux et pétillant, inspiré par l’imaginaire et les petits plaisirs du quotidien. Elle aime jouer avec les couleurs, les textures et les détails pour créer des œuvres pleines de vie.",
+        "profileUrl": "https://instagram.com/marie_guerineau",
+        "links": [
+          {
+            "network": "instagram",
+            "label": "marie_guerineau",
+            "url": "https://instagram.com/marie_guerineau"
+          }
+        ]
+      }
     },
     {
       "id": "cmsof9tcn000zjt04f9omlkx6",
       "number": "16",
       "name": "ZEVENT x OWAKITA",
       "rarity": "epic",
-      "image": "assets/cards/016-zevent-x-owakita.webp"
+      "image": "assets/cards/016-zevent-x-owakita.webp",
+      "artist": {
+        "name": "Owakita",
+        "bio": "Je m'appelle Elora, j'ai grandi en Savoie, un endroit qui a profondément influencé mon intérêt pour tout ce qui m'entoure, ainsi que mon amour pour l'art et les couleurs. Influencée par les films Ghibli, l'ukiyo-e, l'impressionnisme et la psychologie des couleurs, j'aime créer des illustrations inspirées des estampes japonaises, avec une touche de modernité et une palette de couleurs apaisantes.  À l'image de la véritable signification des estampes Ukiyo-e : je m'efforce de transmettre, à travers mon art et plus particulièrement mes illustrations, l'image d'un monde onirique et flottant, qui inspire nostalgie et sérénité à ceux qui les contemplent.",
+        "profileUrl": "http://eloraowakita.com/",
+        "links": [
+          {
+            "network": "website",
+            "label": "eloraowakita.com",
+            "url": "http://eloraowakita.com/"
+          },
+          {
+            "network": "instagram",
+            "label": "elora.owakita",
+            "url": "https://instagram.com/elora.owakita"
+          }
+        ]
+      }
     },
     {
       "id": "cmsof9td60011jt04hnwd8e54",
       "number": "17",
       "name": "ZEVENT x ADRIEN LOPES",
       "rarity": "epic",
-      "image": "assets/cards/017-zevent-x-adrien-lopes.webp"
+      "image": "assets/cards/017-zevent-x-adrien-lopes.webp",
+      "artist": {
+        "name": "Adrien Lopes",
+        "bio": "Adrien Lopes, illustrateur basé à Paris. Plongeant ses œuvres dans des nuances de bleu et de rose, il crée des illustrations oniriques autour du Japon et de la culture asiatique. À travers son trait, il façonne un univers graphique doux et captivant, pensé comme une véritable invitation à la rêverie.",
+        "profileUrl": "https://lopesadrien.com",
+        "links": [
+          {
+            "network": "website",
+            "label": "lopesadrien.com",
+            "url": "https://lopesadrien.com"
+          },
+          {
+            "network": "instagram",
+            "label": "adrienlopes",
+            "url": "https://instagram.com/adrienlopes"
+          }
+        ]
+      }
     },
     {
       "id": "cmsof9tdq0013jt0440oec8mw",
       "number": "18",
       "name": "ZEVENT x  OD.WAV",
       "rarity": "epic",
-      "image": "assets/cards/018-zevent-x-od-wav.webp"
+      "image": "assets/cards/018-zevent-x-od-wav.webp",
+      "artist": {
+        "name": "Mr_Do (Bado)",
+        "bio": "Description : « Dans le dessin depuis tout petit, j’aime explorer tous types de production visuelle comme l’illustration, le manga, l’animation 2D, jeux vidéos et autres !",
+        "profileUrl": "https://instagram.com/_od.wav",
+        "links": [
+          {
+            "network": "instagram",
+            "label": "_od.wav",
+            "url": "https://instagram.com/_od.wav"
+          }
+        ]
+      }
     },
     {
       "id": "cmsof9tea0015jt0488xrnfwn",
       "number": "19",
       "name": "ZEVENT x MISUFANY",
       "rarity": "epic",
-      "image": "assets/cards/019-zevent-x-misufany.webp"
+      "image": "assets/cards/019-zevent-x-misufany.webp",
+      "artist": {
+        "name": "Misufany",
+        "bio": "Je suis Misu Fany, illustratrice freelance. Passionnée de goodies, je vous propose des créations originales mais aussi inspirées de culture pop, dans la palette rose-bleu-violet qui m'est chère.",
+        "profileUrl": "https://www.misufany.com/",
+        "links": [
+          {
+            "network": "website",
+            "label": "misufany.com",
+            "url": "https://www.misufany.com/"
+          },
+          {
+            "network": "instagram",
+            "label": "misufany",
+            "url": "https://instagram.com/misufany"
+          }
+        ]
+      }
     },
     {
       "id": "cmsof9tet0017jt04kk7q8wex",
       "number": "20",
       "name": "ZEVENT x POMELYNE",
       "rarity": "epic",
-      "image": "assets/cards/020-zevent-x-pomelyne.webp"
+      "image": "assets/cards/020-zevent-x-pomelyne.webp",
+      "artist": {
+        "name": "Pomelyne",
+        "bio": null,
+        "profileUrl": "https://instagram.com/pomelyne",
+        "links": [
+          {
+            "network": "instagram",
+            "label": "pomelyne",
+            "url": "https://instagram.com/pomelyne"
+          }
+        ]
+      }
     },
     {
       "id": "cmsof9tfc0019jt04aepb12gb",
       "number": "21",
       "name": "ZEVENT x JENIFAIL",
       "rarity": "epic",
-      "image": "assets/cards/021-zevent-x-jenifail.webp"
+      "image": "assets/cards/021-zevent-x-jenifail.webp",
+      "artist": {
+        "name": "Jenifail",
+        "bio": null,
+        "profileUrl": "https://linktr.ee/jenifail",
+        "links": [
+          {
+            "network": "website",
+            "label": "Linktree",
+            "url": "https://linktr.ee/jenifail"
+          },
+          {
+            "network": "instagram",
+            "label": "Jenifail",
+            "url": "https://instagram.com/Jenifail"
+          },
+          {
+            "network": "x",
+            "label": "Jenifail",
+            "url": "https://x.com/Jenifail"
+          }
+        ]
+      }
     },
     {
       "id": "cmsof9tfy001bjt043fryc0gd",
       "number": "22",
       "name": "ZEVENT - DZOHO",
       "rarity": "epic",
-      "image": "assets/cards/022-zevent-dzoho.webp"
+      "image": "assets/cards/022-zevent-dzoho.webp",
+      "artist": {
+        "name": "Dzoho",
+        "bio": "DzoHo (Dzoan Ho) est un UI/UX designer, graphiste et illustrateur. Basé à Paris, il a déjà prêté ses talents à de nombreux milieux allant du divertissement à l’industrie tech, en passant aussi par la mode. Familier du paysage Twitch/streaming, il participe depuis plus d’une décennie aux events tels que les Games Done Quick, SpeeDons et l’Ultimate Fighting Arena.",
+        "profileUrl": "https://dzoho.framer.website/",
+        "links": [
+          {
+            "network": "website",
+            "label": "dzoho.framer.website",
+            "url": "https://dzoho.framer.website/"
+          },
+          {
+            "network": "instagram",
+            "label": "DzoHo",
+            "url": "https://instagram.com/DzoHo"
+          },
+          {
+            "network": "x",
+            "label": "DzoHo",
+            "url": "https://x.com/DzoHo"
+          },
+          {
+            "network": "bluesky",
+            "label": "DzoHo",
+            "url": "https://bsky.app/profile/DzoHo"
+          }
+        ]
+      }
     },
     {
       "id": "cmsof9tgh001djt043uy42d1w",
       "number": "23",
       "name": "ZEVENT x ETHEMOS",
       "rarity": "epic",
-      "image": "assets/cards/023-zevent-x-ethemos.webp"
+      "image": "assets/cards/023-zevent-x-ethemos.webp",
+      "artist": {
+        "name": "Ethemos",
+        "bio": null,
+        "profileUrl": "https://instagram.com/ethemos_art",
+        "links": [
+          {
+            "network": "instagram",
+            "label": "ethemos_art",
+            "url": "https://instagram.com/ethemos_art"
+          },
+          {
+            "network": "tiktok",
+            "label": "ethemos_art",
+            "url": "https://tiktok.com/@ethemos_art"
+          }
+        ]
+      }
     },
     {
       "id": "cmsof9tgz001fjt04zdnm4g1a",
       "number": "24",
       "name": "ZEVENT x MCDIBOU",
       "rarity": "epic",
-      "image": "assets/cards/024-zevent-x-mcdibou.webp"
+      "image": "assets/cards/024-zevent-x-mcdibou.webp",
+      "artist": {
+        "name": "McDibou",
+        "bio": "Si je peux au moins vous procurer une émotion, j'ai tout gagné !",
+        "profileUrl": "https://instagram.com/mcdibou___",
+        "links": [
+          {
+            "network": "instagram",
+            "label": "mcdibou___",
+            "url": "https://instagram.com/mcdibou___"
+          }
+        ]
+      }
     },
     {
       "id": "cmsof9thp001hjt04o0kjbpdi",
       "number": "25",
       "name": "ZEVENT x COKOOOOOO",
       "rarity": "epic",
-      "image": "assets/cards/025-zevent-x-cokoooooo.webp"
+      "image": "assets/cards/025-zevent-x-cokoooooo.webp",
+      "artist": {
+        "name": "cokoooooo",
+        "bio": null,
+        "profileUrl": "https://instagram.com/cokoo",
+        "links": [
+          {
+            "network": "instagram",
+            "label": "cokoo",
+            "url": "https://instagram.com/cokoo"
+          },
+          {
+            "network": "twitch",
+            "label": "cokoooooo",
+            "url": "https://twitch.tv/cokoooooo"
+          }
+        ]
+      }
     }
   ]
 }

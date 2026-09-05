@@ -173,7 +173,7 @@ async function revealCurrent() {
   sfx.reveal(card.rarity);
   showCaption(card, isNew);
 
-  if (card.rarity === 'epic') fireEpic();
+  if (card.rarity === 'epic') fireEpic(flipper);
   else flashFire();
 
   updateHint();
@@ -190,7 +190,7 @@ async function dismissCurrent() {
     flipper.remove();
   }
   deckEl?.removeAttribute('data-aura');
-  document.querySelector('.rays')?.remove();
+  for (const el of document.querySelectorAll('.rays, .shockwave, .shards')) el.remove();
   shown = false;
 }
 
@@ -216,7 +216,15 @@ function hideCaption() {
   if (captionEl) captionEl.hidden = true;
 }
 
-function fireEpic() {
+/** Palette des éclats : vert ZEvent, magenta épique, et du blanc pour trancher. */
+const SHARD_COLORS = ['#3af340', '#ff4d8d', '#ffffff', '#c77ab0'];
+
+/**
+ * Le grand jeu, réservé aux 25 épiques : flash, secousse, rayons, deux ondes
+ * de choc, une gerbe d'éclats et un balayage lumineux sur la carte.
+ * Tout est nettoyé quand la carte part au bandeau.
+ */
+function fireEpic(flipper) {
   flashFire();
 
   document.body.classList.remove('is-quaking');
@@ -224,12 +232,41 @@ function fireEpic() {
   document.body.classList.add('is-quaking');
   setTimeout(() => document.body.classList.remove('is-quaking'), 500);
 
-  if (!document.querySelector('.rays')) {
+  flipper?.classList.add('is-epic');
+
+  const stage = deckEl?.parentElement;
+  if (!stage) return;
+
+  if (!stage.querySelector('.rays')) {
     const rays = document.createElement('div');
     rays.className = 'rays';
-    deckEl?.parentElement?.prepend(rays);
+    stage.prepend(rays);
     requestAnimationFrame(() => rays.classList.add('is-on'));
   }
+
+  for (const modifier of ['', 'shockwave--second']) {
+    const ring = document.createElement('div');
+    ring.className = `shockwave ${modifier}`.trim();
+    stage.append(ring);
+    ring.addEventListener('animationend', () => ring.remove());
+  }
+
+  const shards = document.createElement('div');
+  shards.className = 'shards';
+  for (let i = 0; i < 28; i++) {
+    const shard = document.createElement('i');
+    shard.className = 'shard';
+    // Un peu de dispersion sur l'angle pour que la gerbe ne soit pas mécanique.
+    const angle = (360 / 28) * i + (Math.random() * 14 - 7);
+    shard.style.setProperty('--shard-angle', `${angle}deg`);
+    shard.style.setProperty('--shard-dist', `${180 + Math.random() * 190}px`);
+    shard.style.setProperty('--shard-dur', `${0.75 + Math.random() * 0.5}s`);
+    shard.style.setProperty('--shard-delay', `${Math.random() * 0.12}s`);
+    shard.style.setProperty('--shard-color', SHARD_COLORS[i % SHARD_COLORS.length]);
+    shards.append(shard);
+  }
+  stage.append(shards);
+  setTimeout(() => shards.remove(), 1600);
 }
 
 function addToTray(card, isNew) {
