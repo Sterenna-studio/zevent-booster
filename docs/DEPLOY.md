@@ -25,43 +25,27 @@ Même chaîne que `chronicles-tcg`, `bzh-universe` et `nitro-clicker` : push sur
 
 Le site n'a aucune étape de build : ce qui est dans le repo est ce qui est servi.
 
-## À faire de ton côté
+## Le repo doit rester public
 
-Je n'ai pas les droits `admin:org` sur **Sterenna-studio**, donc deux points me
-sont inaccessibles :
+**Sterenna-studio est sur le plan GitHub Free**, et sur ce plan les secrets
+d'organisation ne sont utilisables que par les repos **publics**. Dans un repo
+privé, `OVH_SSH_KEY` et `OVH_HOST` arrivent vides et le job s'arrête à *Setup SSH
+key* sur un `ssh-keyscan -H ""` — sans message explicite, ce qui ressemble à un
+workflow cassé.
 
-### 1. Donner au repo l'accès aux secrets d'organisation
+Le piège : l'API `GET /repos/{owner}/{repo}/actions/organization-secrets` liste
+quand même les trois secrets comme visibles depuis un repo privé. Cette liste
+reflète la politique d'accès, pas la restriction de plan. Ne pas s'y fier.
 
-**C'est le blocage actuel**, confirmé par le premier run : `OVH_SSH_KEY` et
-`OVH_HOST` arrivent vides dans le job, qui s'arrête à l'étape *Setup SSH key*
-(`ssh-keyscan -H ""`). Les trois secrets sont définis **au niveau de
-l'organisation** avec une politique « Selected repositories », et `zevent-booster`
-n'y est pas encore.
+Si le repo doit un jour repasser en privé, il faudra créer les trois secrets **au
+niveau du repo** (Settings → Secrets and variables → Actions), ce qui suppose de
+recoller la clé SSH privée à la main.
 
-> GitHub → organisation **Sterenna-studio** → Settings → Secrets and variables →
-> Actions → pour chacun de `OVH_SSH_KEY`, `OVH_HOST`, `OVH_USER` :
-> **Repository access** → ajouter `zevent-booster`.
+## Servir le dossier
 
-Puis relancer :
-
-```bash
-gh run rerun --failed --repo Sterenna-studio/zevent-booster
-```
-
-Le run doit alors passer *Setup SSH key* et *Ensure remote target directory exists*
-sans erreur.
-
-> Ni moi ni le token `gh` local ne pouvons le faire : lister ou modifier les secrets
-> d'organisation demande le scope `admin:org`, que le token n'a pas. Les créer au
-> niveau du repo n'est pas une option non plus — il faudrait manipuler la clé SSH
-> privée en clair, ce que je ne fais pas.
-
-### 2. Servir le dossier (seulement si `~/nitro/` n'est pas déjà un catch-all)
-
-Les projets existants sont servis sous `https://nitro.sterenna.fr/<dossier>/`. Si le
-vhost pointe simplement sur `~/nitro` en racine, `zevent-booster/` apparaît tout seul
-après le premier déploiement — rien à faire. Sinon, ajouter l'alias comme pour
-`TCG/` et `clicker/`.
+Les projets existants sont servis sous `https://nitro.sterenna.fr/<dossier>/`, et
+`zevent-booster/` est apparu tout seul après le premier rsync : le vhost pointe
+bien sur `~/nitro` en racine, il n'y a pas d'alias à ajouter.
 
 ## Points d'attention propres à ce site
 
