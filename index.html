@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>ZEVENT BOOSTERS — ouvre des Kards en regardant le ZEvent</title>
+    <meta
+      name="description"
+      content="Regarde le ZEvent, gagne un booster toutes les 10 minutes, et complète les 255 Kards de la collection ZEVENT x LITTLEBIGWHALE."
+    />
+    <meta name="theme-color" content="#0d0713" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231e1129'/%3E%3Cpath d='M9 9h14l-9 14h9' stroke='%233af340' stroke-width='3' fill='none' stroke-linejoin='round'/%3E%3C/svg%3E" />
+  </head>
+
+  <body>
+    <div class="aurora" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+
+    <!-- ─────────────────────────────  NAV  ───────────────────────────── -->
+    <header class="nav">
+      <a class="nav__brand" href="#stream">
+        <span class="nav__mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><path d="M9 9h14l-9 14h9" /></svg>
+        </span>
+        <span class="nav__wordmark">ZEVENT<em>BOOSTERS</em></span>
+      </a>
+
+      <nav class="nav__tabs" aria-label="Navigation principale">
+        <button class="tab is-active" data-view="stream" type="button">Stream</button>
+        <button class="tab" data-view="opening" type="button">Ouverture</button>
+        <button class="tab" data-view="collection" type="button">Collection</button>
+      </nav>
+
+      <div class="nav__right">
+        <button class="sound" type="button" data-sound aria-pressed="true" title="Couper le son">
+          <svg class="sound__on" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 9v6h4l5 4V5L8 9H4z" /><path d="M16.5 8.5a5 5 0 0 1 0 7" /><path d="M19 6a9 9 0 0 1 0 12" />
+          </svg>
+          <svg class="sound__off" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 9v6h4l5 4V5L8 9H4z" /><path d="M17 9.5l5 5m0-5l-5 5" />
+          </svg>
+          <span class="sr-only">Activer ou couper les sons</span>
+        </button>
+
+        <button class="pack-pill" type="button" data-goto="opening" data-pill>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16v13H4z" /><path d="M4 7l2-3h12l2 3" /><path d="M12 4v16" /></svg>
+          <span class="pack-pill__count" data-pill-count>0</span>
+          <span class="pack-pill__label">booster<span data-pill-plural></span></span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <!-- ───────────────────────────  VUE STREAM  ─────────────────────── -->
+      <section class="view is-active" id="view-stream" data-view-panel="stream">
+        <div class="hero">
+          <p class="hero__eyebrow">Collection officielle · 255 Kards</p>
+          <h1 class="hero__title">
+            <span>ZEVENT</span>
+            <span class="hero__title-x">×</span>
+            <span>LITTLEBIGWHALE</span>
+          </h1>
+
+          <ul class="hero__meta">
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z" /><circle cx="12" cy="10" r="2.6" /></svg>
+              Montpellier, FRANCE
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 10h18M8 3v4M16 3v4" /></svg>
+              Du 03/09/2026 au 06/09/2026
+            </li>
+          </ul>
+
+          <p class="hero__lead">
+            Regarde le ZEvent ici même : <strong>toutes les 10 minutes de visionnage</strong>, tu gagnes un booster
+            de 5 Kards. 255 cartes à collectionner, dont 25 uniques réalisées par des artistes invités.
+          </p>
+
+          <div class="hero__cta">
+            <a class="btn btn--zevent" href="https://zevent.fr/don/littlebigwhale" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a5 5 0 0 1 5-5h4a6 6 0 0 1 6 6v3h-3l-1 3h-3l-1-2H8l-1 2H5v-4a4 4 0 0 1-1-3z" /><circle cx="8.5" cy="11.5" r=".9" fill="currentColor" /></svg>
+              Faire un don au ZEVENT
+            </a>
+            <p class="hero__note">Le site est un fan project : aucun don ne transite par ici.</p>
+          </div>
+        </div>
+
+        <div class="stream">
+          <!-- Player -->
+          <div class="stream__player">
+            <div class="player-frame">
+              <div id="twitch-player" class="player-frame__mount"></div>
+              <div class="player-frame__fallback" data-player-fallback hidden>
+                <h3>Player indisponible</h3>
+                <p data-fallback-reason></p>
+                <a class="btn btn--ghost" href="https://twitch.tv/zevent" target="_blank" rel="noopener">
+                  Ouvrir twitch.tv/zevent
+                </a>
+              </div>
+            </div>
+            <p class="stream__hint">
+              Le compteur avance uniquement quand le stream tourne <em>et</em> que cet onglet est au premier plan.
+            </p>
+          </div>
+
+          <!-- Panneau de progression -->
+          <aside class="progress-card">
+            <header class="progress-card__head">
+              <h2>Ta progression</h2>
+              <span class="status-dot" data-status-dot data-state="idle"><i></i><span data-status-label>En pause</span></span>
+            </header>
+
+            <div class="gauge">
+              <svg viewBox="0 0 200 200" aria-hidden="true">
+                <defs>
+                  <linearGradient id="gaugeGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#ff4d8d" />
+                    <stop offset="55%" stop-color="#c77ab0" />
+                    <stop offset="100%" stop-color="#3af340" />
+                  </linearGradient>
+                </defs>
+                <circle class="gauge__track" cx="100" cy="100" r="86" />
+                <circle class="gauge__fill" data-gauge cx="100" cy="100" r="86" />
+              </svg>
+              <div class="gauge__center">
+                <span class="gauge__time" data-countdown>10:00</span>
+                <span class="gauge__caption">avant le prochain booster</span>
+              </div>
+            </div>
+
+            <dl class="stats">
+              <div>
+                <dt>Temps regardé</dt>
+                <dd data-total-watched>0 min</dd>
+              </div>
+              <div>
+                <dt>Boosters gagnés</dt>
+                <dd data-total-earned>0</dd>
+              </div>
+              <div>
+                <dt>Collection</dt>
+                <dd><span data-owned-count>0</span><span class="stats__slash">/255</span></dd>
+              </div>
+            </dl>
+
+            <button class="btn btn--primary btn--block" type="button" data-goto="opening" data-open-cta disabled>
+              Aucun booster disponible
+            </button>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ──────────────────────────  VUE OUVERTURE  ───────────────────── -->
+      <section class="view" id="view-opening" data-view-panel="opening" hidden>
+        <div class="opening" data-stage="idle">
+          <!-- État : rien à ouvrir -->
+          <div class="opening__empty" data-scene="empty">
+            <div class="opening__empty-art" aria-hidden="true"><span></span><span></span><span></span></div>
+            <h2>Pas encore de booster</h2>
+            <p>
+              Lance le stream sur l'onglet <button class="linkish" type="button" data-goto="stream">Stream</button> et
+              reviens dans <span data-empty-eta>10 minutes</span>.
+            </p>
+          </div>
+
+          <!-- État : booster prêt -->
+          <div class="opening__ready" data-scene="ready" hidden>
+            <p class="opening__kicker"><span data-ready-count>1</span> booster prêt à être ouvert</p>
+            <button class="pack" type="button" data-open-pack aria-label="Ouvrir le booster">
+              <span class="pack__foil" aria-hidden="true"></span>
+              <span class="pack__body">
+                <span class="pack__logo">ZEVENT</span>
+                <span class="pack__sub">× LITTLEBIGWHALE</span>
+                <span class="pack__rule" aria-hidden="true"></span>
+                <span class="pack__count">5 KARDS</span>
+              </span>
+              <span class="pack__tear" aria-hidden="true"></span>
+            </button>
+            <p class="opening__hint">Clique sur le paquet pour le déchirer</p>
+          </div>
+
+          <!-- État : révélation -->
+          <div class="opening__reveal" data-scene="reveal" hidden>
+            <div class="reveal-stage" data-reveal-stage>
+              <div class="reveal-flash" data-flash aria-hidden="true"></div>
+              <div class="reveal-deck" data-deck></div>
+            </div>
+            <p class="reveal-caption" data-reveal-caption hidden></p>
+            <p class="opening__hint" data-reveal-hint>Clique pour retourner la carte</p>
+            <div class="reveal-tray" data-tray aria-live="polite"></div>
+            <div class="opening__actions" data-reveal-actions hidden>
+              <button class="btn btn--primary" type="button" data-open-again>Ouvrir un autre booster</button>
+              <button class="btn btn--ghost" type="button" data-goto="collection">Voir la collection</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─────────────────────────  VUE COLLECTION  ───────────────────── -->
+      <section class="view" id="view-collection" data-view-panel="collection" hidden>
+        <div class="collection__head">
+          <h2 class="section-title">La collection</h2>
+          <div class="completion">
+            <div class="completion__bar"><i data-completion-bar style="width:0%"></i></div>
+            <p><strong data-owned-count>0</strong> / 255 Kards · <span data-completion-pct>0%</span></p>
+          </div>
+          <ul class="rarity-legend">
+            <li data-legend="common"><i></i>Classiques <b data-legend-count="common">0/116</b></li>
+            <li data-legend="rare"><i></i>Rares <b data-legend-count="rare">0/114</b></li>
+            <li data-legend="epic"><i></i>Épiques <b data-legend-count="epic">0/25</b></li>
+          </ul>
+        </div>
+
+        <div class="filters">
+          <div class="filters__group">
+            <span class="filters__label">Filtrer par :</span>
+            <button class="chip is-active" type="button" data-filter-rarity="all">Toutes</button>
+            <button class="chip" type="button" data-filter-rarity="common"><i class="dot dot--common"></i>Classiques</button>
+            <button class="chip" type="button" data-filter-rarity="rare"><i class="dot dot--rare"></i>Rares</button>
+            <button class="chip" type="button" data-filter-rarity="epic"><i class="dot dot--epic"></i>Épiques</button>
+          </div>
+          <div class="filters__group filters__group--end">
+            <button class="chip chip--toggle" type="button" data-filter-owned="all">Toutes</button>
+            <label class="select">
+              <span>Trier par</span>
+              <select data-sort>
+                <option value="rarity-asc">Rareté (croissant)</option>
+                <option value="rarity-desc">Rareté (décroissant)</option>
+                <option value="number-asc">Numéro</option>
+                <option value="name-asc">Nom (A→Z)</option>
+                <option value="recent">Obtenues récemment</option>
+              </select>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+            </label>
+          </div>
+        </div>
+
+        <div class="grid" data-grid></div>
+        <p class="grid__empty" data-grid-empty hidden>Aucune Kard ne correspond à ces filtres.</p>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <p>
+        Fan project non officiel · Visuels des Kards
+        <a href="https://www.memorykard.com/galerie/zevent-x-littlebigwhale" target="_blank" rel="noopener">MemoryKard</a>,
+        utilisés avec l'autorisation de l'auteur.
+      </p>
+      <button class="foot__reset" type="button" data-reset>Réinitialiser ma progression</button>
+    </footer>
+
+    <!-- ─────────────────────────────  MODALES  ──────────────────────── -->
+    <dialog class="card-modal" data-card-modal>
+      <button class="card-modal__close" type="button" data-modal-close aria-label="Fermer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+      </button>
+      <div class="card-modal__body" data-modal-body></div>
+    </dialog>
+
+    <dialog class="afk" data-afk>
+      <h2>Toujours devant le stream ?</h2>
+      <p>Le compteur est en pause. Confirme ta présence pour le relancer.</p>
+      <button class="btn btn--primary" type="button" data-afk-confirm>Je suis là</button>
+      <p class="afk__timer" data-afk-timer></p>
+    </dialog>
+
+    <script src="https://player.twitch.tv/js/embed/v1.js"></script>
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,74 @@
+name: Deploy ZEvent Booster
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-zevent-booster-ovh
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Deploy to OVH via SSH
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Validate static entrypoints
+        run: |
+          test -f index.html
+          test -f css/style.css
+          test -f js/app.js
+          test -f data/cards.json
+          count=$(node -e "console.log(require('./data/cards.json').cards.length)")
+          test "$count" = "255" || { echo "cards.json contient $count cartes, 255 attendues"; exit 1; }
+          missing=$(node -e "
+            const fs=require('fs');
+            const m=require('./data/cards.json');
+            console.log(m.cards.filter(c=>!fs.existsSync(c.image)).length);
+          ")
+          test "$missing" = "0" || { echo "$missing artworks manquants dans assets/cards/"; exit 1; }
+          echo "255 Kards et leurs artworks : OK"
+
+      - name: Cache-bust module imports
+        # Estampille un ?v=<run_number> sur les imports locaux avant l'envoi,
+        # pour que les navigateurs rechargent les modules modifiés. Non commité :
+        # seule la copie rsync'ée est estampillée.
+        run: node tools/bump-cache.mjs "${{ github.run_number }}"
+
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.OVH_SSH_KEY }}" > ~/.ssh/ovh_key
+          chmod 600 ~/.ssh/ovh_key
+          ssh-keyscan -H "${{ secrets.OVH_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Ensure remote target directory exists
+        run: |
+          ssh -i ~/.ssh/ovh_key "${{ secrets.OVH_USER }}@${{ secrets.OVH_HOST }}" "mkdir -p ~/nitro/zevent-booster"
+
+      - name: Deploy via rsync
+        run: |
+          rsync -avz --delete \
+            --exclude='/.git/' \
+            --exclude='/.github/' \
+            --exclude='/docs/' \
+            --exclude='/tools/' \
+            --exclude='/README.md' \
+            --exclude='/package.json' \
+            --exclude='/data/cards.raw.json' \
+            -e "ssh -i ~/.ssh/ovh_key" \
+            ./ "${{ secrets.OVH_USER }}@${{ secrets.OVH_HOST }}:~/nitro/zevent-booster/"
+
+      - name: Cleanup
+        if: always()
+        run: rm -f ~/.ssh/ovh_key
