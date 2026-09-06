@@ -1,0 +1,17 @@
+name = "zevent-booster-stats"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+
+# Monté sur le domaine du site : même origine que les pages, donc pas de CORS.
+# Tout ce qui n'est pas /api/* continue d'aller à l'origine OVH.
+[[routes]]
+pattern = "nitro.sterenna.fr/zevent-booster/api/*"
+zone_name = "sterenna.fr"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "zevent-booster-stats"
+database_id = "d0749a8b-b2d9-4e2c-84d3-b0f8bbc399fb"
+
+[observability]
+enabled = true
