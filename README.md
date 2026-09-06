@@ -165,6 +165,24 @@ empêcher. L'interface le dit sous chaque chiffre. Et le comparateur « tombe
 souvent / se fait désirer » ne s'affiche qu'au-delà d'une moyenne de 8 tirages
 par carte : en dessous, une épique tombée une fois passerait pour commune.
 
+## Rester à jour
+
+Les en-têtes du serveur sont déjà corrects : HTML, JS, CSS et JSON arrivent en
+`no-cache, must-revalidate`, donc le navigateur revalide à chaque chargement et
+un simple rechargement suffit à obtenir la dernière version. Seuls les artworks
+sont en cache long, ce qui est voulu — leur nom ne change jamais.
+
+Le trou est ailleurs : ce site est fait pour **rester ouvert des heures** devant
+un stream, et un onglet qui ne recharge jamais continue de tourner sur le code du
+matin. Le déploiement inscrit donc son numéro dans le `<head>` et dans
+`version.json` ; la page compare les deux 30 s après le chargement, toutes les
+dix minutes, et au retour sur l'onglet.
+
+En cas d'écart, un bandeau propose de recharger. **Il ne recharge jamais
+d'autorité** : quelqu'un peut être en train d'ouvrir un booster, et une page qui
+se recharge toute seule au mauvais moment est pire que du code qui date d'une
+heure.
+
 ## Progression
 
 Toute la progression est en `localStorage` (clé `zevent-booster.v1`) : horodatage
@@ -190,6 +208,7 @@ js/opening.js         scène d'ouverture et de révélation
 js/collection.js      grille, filtres, fiche détaillée
 js/lightbox.js        zoom plein écran sur une carte
 js/stats.js           compteur de tirages partagé
+js/version.js         détection d'une nouvelle version en ligne
 js/completion.js      cérémonie de fin de collection
 js/tilt.js            inclinaison 3D partagée par la fiche et le zoom
 js/app.js             navigation et tableau de bord

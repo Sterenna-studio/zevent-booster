@@ -11,6 +11,7 @@ import { loadStreamers, initStreamerPicker } from './streamers.js';
 import { initLightbox } from './lightbox.js';
 import { initCompletion, startCompletion } from './completion.js';
 import { loadStats, backfillOnce } from './stats.js';
+import { watchVersion } from './version.js';
 
 const GAUGE_CIRCUMFERENCE = 2 * Math.PI * 86;
 
@@ -116,8 +117,15 @@ function renderStatus() {
 /* ── toast ─────────────────────────────────────────────────────────────── */
 
 let toastTimer = null;
+/** Ce que fait le bouton du bandeau, remplacé à chaque message. */
+let toastAction = () => {};
 
-function showToast(text, actionLabel) {
+/**
+ * `persist` garde le bandeau à l'écran : une nouvelle version disponible ne
+ * doit pas disparaître au bout de neuf secondes comme une notification de
+ * booster.
+ */
+function showToast(text, actionLabel, onAction, { persist = false } = {}) {
   const toast = document.querySelector('[data-toast]');
   const textEl = document.querySelector('[data-toast-text]');
   const action = document.querySelector('[data-toast-action]');
@@ -125,10 +133,13 @@ function showToast(text, actionLabel) {
 
   textEl.textContent = text;
   if (action) action.textContent = actionLabel;
+  toastAction = onAction ?? (() => {});
   toast.hidden = false;
   toast.classList.remove('is-leaving');
 
   clearTimeout(toastTimer);
+  if (persist) return;
+
   toastTimer = setTimeout(() => {
     toast.classList.add('is-leaving');
     setTimeout(() => {
@@ -143,7 +154,9 @@ function welcome() {
   if (!given) return;
   commit('welcome');
   refreshOpening();
-  showToast(`Bienvenue — ${given} boosters offerts pour commencer.`, 'Ouvrir');
+  showToast(`Bienvenue — ${given} boosters offerts pour commencer.`, 'Ouvrir', () =>
+    showView('opening')
+  );
 }
 
 /* ── démarrage ─────────────────────────────────────────────────────────── */
@@ -213,12 +226,27 @@ async function main() {
     refreshOpening();
     showToast(
       n > 1 ? `${n} boosters sont arrivés pendant ton absence.` : 'Un booster vient de tomber.',
-      'Ouvrir'
+      'Ouvrir',
+      () => showView('opening')
     );
   });
 
   // Les statistiques ne bloquent rien : on les charge à côté, et la fiche
   // s'en passe si elles n'arrivent pas.
+  document.querySelector('[data-toast-action]')?.addEventListener('click', () => toastAction());
+
+  // Une page laissée ouverte des heures doit pouvoir apprendre qu'une nouvelle
+  // version est en ligne. On propose, on n'impose pas : recharger d'autorité
+  // en pleine ouverture de booster serait pire que le mal.
+  watchVersion((deployed) => {
+    showToast(
+      `Une nouvelle version du site est en ligne (${deployed}).`,
+      'Recharger',
+      () => location.reload(),
+      { persist: true }
+    );
+  });
+
   loadStats().then(backfillOnce);
 
   initPlayer();

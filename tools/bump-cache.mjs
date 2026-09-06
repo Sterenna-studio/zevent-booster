@@ -63,4 +63,21 @@ for (const file of files) {
   }
 }
 
+// La version est aussi inscrite dans le <head> et dans un fichier à part. La
+// page compare les deux pendant qu'elle tourne : un onglet resté ouvert des
+// heures peut ainsi s'apercevoir qu'une nouvelle version est en ligne.
+const html = join(ROOT, 'index.html');
+writeFileSync(
+  html,
+  readFileSync(html, 'utf8').replace(
+    /(<meta name="app-version" content=")[^"]*(")/,
+    `$1${version}$2`
+  )
+);
+
+writeFileSync(
+  join(ROOT, 'version.json'),
+  JSON.stringify({ version: String(version), builtAt: new Date().toISOString() }, null, 2)
+);
+
 console.log(`version ${version} · ${stamped} références estampillées dans ${changed} fichiers`);
