@@ -11,3 +11,9 @@ CREATE TABLE IF NOT EXISTS ip_budget (
   hour    INTEGER NOT NULL,
   pulls   INTEGER NOT NULL DEFAULT 0
 );
+
+-- Compteurs globaux affichés sur le site (nombre de boosters ouverts).
+CREATE TABLE IF NOT EXISTS totals (
+  key   TEXT PRIMARY KEY,
+  value INTEGER NOT NULL DEFAULT 0
+);

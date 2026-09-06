@@ -327,6 +327,56 @@ svg {
   }
 }
 
+/* ─────────────────────  COMPTEUR COMMUNAUTAIRE  ─────────────────────── */
+.tally {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--line);
+  background: rgba(58, 243, 64, 0.05);
+  font-size: 0.85rem;
+  color: var(--txt-dim);
+}
+
+.tally[hidden] {
+  display: none;
+}
+
+.tally svg {
+  width: 15px;
+  height: 15px;
+  color: var(--zgreen);
+}
+
+.tally strong {
+  font-family: 'Geist Mono', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--txt);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Petite pulsation quand le nombre bouge : on voit le site vivre. */
+.tally.is-bumping strong {
+  animation: tallyBump 0.6s var(--ease-back);
+  color: var(--zgreen);
+}
+
+@keyframes tallyBump {
+  40% {
+    transform: scale(1.22);
+  }
+}
+
+@media (max-width: 560px) {
+  .tally {
+    font-size: 0.78rem;
+    padding: 0.4rem 0.75rem;
+  }
+}
+
 /* ──────────────────────────────  VUES  ──────────────────────────────── */
 main {
   min-height: calc(100vh - var(--nav-h));

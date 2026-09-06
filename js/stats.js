@@ -43,15 +43,53 @@ export function statsReady() {
   return data !== null;
 }
 
+/** Boosters ouverts sur le site, tous visiteurs confondus. */
+export function totalPacks() {
+  return data?.packs ?? null;
+}
+
 export async function loadStats() {
   try {
     const res = await fetch(`${BASE}stats`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     data = await res.json();
   } catch {
-    data = null;
+    // On garde les données précédentes plutôt que de vider l'affichage : une
+    // coupure passagère ne doit pas faire disparaître le compteur déjà à l'écran.
+    if (data === null) data = null;
   }
   return data;
+}
+
+/** Intervalle de rafraîchissement du compteur communautaire. */
+const REFRESH_MS = 2 * 60 * 1000;
+
+/**
+ * Rafraîchit les compteurs de temps en temps et prévient à chaque changement.
+ * Rien ici ne doit pouvoir casser la page : `loadStats` avale déjà ses erreurs,
+ * et le rappel est protégé.
+ */
+export function watchStats(onChange) {
+  let last = data?.packs ?? null;
+
+  const tick = async () => {
+    // Inutile d'interroger un onglet que personne ne regarde.
+    if (document.visibilityState !== 'visible') return;
+    await loadStats();
+    const packs = data?.packs ?? null;
+    if (packs === null || packs === last) return;
+    last = packs;
+    try {
+      onChange(packs);
+    } catch {
+      /* un compteur d'affichage ne fait pas tomber le site */
+    }
+  };
+
+  setInterval(tick, REFRESH_MS);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') tick();
+  });
 }
 
 /** Envoi silencieux, sans attente ni reprise sur échec. */

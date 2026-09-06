@@ -141,6 +141,11 @@ retourne, et couper la révélation ferait perdre celles qui restent dans le paq
 
 ## Combien de fois chaque Kard est tombée
 
+Une bande en haut de page annonce le nombre de boosters ouverts sur le site,
+rafraîchie toutes les deux minutes et seulement quand l'onglet est visible. Elle
+reste masquée tant que l'API n'a rien dit, et garde sa dernière valeur si celle-ci
+tombe — vérifié en coupant l'API : zéro erreur, site intact.
+
 La fiche d'une carte affiche le nombre de fois où elle est tombée chez l'ensemble
 des visiteurs, sa part des cartes distribuées, et — dès qu'il y a du volume — si
 elle sort plus ou moins souvent que ses sœurs de même rareté.

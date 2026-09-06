@@ -12,14 +12,15 @@ Worker Cloudflare + base D1, monté sur `nitro.sterenna.fr/zevent-booster/api/*`
 ## Routes
 
     POST /api/pulls   { cards: [id…], mode?: "backfill" }  →  204
-    GET  /api/stats                                        →  { total, cards }
+    GET  /api/stats                             →  { total, packs, cards }
 
 Un `POST` par booster ouvert (5 cartes maximum), ou un seul en mode `backfill`
 pour reprendre une sauvegarde existante (2 000 tirages maximum).
 
 ## Ce qui est stocké
 
-Un compteur par carte, et un budget horaire par IP **hachée et salée** pour
+Un compteur par carte, un total de boosters ouverts, et un budget horaire par
+IP **hachée et salée** pour
 l'anti-abus. Pas d'IP en clair, pas d'identifiant de visiteur, pas de cookie.
 
 Le sel vit dans le secret `IP_SALT` du Worker. Le régénérer invalide les

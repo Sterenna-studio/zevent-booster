@@ -61,6 +61,14 @@
       </div>
     </header>
 
+    <!-- Compteur communautaire. Masqué tant que l API n a rien dit : il ne doit
+         jamais empêcher le site de fonctionner. -->
+    <p class="tally" data-tally hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16v13H4z" /><path d="M4 7l2-3h12l2 3" /><path d="M12 4v16" /></svg>
+      <strong data-tally-count>—</strong>
+      <span>boosters ouverts sur le site</span>
+    </p>
+
     <main>
       <!-- ───────────────────────────  VUE STREAM  ─────────────────────── -->
       <section class="view is-active" id="view-stream" data-view-panel="stream">

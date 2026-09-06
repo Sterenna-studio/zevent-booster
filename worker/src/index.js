@@ -102,23 +102,38 @@ async function handlePulls(request, env) {
     `INSERT INTO card_pulls (card_id, pulls) VALUES (?, ?)
      ON CONFLICT(card_id) DO UPDATE SET pulls = card_pulls.pulls + excluded.pulls`
   );
-  await env.DB.batch([...counts].map(([id, n]) => stmt.bind(id, n)));
+
+  // Compteur global de boosters ouverts. Une reprise de sauvegarde ne dit pas
+  // combien de paquets ont été ouverts : on le déduit du nombre de tirages,
+  // qui est exactement la même chose à cinq cartes près.
+  const packs = backfill ? Math.max(1, Math.round(clean.length / PACK_SIZE)) : 1;
+  const total = env.DB.prepare(
+    `INSERT INTO totals (key, value) VALUES ('packs', ?)
+     ON CONFLICT(key) DO UPDATE SET value = totals.value + excluded.value`
+  ).bind(packs);
+
+  await env.DB.batch([...[...counts].map(([id, n]) => stmt.bind(id, n)), total]);
 
   return new Response(null, { status: 204 });
 }
 
 async function handleStats(env) {
-  const { results } = await env.DB.prepare('SELECT card_id, pulls FROM card_pulls').all();
+  const [pulls, packsRow] = await env.DB.batch([
+    env.DB.prepare('SELECT card_id, pulls FROM card_pulls'),
+    env.DB.prepare("SELECT value FROM totals WHERE key = 'packs'"),
+  ]);
 
   const cards = {};
   let total = 0;
-  for (const row of results) {
+  for (const row of pulls.results) {
     cards[row.card_id] = row.pulls;
     total += row.pulls;
   }
 
+  const packs = packsRow.results[0]?.value ?? 0;
+
   return json(
-    { total, cards },
+    { total, packs, cards },
     {
       headers: {
         // Mis en cache au bord : la fraîcheur à la minute suffit largement.

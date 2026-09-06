@@ -10,7 +10,7 @@ import { sfx, toggleSound } from './audio.js';
 import { loadStreamers, initStreamerPicker } from './streamers.js';
 import { initLightbox } from './lightbox.js';
 import { initCompletion, startCompletion } from './completion.js';
-import { loadStats, backfillOnce } from './stats.js';
+import { loadStats, backfillOnce, totalPacks, watchStats } from './stats.js';
 import { watchVersion } from './version.js';
 
 const GAUGE_CIRCUMFERENCE = 2 * Math.PI * 86;
@@ -247,7 +247,23 @@ async function main() {
     );
   });
 
-  loadStats().then(backfillOnce);
+  // Compteur communautaire. Entièrement facultatif : s'il ne répond pas, la
+  // bande reste masquée et rien d'autre ne bouge.
+  const renderTally = (packs) => {
+    const tally = document.querySelector('[data-tally]');
+    if (!tally || typeof packs !== 'number') return;
+    setText('[data-tally-count]', new Intl.NumberFormat('fr-FR').format(packs));
+    tally.hidden = false;
+    tally.classList.remove('is-bumping');
+    void tally.offsetWidth;
+    tally.classList.add('is-bumping');
+  };
+
+  loadStats().then(() => {
+    renderTally(totalPacks());
+    backfillOnce();
+    watchStats(renderTally);
+  });
 
   initPlayer();
   renderStatus();
