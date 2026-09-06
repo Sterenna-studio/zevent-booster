@@ -27,6 +27,8 @@ const EMPTY = {
   channel: null,
   /** Les boosters d'accueil ont-ils déjà été crédités ? */
   welcomed: false,
+  /** La cérémonie de complétion a-t-elle déjà eu lieu ? */
+  completed: false,
 };
 
 const listeners = new Set();

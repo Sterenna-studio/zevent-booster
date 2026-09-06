@@ -2195,6 +2195,154 @@ dialog::backdrop {
   flex: none;
 }
 
+/* ────────────────────  CÉRÉMONIE DE COMPLÉTION  ─────────────────────── */
+
+/* L'album se remplit en cascade, carte après carte. */
+.grid.is-filling .kard {
+  animation: fillIn 0.55s var(--ease-back) both;
+  animation-delay: calc(var(--i, 0) * 8ms);
+}
+
+@keyframes fillIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.82);
+  }
+}
+
+/* La case laissée vide, qui attend sa carte. */
+.kard--awaiting .kard__frame {
+  border: 1px solid var(--zgreen);
+  box-shadow: 0 0 0 0 rgba(58, 243, 64, 0.55);
+  animation: awaitPulse 1.6s ease-out infinite;
+}
+
+@keyframes awaitPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(58, 243, 64, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 16px rgba(58, 243, 64, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(58, 243, 64, 0);
+  }
+}
+
+/* Elle se pose enfin. */
+.kard--placed .kard__frame {
+  animation: cardDrop 0.85s var(--ease-back);
+  box-shadow: 0 0 0 2px var(--zgreen), 0 0 46px -6px rgba(58, 243, 64, 0.9);
+}
+
+@keyframes cardDrop {
+  0% {
+    transform: scale(2.4) rotate(-8deg);
+    opacity: 0;
+  }
+  55% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0);
+  }
+}
+
+/* Barre d'appel « place la dernière carte ». */
+.place-bar {
+  position: sticky;
+  bottom: 1.5rem;
+  z-index: 40;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: max-content;
+  max-width: 100%;
+  margin: 2rem auto 0;
+  padding: 0.85rem 0.85rem 0.85rem 1.4rem;
+  border-radius: 999px;
+  background: var(--glass-strong);
+  border: 1px solid rgba(58, 243, 64, 0.5);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 24px 60px -20px #000, 0 0 46px -18px rgba(58, 243, 64, 0.8);
+  animation: toastIn 0.5s var(--ease-back) both;
+}
+
+.place-bar[hidden] {
+  display: none;
+}
+
+.place-bar__text {
+  font-family: 'Anton', sans-serif;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* Panneau final. */
+.bravo[open] {
+  display: grid;
+}
+
+.bravo {
+  justify-items: center;
+  gap: 0.35rem;
+  width: min(520px, calc(100vw - 2rem));
+  margin: auto;
+  padding: 2.4rem 2rem 2rem;
+  text-align: center;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(165deg, #14181a, #050706 60%, #0d1412);
+  border: 1px solid rgba(58, 243, 64, 0.45);
+  box-shadow: 0 60px 120px -40px #000, 0 0 70px -30px rgba(58, 243, 64, 0.6);
+  animation: modalIn 0.45s var(--ease-out);
+}
+
+.bravo::backdrop {
+  background: rgba(4, 2, 8, 0.9);
+  backdrop-filter: blur(8px);
+}
+
+.bravo__logo {
+  width: 62%;
+  height: auto;
+  margin-bottom: 0.6rem;
+  filter: drop-shadow(0 0 24px rgba(58, 243, 64, 0.5));
+}
+
+.bravo__title {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(2.6rem, 8vw, 4rem);
+  line-height: 1;
+  text-transform: uppercase;
+  background: linear-gradient(170deg, #ffffff 10%, var(--zgreen) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.bravo__lead {
+  font-size: 1.05rem;
+  color: var(--txt);
+}
+
+.bravo__stats {
+  margin-bottom: 1.4rem;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.76rem;
+  letter-spacing: 0.04em;
+  color: var(--txt-faint);
+}
+
+.bravo__note {
+  margin-top: 0.9rem;
+  font-size: 0.78rem;
+  color: var(--txt-faint);
+}
+
 /* ─────────────────────────────  ZOOM CARTE  ─────────────────────────── */
 /* Le `display` est porté par [open] : une règle auteur non conditionnée écrase
    le `dialog:not([open]) { display: none }` du navigateur — les styles auteur

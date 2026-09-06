@@ -14,6 +14,9 @@ const modalBody = document.querySelector('[data-modal-body]');
 
 const filters = { rarity: 'all', owned: 'all', sort: 'rarity-asc' };
 
+/** Carte volontairement affichée comme manquante (cérémonie de complétion). */
+let maskedCard = null;
+
 const collator = new Intl.Collator('fr', { numeric: true, sensitivity: 'base' });
 
 /* ── grille ────────────────────────────────────────────────────────────── */
@@ -43,7 +46,7 @@ function sortCards(cards) {
 
 function cardNode(card) {
   const count = ownedCount(card.id);
-  const owned = count > 0;
+  const owned = count > 0 && card.id !== maskedCard;
 
   const btn = document.createElement('button');
   btn.type = 'button';
@@ -92,9 +95,24 @@ export function renderGrid() {
   );
 
   const frag = document.createDocumentFragment();
-  for (const card of visible) frag.append(cardNode(card));
+  visible.forEach((card, i) => {
+    const node = cardNode(card);
+    // Sert au remplissage en cascade de la cérémonie de complétion ; ignoré
+    // le reste du temps.
+    node.style.setProperty('--i', String(i));
+    frag.append(node);
+  });
   grid.replaceChildren(frag);
   if (emptyMsg) emptyMsg.hidden = visible.length > 0;
+}
+
+/**
+ * Force une carte possédée à s'afficher comme manquante. La cérémonie de
+ * complétion s'en sert pour garder la toute dernière case vide jusqu'à ce que
+ * le joueur la pose lui-même. `null` rétablit l'affichage normal.
+ */
+export function setMaskedCard(id) {
+  maskedCard = id;
 }
 
 /* ── fiche détaillée ───────────────────────────────────────────────────── */

@@ -258,6 +258,11 @@
 
         <p class="grid__tip">Clic droit sur une Kard pour la voir en grand.</p>
         <div class="grid" data-grid></div>
+
+        <div class="place-bar" data-place-bar hidden>
+          <p class="place-bar__text">Il ne manque plus qu'elle.</p>
+          <button class="btn btn--primary" type="button" data-place-card>Placer la dernière carte</button>
+        </div>
         <p class="grid__empty" data-grid-empty hidden>Aucune Kard ne correspond à ces filtres.</p>
       </section>
     </main>
@@ -286,6 +291,21 @@
       <p data-toast-text></p>
       <button class="btn btn--primary btn--sm" type="button" data-goto="opening" data-toast-action>Ouvrir</button>
     </div>
+
+    <dialog class="bravo" data-bravo>
+      <button class="card-modal__close" type="button" data-bravo-close aria-label="Fermer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+      </button>
+      <img class="bravo__logo" src="assets/zevent-logo-2026.webp" alt="" decoding="async" />
+      <h2 class="bravo__title">Bravo</h2>
+      <p class="bravo__lead">Tu as obtenu toutes les cartes !</p>
+      <p class="bravo__stats" data-bravo-stats></p>
+      <a class="btn btn--zevent" href="https://zevent.fr/don/littlebigwhale" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a5 5 0 0 1 5-5h4a6 6 0 0 1 6 6v3h-3l-1 3h-3l-1-2H8l-1 2H5v-4a4 4 0 0 1-1-3z" /><circle cx="8.5" cy="11.5" r=".9" fill="currentColor" /></svg>
+        Faire un don au ZEVENT
+      </a>
+      <p class="bravo__note">La collection est un jeu ; la cagnotte, elle, est bien réelle.</p>
+    </dialog>
 
     <dialog class="lightbox" data-lightbox>
       <button class="lightbox__close" type="button" data-lightbox-close aria-label="Fermer">

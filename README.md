@@ -126,6 +126,19 @@ npm run artists    # rafraîchit les crédits
 npm run artworks   # réécrit data/cards.json
 ```
 
+## Compléter l’album
+
+Quand la 255ᵉ Kard tombe, l’album se remplit en cascade sous les yeux du joueur et
+une seule case reste vide : celle qu’il vient d’obtenir. Un bouton l’invite à la
+poser lui-même, elle arrive avec une gerbe d’éclats, puis vient le panneau final
+et son bouton de don.
+
+La bascule vers l’album n’a lieu qu’**à la fin du booster en cours**, pas à
+l’instant du tirage : les cartes ne sont créditées qu’au moment où on les
+retourne, et couper la révélation ferait perdre celles qui restent dans le paquet.
+
+ rejoue la cérémonie en local.
+
 ## Progression
 
 Tout est en `localStorage` (clé `zevent-booster.v1`) : horodatage du cooldown,

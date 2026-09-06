@@ -5,6 +5,7 @@ import { rollPack } from './packs.js';
 import { sfx } from './audio.js';
 import { openCard } from './collection.js';
 import { bindZoom } from './lightbox.js';
+import { isComplete, startCompletion } from './completion.js';
 
 const root = document.querySelector('.opening');
 const scenes = {
@@ -26,6 +27,8 @@ const captionEl = document.querySelector('[data-reveal-caption]');
 let queue = [];
 let cursor = 0;
 let busy = false;
+/** Carte ayant complété l album pendant ce booster, le cas échéant. */
+let completedBy = null;
 /** La carte du dessus est-elle déjà retournée ? */
 let shown = false;
 /** index → la carte était-elle une première (pour le tampon du bandeau). */
@@ -166,6 +169,9 @@ async function revealCurrent() {
   // le tampon « NOUVELLE » reflète donc l'état réel à cet instant.
   const isNew = grant(card.id);
   commit('grant');
+  // La 255ᵉ vient de tomber : on retient laquelle. La cérémonie attendra la fin
+  // du paquet — couper maintenant ferait perdre les cartes encore à retourner.
+  if (isNew && !state.completed && !completedBy && isComplete()) completedBy = card.id;
   revealed.set(cursor, isNew);
   shown = true;
 
@@ -301,6 +307,13 @@ function finishPack() {
     }
   }
   if (hintEl) hintEl.textContent = '';
+
+  // Le paquet est allé au bout : c'est le moment d'enchaîner sur la cérémonie.
+  if (completedBy) {
+    const card = completedBy;
+    completedBy = null;
+    startCompletion(card);
+  }
 }
 
 /* ── câblage ───────────────────────────────────────────────────────────── */

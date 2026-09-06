@@ -9,6 +9,7 @@ import { initOpening, refreshOpening } from './opening.js';
 import { sfx, toggleSound } from './audio.js';
 import { loadStreamers, initStreamerPicker } from './streamers.js';
 import { initLightbox } from './lightbox.js';
+import { initCompletion, startCompletion } from './completion.js';
 
 const GAUGE_CIRCUMFERENCE = 2 * Math.PI * 86;
 
@@ -162,6 +163,7 @@ async function main() {
   }
 
   initLightbox();
+  initCompletion(showView);
   initCollection();
   initOpening();
   initStreamerPicker(setChannel);
@@ -238,6 +240,11 @@ async function main() {
         return msToNextBooster();
       },
       reset,
+      /** Rejoue la cérémonie de complétion sur la dernière carte obtenue. */
+      celebrate() {
+        state.completed = false;
+        return startCompletion(state.order.at(-1));
+      },
       /** Le player Twitch, pour lancer la lecture sans viser le bouton. */
       get player() {
         return getPlayer();
