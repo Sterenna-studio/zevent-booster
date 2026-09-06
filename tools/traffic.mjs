@@ -46,39 +46,33 @@ async function gql(query, variables) {
   return body.data;
 }
 
-const FILTER = `{
-  datetime_geq: $since, datetime_leq: $until,
-  clientRequestHTTPHost: $host
-}`;
-
-const QUERY = `
+/**
+ * Le plan Free refuse une fenêtre de plus d'un jour sur le jeu de données
+ * détaillé (« cannot request a time range wider than 1d »). On interroge donc
+ * un jour à la fois et on agrège nous-mêmes.
+ */
+const QUERY_DAY = `
 query ($zone: String!, $since: Time!, $until: Time!, $host: String!) {
   viewer {
     zones(filter: { zoneTag: $zone }) {
-      toutes: httpRequestsAdaptiveGroups(limit: 1, filter: ${FILTER}) {
+      toutes: httpRequestsAdaptiveGroups(
+        limit: 1
+        filter: { datetime_geq: $since, datetime_lt: $until, clientRequestHTTPHost: $host }
+      ) {
         count
-        sum { edgeResponseBytes }
       }
       pages: httpRequestsAdaptiveGroups(
-        limit: 40
+        limit: 60
         orderBy: [count_DESC]
-        filter: { datetime_geq: $since, datetime_leq: $until, clientRequestHTTPHost: $host, edgeResponseContentTypeName: "html" }
+        filter: { datetime_geq: $since, datetime_lt: $until, clientRequestHTTPHost: $host, edgeResponseContentTypeName: "html" }
       ) {
         count
         dimensions { clientRequestPath }
       }
-      parJour: httpRequestsAdaptiveGroups(
-        limit: 40
-        orderBy: [date_ASC]
-        filter: { datetime_geq: $since, datetime_leq: $until, clientRequestHTTPHost: $host, edgeResponseContentTypeName: "html" }
-      ) {
-        count
-        dimensions { date }
-      }
       pays: httpRequestsAdaptiveGroups(
-        limit: 8
+        limit: 10
         orderBy: [count_DESC]
-        filter: { datetime_geq: $since, datetime_leq: $until, clientRequestHTTPHost: $host, edgeResponseContentTypeName: "html" }
+        filter: { datetime_geq: $since, datetime_lt: $until, clientRequestHTTPHost: $host, edgeResponseContentTypeName: "html" }
       ) {
         count
         dimensions { clientCountryName }
@@ -109,47 +103,90 @@ const say = (s = '') => {
 };
 
 try {
-  const data = await gql(QUERY, { zone: ZONE, since: iso(since), until: iso(until), host: HOST });
-  const z = data.viewer.zones[0];
-  if (!z) throw new Error(`zone ${ZONE} introuvable pour ce jeton`);
+  const parJour = [];
+  const parPage = new Map();
+  const parPays = new Map();
+  const manquants = [];
+  let requetesTotales = 0;
 
-  const pages = z.pages.filter((p) => p.dimensions.clientRequestPath.startsWith(PREFIX));
-  const vues = pages.reduce((t, p) => t + p.count, 0);
-  const jours = z.parJour;
+  // Une requête par tranche de 24 h, du plus ancien au plus récent.
+  for (let d = 0; d < DAYS; d++) {
+    const from = new Date(since.getTime() + d * 86400_000);
+    const to = new Date(Math.min(from.getTime() + 86400_000, until.getTime()));
+    if (to <= from) continue;
+
+    let z;
+    try {
+      const data = await gql(QUERY_DAY, {
+        zone: ZONE,
+        since: iso(from),
+        until: iso(to),
+        host: HOST,
+      });
+      z = data.viewer.zones[0];
+    } catch (dayErr) {
+      // Le plan Free ne garde le détail que quelques jours : les plus anciens
+      // peuvent refuser de répondre sans que le reste soit compromis.
+      manquants.push(`${from.toISOString().slice(0, 10)} (${dayErr.message})`);
+      continue;
+    }
+    if (!z) throw new Error(`zone ${ZONE} introuvable pour ce jeton`);
+
+    requetesTotales += z.toutes[0]?.count ?? 0;
+
+    let vuesDuJour = 0;
+    for (const p of z.pages) {
+      const path = p.dimensions.clientRequestPath;
+      if (!path.startsWith(PREFIX)) continue;
+      vuesDuJour += p.count;
+      parPage.set(path, (parPage.get(path) ?? 0) + p.count);
+    }
+    for (const c of z.pays ?? []) {
+      parPays.set(c.dimensions.clientCountryName, (parPays.get(c.dimensions.clientCountryName) ?? 0) + c.count);
+    }
+    parJour.push({ date: from.toISOString().slice(0, 10), count: vuesDuJour });
+  }
+
+  if (!parJour.length) throw new Error('aucun jour exploitable sur la fenêtre demandée');
+
+  const vues = parJour.reduce((t, d) => t + d.count, 0);
 
   say(`# Trafic ${HOST}${PREFIX} — ${DAYS} derniers jours`);
   say();
   say(`**${n(vues)} pages vues** sur ${PREFIX} (réponses HTML uniquement).`);
-  say(`Toutes requêtes de l'hôte, images comprises : ${n(z.toutes[0]?.count ?? 0)}.`);
+  say(`Toutes requêtes de l'hôte sur la période, images comprises : ${n(requetesTotales)}.`);
   say();
 
-  if (jours.length) {
-    say('## Par jour (HTML, tout l’hôte)');
-    say();
-    const max = Math.max(...jours.map((d) => d.count), 1);
-    for (const d of jours) {
-      const bar = '█'.repeat(Math.max(1, Math.round((d.count / max) * 30)));
-      say(`${d.dimensions.date}  ${String(d.count).padStart(6)}  ${bar}`);
-    }
-    say();
+  say('## Pages vues par jour');
+  say();
+  const max = Math.max(...parJour.map((d) => d.count), 1);
+  for (const d of parJour) {
+    const bar = '█'.repeat(Math.max(d.count ? 1 : 0, Math.round((d.count / max) * 30)));
+    say(`${d.date}  ${String(d.count).padStart(6)}  ${bar}`);
   }
+  say();
 
-  if (pages.length) {
+  if (parPage.size) {
     say('## Pages les plus vues');
     say();
-    for (const p of pages.slice(0, 12)) {
-      say(`${String(p.count).padStart(6)}  ${p.dimensions.clientRequestPath}`);
+    for (const [path, count] of [...parPage].sort((a, b) => b[1] - a[1]).slice(0, 12)) {
+      say(`${String(count).padStart(6)}  ${path}`);
     }
     say();
   }
 
-  if (z.pays?.length) {
+  if (parPays.size) {
     say('## Pays');
     say();
-    for (const c of z.pays) say(`${String(c.count).padStart(6)}  ${c.dimensions.clientCountryName}`);
+    for (const [pays, count] of [...parPays].sort((a, b) => b[1] - a[1]).slice(0, 8)) {
+      say(`${String(count).padStart(6)}  ${pays}`);
+    }
     say();
   }
 
+  if (manquants.length) {
+    say(`> Jours sans détail disponible : ${manquants.join(', ')}`);
+  }
   say('> Cloudflare compte les requêtes vues par le proxy, robots inclus.');
   say('> C’est un ordre de grandeur fiable, pas une mesure de visiteurs uniques.');
 } catch (err) {
