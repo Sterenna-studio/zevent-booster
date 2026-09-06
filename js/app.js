@@ -129,7 +129,10 @@ function renderRhythm() {
   const banner = document.querySelector('[data-rush]');
   if (!banner) return;
   banner.hidden = !rush;
-  if (rush) setText('[data-rush-rhythm]', rush.label);
+  if (!rush) return;
+  setText('[data-rush-rhythm]', rush.label);
+  setText('[data-rush-title]', rush.title ?? 'Dernière ligne droite');
+  banner.classList.toggle('is-openbar', Boolean(rush.title));
 }
 
 function renderStatus() {

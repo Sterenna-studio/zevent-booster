@@ -26,6 +26,14 @@ export const CONFIG = {
     phases: [
       { from: '2026-09-06T22:00:00+02:00', boosterMs: 10 * 60 * 1000, label: '10 minutes' },
       { from: '2026-09-07T00:00:00+02:00', boosterMs: 5 * 60 * 1000, label: '5 minutes' },
+      // Les dernières minutes : un booster par minute, tant qu'il en reste à
+      // ouvrir. `title` remplace l'intitulé du bandeau, ça se fête.
+      {
+        from: '2026-09-07T00:35:00+02:00',
+        boosterMs: 60 * 1000,
+        label: '60 secondes',
+        title: 'Open bar',
+      },
     ],
     /** Fin de l'événement : retour au rythme et à l'accueil habituels. */
     until: '2026-09-07T01:00:00+02:00',

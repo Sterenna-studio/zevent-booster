@@ -3441,3 +3441,13 @@ dialog::backdrop {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Les toutes dernières minutes : le bandeau vire au vert ZEvent. */
+.rush.is-openbar {
+  border-bottom-color: rgba(58, 243, 64, 0.35);
+  background: linear-gradient(90deg, rgba(58, 243, 64, 0.13), rgba(255, 158, 61, 0.12));
+}
+
+.rush.is-openbar strong {
+  color: var(--zgreen);
+}
