@@ -2,7 +2,7 @@
  * Télécharge les artworks des 255 cartes depuis le CDN MemoryKard vers assets/cards/,
  * et produit data/cards.json (le manifeste consommé par le site).
  *
- * Les visuels sont utilisés avec l'autorisation de l'auteur.
+ * Les visuels sont repris sans autorisation, à titre de fan project.
  * Relançable : les fichiers déjà présents et non vides sont ignorés.
  *
  *   node tools/fetch-artworks.mjs [--width 620] [--force]
