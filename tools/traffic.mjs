@@ -12,14 +12,19 @@
  *
  *   CLOUDFLARE_API_TOKEN=… CLOUDFLARE_ZONE_ID=… node tools/traffic.mjs [jours]
  */
-const TOKEN = process.env.CLOUDFLARE_API_TOKEN;
+// Un jeton dédié en lecture seule est préférable : le jeton généraliste de
+// l'organisation sert au DNS et au cache, inutile de l'élargir pour lire des
+// statistiques. On l'accepte quand même en repli s'il porte déjà le droit.
+const TOKEN = process.env.CLOUDFLARE_ANALYTICS_TOKEN || process.env.CLOUDFLARE_API_TOKEN;
 const ZONE = process.env.CLOUDFLARE_ZONE_ID;
 const HOST = process.env.TRAFFIC_HOST ?? 'nitro.sterenna.fr';
 const PREFIX = process.env.TRAFFIC_PREFIX ?? '/zevent-booster';
 const DAYS = Math.min(Math.max(Number(process.argv[2]) || 7, 1), 30);
 
 if (!TOKEN || !ZONE) {
-  console.error('Il manque CLOUDFLARE_API_TOKEN et/ou CLOUDFLARE_ZONE_ID.');
+  console.error(
+    'Il manque un jeton (CLOUDFLARE_ANALYTICS_TOKEN ou CLOUDFLARE_API_TOKEN) et/ou CLOUDFLARE_ZONE_ID.'
+  );
   process.exit(1);
 }
 
@@ -170,7 +175,9 @@ try {
   } catch (err2) {
     say(`Le repli a échoué aussi : ${err2.message}`);
     say();
-    say('Vérifier que le jeton porte « Zone Analytics: Read » sur sterenna.fr.');
+    say('Le jeton doit porter « Zone → Analytics → Read » sur sterenna.fr.');
+    say('Le plus propre : un jeton dédié en lecture seule, ajouté au repo sous');
+    say('le nom CLOUDFLARE_ANALYTICS_TOKEN — ce script le prend en priorité.');
     process.exitCode = 1;
   }
 }
