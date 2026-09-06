@@ -65,7 +65,7 @@ ne change rien. Passée cette date, ce bloc est inerte.
 Il court même site fermé — l'écart accumulé est crédité au retour, calculé à partir
 d'horodatages, si bien qu'un onglet mis en veille ne fausse rien.
 
-Le stock est **plafonné à 12 boosters** (trois heures d'absence). Sans plafond,
+Le stock est **plafonné à 24 boosters** (six heures d'absence). Sans plafond,
 revenir après trois jours donnerait de quoi compléter la collection d'un coup. Stock
 plein, le cooldown est gelé et repart à la première ouverture — comme une jauge
 d'énergie. Mettre `maxStock: Infinity` dans [`js/config.js`](js/config.js) pour
@@ -73,7 +73,7 @@ retirer la limite.
 
 Une sauvegarde antérieure au-dessus du plafond **garde ses boosters** : on cesse
 simplement d'en ajouter tant qu'elle n'est pas redescendue. Le dénominateur
-disparaît alors de l'affichage, « 29/12 » ayant tout l'air d'un bug.
+disparaît alors de l'affichage, « 29/24 » ayant tout l'air d'un bug.
 
 Le player Twitch ne conditionne rien : il est là pour regarder, et l'indicateur
 « en direct / en pause » de la vue Stream est purement informatif. C'est un choix

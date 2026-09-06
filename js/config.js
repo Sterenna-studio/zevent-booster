@@ -36,13 +36,14 @@ export const CONFIG = {
   /**
    * Plafond de boosters en attente. Le cooldown tourne en temps réel, site
    * fermé compris ; sans plafond, revenir après trois jours d'absence donnerait
-   * de quoi compléter la collection d'un coup. À 12, on peut s'absenter trois
-   * heures sans rien perdre. Mettre `Infinity` pour retirer la limite.
+   * de quoi compléter la collection d'un coup. À 24, on peut s'absenter six
+   * heures sans rien perdre — deux heures au rythme de la dernière soirée.
+   * Mettre `Infinity` pour retirer la limite.
    *
    * Une sauvegarde déjà au-dessus du plafond garde ses boosters : on cesse
    * simplement d'en ajouter tant qu'elle n'est pas redescendue.
    */
-  maxStock: 12,
+  maxStock: 24,
 
   /** Composition d'un booster : 3 classiques, 1 rare, 1 slot « chance ». */
   pack: {

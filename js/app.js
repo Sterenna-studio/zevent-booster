@@ -70,7 +70,7 @@ function renderDashboard() {
   );
 
   setText('[data-stock]', `${state.boosters}`);
-  // Une sauvegarde antérieure peut dépasser le plafond : afficher « 29/12 »
+  // Une sauvegarde antérieure peut dépasser le plafond : afficher « 29/24 »
   // donnerait l'impression d'un bug, on retire alors le dénominateur.
   setText('[data-stock-max]', state.boosters > CONFIG.maxStock ? '' : `/${CONFIG.maxStock}`);
   setText('[data-total-earned]', String(state.earned));
