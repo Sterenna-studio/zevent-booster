@@ -41,6 +41,7 @@
         <button class="tab" data-view="opening" type="button">Ouverture</button>
         <button class="tab" data-view="collection" type="button">Collection</button>
         <button class="tab" data-view="stats" type="button">Stats</button>
+        <button class="tab" data-view="about" type="button">À propos</button>
       </nav>
 
       <div class="nav__right">
@@ -89,10 +90,22 @@
         <div class="hero">
           <p class="hero__eyebrow">Collection officielle · 255 Kards</p>
           <h1 class="hero__title">
-            <span>ZEVENT</span>
-            <span class="hero__title-x">×</span>
-            <span>LITTLEBIGWHALE</span>
+            <a
+              class="hero__title-link"
+              href="https://www.memorykard.com/galerie/zevent-x-littlebigwhale"
+              target="_blank"
+              rel="noopener"
+              title="Voir la collection originale sur MemoryKard"
+            >
+              <span>ZEVENT</span>
+              <span class="hero__title-x">×</span>
+              <span>LITTLEBIGWHALE</span>
+            </a>
           </h1>
+          <p class="hero__source">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6" /><path d="M20 4L10 14" /><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" /></svg>
+            La collection originale est sur MemoryKard
+          </p>
 
           <ul class="hero__meta">
             <li>
@@ -338,6 +351,64 @@
           </section>
         </div>
       </section>
+
+      <!-- ─────────────────────────  VUE À PROPOS  ─────────────────────── -->
+      <section class="view" id="view-about" data-view-panel="about" hidden>
+        <div class="about">
+          <h2 class="section-title">À propos</h2>
+          <p class="about__lead">
+            Un site fait pour le plaisir d'ouvrir quelques cartes en regardant le ZEvent. Rien d'autre.
+          </p>
+
+          <div class="about__grid">
+            <section class="about__block">
+              <h3>Aucune visée pécuniaire</h3>
+              <p>
+                Ce site ne rapporte rien à personne. Pas de publicité, pas de paiement, pas de monnaie à
+                acheter, rien à débloquer contre de l'argent. Les boosters et les Kards n'ont aucune
+                valeur : ils ne s'échangent pas, ne se revendent pas, et ne quittent jamais ton navigateur.
+              </p>
+              <p>
+                <strong>Aucun don ne transite par ici.</strong> Le bouton « Faire un don au ZEVENT » renvoie
+                directement vers la cagnotte officielle, sur
+                <a href="https://zevent.fr" target="_blank" rel="noopener">zevent.fr</a>.
+              </p>
+            </section>
+
+            <section class="about__block">
+              <h3>Les Kards ne sont pas les miennes</h3>
+              <p>
+                Les 255 visuels viennent de la collection ZEVENT × LITTLEBIGWHALE de
+                <a href="https://www.memorykard.com/galerie/zevent-x-littlebigwhale" target="_blank" rel="noopener">MemoryKard</a>,
+                utilisés avec l'autorisation de leur auteur. Le logo ZEVENT 26 est la propriété de
+                l'événement.
+              </p>
+              <p>
+                Ce site est un fan project, ni affilié ni approuvé par l'organisation du ZEvent, ni par
+                MemoryKard.
+              </p>
+            </section>
+          </div>
+
+          <section class="about__thanks">
+            <h3>Merci</h3>
+            <ul>
+              <li><strong>À Trivia</strong>, pour avoir créé ces cartes.</li>
+              <li><strong>Aux artistes</strong>, pour avoir donné de leur temps et leur trait à cette collection.</li>
+              <li><strong>À tous les streamers du plateau</strong>, pour ce dernier ZEvent incroyable.</li>
+            </ul>
+          </section>
+
+          <section class="about__artists">
+            <h3><span data-artists-count>25</span> artistes ont signé les Kards numérotées</h3>
+            <p class="about__note">
+              La seule chose que ce site te demande : va les voir, va les suivre. Sans eux, il n'y aurait
+              rien à ouvrir.
+            </p>
+            <div class="credits" data-artists></div>
+          </section>
+        </div>
+      </section>
     </main>
 
     <footer class="foot">
@@ -345,6 +416,7 @@
         Fan project non officiel, sans lien avec l'organisation du ZEvent. Visuels des Kards
         <a href="https://www.memorykard.com/galerie/zevent-x-littlebigwhale" target="_blank" rel="noopener">MemoryKard</a>,
         utilisés avec l'autorisation de l'auteur ; logo ZEVENT 26 propriété de l'événement.
+        <button class="linkish" type="button" data-goto="about">À propos et crédits des artistes</button>
       </p>
       <button class="foot__reset" type="button" data-reset>Réinitialiser ma progression</button>
     </footer>

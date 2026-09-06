@@ -540,6 +540,36 @@ main {
   filter: drop-shadow(0 8px 40px rgba(255, 77, 141, 0.28));
 }
 
+/* Le titre mène à la collection d'origine. Le lien ne porte aucun dégradé :
+   ce sont ses spans qui le font, et lui n'ajoute qu'une zone cliquable. */
+.hero__title-link {
+  display: inline-block;
+  text-decoration: none;
+  transition: filter 0.25s;
+}
+
+.hero__title:has(.hero__title-link:hover) {
+  filter: drop-shadow(0 8px 44px rgba(255, 77, 141, 0.5));
+}
+
+.hero__source {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0.5rem 0 0;
+  font-size: 0.78rem;
+  color: var(--txt-faint);
+}
+
+.hero__source svg {
+  width: 13px;
+  height: 13px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+}
+
 /* Le dégradé est porté par chaque <span> et non par le <h1> : les spans sont
    animés en transform, donc composités, et un calque composité ne récupère pas
    le background-clip:text de son parent (le texte resterait transparent). */
@@ -3113,6 +3143,194 @@ dialog::backdrop {
   flex: none;
   font-size: 0.76rem;
   color: var(--txt-faint);
+}
+
+/* ─────────────────────────────  À PROPOS  ───────────────────────────── */
+.about {
+  max-width: 62rem;
+  margin-inline: auto;
+}
+
+.about__lead {
+  margin: 0.6rem 0 2rem;
+  font-size: 1.1rem;
+  color: var(--txt-dim);
+}
+
+.about__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+}
+
+.about__block,
+.about__thanks {
+  padding: 1.3rem 1.4rem;
+  border-radius: var(--radius);
+  background: var(--glass);
+  border: 1px solid var(--line);
+}
+
+.about h3 {
+  margin: 0 0 0.8rem;
+  font-family: 'Anton', sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.about p {
+  margin: 0 0 0.7rem;
+  color: var(--txt-dim);
+  line-height: 1.6;
+}
+
+.about p:last-child {
+  margin-bottom: 0;
+}
+
+.about a {
+  color: var(--zgreen);
+}
+
+.about__thanks {
+  margin-bottom: 1.6rem;
+  border-color: rgba(58, 243, 64, 0.28);
+  background: linear-gradient(140deg, rgba(58, 243, 64, 0.07), var(--glass));
+}
+
+.about__thanks ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.about__thanks li {
+  position: relative;
+  padding-left: 1.4rem;
+  color: var(--txt-dim);
+  line-height: 1.55;
+}
+
+.about__thanks li::before {
+  content: '';
+  position: absolute;
+  left: 0.25rem;
+  top: 0.62em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--zgreen);
+}
+
+.about__thanks strong {
+  color: var(--txt);
+}
+
+.about__artists h3 {
+  margin-bottom: 0.5rem;
+}
+
+.about__note {
+  margin-bottom: 1.1rem !important;
+}
+
+/* Crédits : une carte par artiste, ses Kards et ses réseaux. */
+.credits {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(255px, 1fr));
+  gap: 0.9rem;
+}
+
+.credit {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 1rem 1.1rem;
+  border-radius: var(--radius);
+  background: var(--glass);
+  border: 1px solid var(--line);
+  transition: border-color 0.2s, transform 0.2s var(--ease-out);
+}
+
+.credit:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 77, 141, 0.4);
+}
+
+.credit__name {
+  margin: 0;
+  font-family: 'Anton', sans-serif;
+  font-size: 1.15rem;
+  letter-spacing: 0.01em;
+  color: var(--txt);
+}
+
+.credit__bio {
+  margin: 0 !important;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: var(--txt-dim);
+}
+
+.credit__kards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0 !important;
+}
+
+.credit__kard {
+  padding: 1px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: rgba(255, 77, 141, 0.12);
+  color: var(--r-epic);
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.credit__kard:hover {
+  background: rgba(255, 77, 141, 0.28);
+}
+
+.credit__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: auto;
+  padding-top: 0.25rem;
+}
+
+.credit__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--txt-dim) !important;
+  font-size: 0.74rem;
+  text-decoration: none;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.credit__link:hover {
+  color: var(--txt) !important;
+  border-color: var(--line-strong);
+}
+
+.credit__link svg {
+  width: 13px;
+  height: 13px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
 }
 
 /* ──────────────────────────────  FOOTER  ────────────────────────────── */

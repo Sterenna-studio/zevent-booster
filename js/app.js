@@ -4,7 +4,7 @@ import { loadCards, getCards } from './cards.js';
 import { state, subscribe, commit, reset, claimWelcome, msToNextBooster } from './state.js';
 import { initPlayer, playerStatus, setChannel, getPlayer } from './twitch.js';
 import { startCooldown, onTick, onBoosterEarned } from './cooldown.js';
-import { initCollection, renderGrid, syncStatsSort } from './collection.js';
+import { initCollection, renderGrid, syncStatsSort, openCard } from './collection.js';
 import { initOpening, refreshOpening } from './opening.js';
 import { sfx, toggleSound } from './audio.js';
 import { loadStreamers, initStreamerPicker } from './streamers.js';
@@ -12,6 +12,7 @@ import { initLightbox } from './lightbox.js';
 import { initCompletion, startCompletion, isComplete, claimRank } from './completion.js';
 import { loadStats, backfillOnce, totalPacks, watchStats } from './stats.js';
 import { initStatsView, enterStats, renderStats } from './statsview.js';
+import { initAbout } from './about.js';
 import { watchVersion } from './version.js';
 
 const GAUGE_CIRCUMFERENCE = 2 * Math.PI * 86;
@@ -204,6 +205,7 @@ async function main() {
   initCompletion(showView);
   initCollection();
   initStatsView();
+  initAbout(openCard);
   initOpening();
   initStreamerPicker(setChannel);
 
