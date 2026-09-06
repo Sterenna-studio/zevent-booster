@@ -56,6 +56,12 @@ complet en le disant, plutôt que d'afficher une liste vide.
 ## Comment les boosters arrivent
 
 Un cooldown en temps réel, et rien d'autre : **un booster toutes les 15 minutes**.
+
+Dernière soirée du ZEvent 2026, le rythme accélère — 10 minutes à partir de 22 h,
+5 minutes à partir de minuit, et l'accueil passe à 15 boosters. Tout revient à la
+normale à 1 h du matin, quand l'événement se termine : les bornes sont dans
+`CONFIG.rush` (js/config.js), en instants absolus pour que le fuseau du visiteur
+ne change rien. Passée cette date, ce bloc est inerte.
 Il court même site fermé — l'écart accumulé est crédité au retour, calculé à partir
 d'horodatages, si bien qu'un onglet mis en veille ne fausse rien.
 

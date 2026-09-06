@@ -70,6 +70,14 @@
       <span>boosters ouverts sur le site</span>
     </p>
 
+    <!-- Accélération de fin d'événement. Masqué en dehors de la dernière
+         soirée : le calendrier le fait apparaître et disparaître seul. -->
+    <p class="rush" data-rush hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L4.5 13.5H11l-1 8.5 8.5-11.5H12z" /></svg>
+      <strong>Dernière ligne droite</strong>
+      <span>un booster toutes les <b data-rush-rhythm>10 minutes</b> jusqu'à la fin du ZEvent, à 1 h.</span>
+    </p>
+
     <main>
       <!-- ───────────────────────────  VUE STREAM  ─────────────────────── -->
       <section class="view is-active" id="view-stream" data-view-panel="stream">
@@ -94,8 +102,8 @@
 
           <p class="hero__lead">
             Regarde le ZEvent ici même, sur la chaîne de ton choix. <strong>Un booster de 5 Kards toutes les
-            15 minutes</strong>, et 10 offerts dès l'arrivée. 255 cartes à collectionner, dont 25 uniques
-            réalisées par des artistes invités.
+            <span data-rhythm>15 minutes</span></strong>, et <span data-welcome-count>10</span> offerts dès
+            l'arrivée. 255 cartes à collectionner, dont 25 uniques réalisées par des artistes invités.
           </p>
 
           <div class="hero__cta">

@@ -13,6 +13,27 @@ export const CONFIG = {
   welcomeBoosters: 10,
 
   /**
+   * Dernière ligne droite. Le ZEvent 2026 se termine le 7 septembre à 1 h du
+   * matin : la soirée accélère le cooldown, et l'accueil passe à 15 boosters
+   * jusqu'à la fin. Après quoi tout revient au rythme normal, sans qu'on ait
+   * à toucher au code — les bornes sont dans le calendrier.
+   *
+   * Les instants portent leur décalage horaire (+02:00, heure d'été de Paris) :
+   * l'événement se termine au même moment pour tout le monde, et le rythme ne
+   * dépend donc pas du fuseau réglé sur la machine du visiteur.
+   */
+  rush: {
+    phases: [
+      { from: '2026-09-06T22:00:00+02:00', boosterMs: 10 * 60 * 1000, label: '10 minutes' },
+      { from: '2026-09-07T00:00:00+02:00', boosterMs: 5 * 60 * 1000, label: '5 minutes' },
+    ],
+    /** Fin de l'événement : retour au rythme et à l'accueil habituels. */
+    until: '2026-09-07T01:00:00+02:00',
+    /** Accueil renforcé, dès maintenant et jusqu'à la fin. */
+    welcomeBoosters: 15,
+  },
+
+  /**
    * Plafond de boosters en attente. Le cooldown tourne en temps réel, site
    * fermé compris ; sans plafond, revenir après trois jours d'absence donnerait
    * de quoi compléter la collection d'un coup. À 12, on peut s'absenter trois
@@ -43,6 +64,39 @@ export const CONFIG = {
   /** Clé de sauvegarde locale. */
   storageKey: 'zevent-booster.v1',
 };
+
+/* ── rythme du moment ──────────────────────────────────────────────────── */
+
+const RUSH_PHASES = CONFIG.rush.phases
+  .map((phase) => ({ ...phase, at: Date.parse(phase.from) }))
+  .sort((a, b) => a.at - b.at);
+const RUSH_END = Date.parse(CONFIG.rush.until);
+
+/**
+ * La phase d'accélération en cours, ou null en dehors : avant la première
+ * borne, et définitivement une fois l'événement terminé.
+ */
+export function activeRush(now = Date.now()) {
+  if (now >= RUSH_END) return null;
+  let current = null;
+  for (const phase of RUSH_PHASES) if (now >= phase.at) current = phase;
+  return current && { ...current, endsAt: RUSH_END };
+}
+
+/** Intervalle du cooldown à cet instant. */
+export function currentBoosterMs(now = Date.now()) {
+  return activeRush(now)?.boosterMs ?? CONFIG.boosterMs;
+}
+
+/** Ce qu'on offre à un nouveau venu à cet instant. */
+export function currentWelcome(now = Date.now()) {
+  return now < RUSH_END ? CONFIG.rush.welcomeBoosters : CONFIG.welcomeBoosters;
+}
+
+/** « 15 minutes », pour les phrases qui annoncent le rythme. */
+export function rhythmLabel(now = Date.now()) {
+  return activeRush(now)?.label ?? '15 minutes';
+}
 
 export const RARITIES = ['common', 'rare', 'epic'];
 

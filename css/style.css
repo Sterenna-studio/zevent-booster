@@ -370,10 +370,55 @@ svg {
   }
 }
 
+/* Bandeau de fin d'événement. Même gabarit que le compteur juste au-dessus,
+   mais en orange : c'est une information qui expire, elle ne doit pas se
+   confondre avec les chiffres permanents du site. */
+.rush {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.5rem;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid rgba(255, 158, 61, 0.28);
+  background: linear-gradient(90deg, rgba(255, 158, 61, 0.09), rgba(255, 77, 141, 0.09));
+  font-size: 0.85rem;
+  color: var(--txt-dim);
+  text-align: center;
+}
+
+.rush[hidden] {
+  display: none;
+}
+
+.rush svg {
+  width: 15px;
+  height: 15px;
+  fill: var(--orange);
+  stroke: none;
+}
+
+.rush strong {
+  font-family: 'Anton', sans-serif;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+.rush b {
+  font-family: 'Geist Mono', monospace;
+  color: var(--txt);
+}
+
 @media (max-width: 560px) {
   .tally {
     font-size: 0.78rem;
     padding: 0.4rem 0.75rem;
+  }
+
+  .rush {
+    font-size: 0.76rem;
+    padding: 0.42rem 0.75rem;
   }
 }
 

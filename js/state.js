@@ -2,7 +2,7 @@
  * Sauvegarde locale + petit bus d'événements.
  * Toute la progression tient dans un seul objet sérialisé dans localStorage.
  */
-import { CONFIG } from './config.js';
+import { CONFIG, currentBoosterMs } from './config.js';
 
 const EMPTY = {
   /**
@@ -97,12 +97,15 @@ export function tickCooldown(now = Date.now()) {
     return 0;
   }
 
-  const due = Math.floor((now - state.cooldownAt) / CONFIG.boosterMs);
+  // L'intervalle du moment : il change en fin d'événement, et le retard
+  // accumulé est alors converti au rythme en vigueur au retour.
+  const interval = currentBoosterMs(now);
+  const due = Math.floor((now - state.cooldownAt) / interval);
   if (due <= 0) return 0;
 
   const room = CONFIG.maxStock - state.boosters;
   const gained = Math.min(due, room);
-  state.cooldownAt += due * CONFIG.boosterMs;
+  state.cooldownAt += due * interval;
   state.boosters += gained;
   state.earned += gained;
   return gained;
@@ -111,7 +114,7 @@ export function tickCooldown(now = Date.now()) {
 /** Millisecondes restantes avant le prochain booster. */
 export function msToNextBooster(now = Date.now()) {
   if (atCap()) return 0;
-  return Math.max(0, CONFIG.boosterMs - (now - state.cooldownAt));
+  return Math.max(0, currentBoosterMs(now) - (now - state.cooldownAt));
 }
 
 /* ── mutations ─────────────────────────────────────────────────────────── */

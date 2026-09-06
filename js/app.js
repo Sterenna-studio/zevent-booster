@@ -1,5 +1,5 @@
 /** Point d'entrée : navigation entre les vues, tableau de bord, câblage global. */
-import { CONFIG, RARITIES } from './config.js';
+import { CONFIG, RARITIES, activeRush, currentBoosterMs, currentWelcome, rhythmLabel } from './config.js';
 import { loadCards, getCards } from './cards.js';
 import { state, subscribe, commit, reset, claimWelcome, msToNextBooster } from './state.js';
 import { initPlayer, playerStatus, setChannel, getPlayer } from './twitch.js';
@@ -57,7 +57,7 @@ function renderDashboard() {
 
   // jauge + compte à rebours
   const remaining = msToNextBooster();
-  const progress = full ? 1 : 1 - remaining / CONFIG.boosterMs;
+  const progress = full ? 1 : 1 - remaining / currentBoosterMs();
   const gauge = document.querySelector('[data-gauge]');
   if (gauge) {
     gauge.style.strokeDasharray = String(GAUGE_CIRCUMFERENCE);
@@ -109,6 +109,28 @@ function renderDashboard() {
   soundBtn?.setAttribute('aria-pressed', String(state.sound));
 }
 
+/**
+ * Bandeau et phrases qui annoncent le rythme. Appelé à chaque seconde avec le
+ * reste du tableau de bord : on ne touche au DOM que lorsque la phase change
+ * réellement, sinon on réécrirait les mêmes mots soixante fois par minute.
+ */
+let lastRhythm = null;
+
+function renderRhythm() {
+  const rush = activeRush();
+  const label = rhythmLabel();
+  if (label === lastRhythm) return;
+  lastRhythm = label;
+
+  setText('[data-rhythm]', label);
+  setText('[data-welcome-count]', String(currentWelcome()));
+
+  const banner = document.querySelector('[data-rush]');
+  if (!banner) return;
+  banner.hidden = !rush;
+  if (rush) setText('[data-rush-rhythm]', rush.label);
+}
+
 function renderStatus() {
   const status = playerStatus();
   const dot = document.querySelector('[data-status-dot]');
@@ -152,7 +174,7 @@ function showToast(text, actionLabel, onAction, { persist = false } = {}) {
 
 /** Crédite les boosters d'accueil et le fait savoir. */
 function welcome() {
-  const given = claimWelcome(CONFIG.welcomeBoosters);
+  const given = claimWelcome(currentWelcome());
   if (!given) return;
   commit('welcome');
   refreshOpening();
@@ -222,6 +244,7 @@ async function main() {
 
   onTick(() => {
     renderStatus();
+    renderRhythm();
     renderDashboard();
   });
   onBoosterEarned((n) => {
@@ -277,6 +300,9 @@ async function main() {
 
   initPlayer();
   renderStatus();
+  // Avant le premier tick : le bandeau ne doit pas apparaître une seconde après
+  // la page, ni la phrase d'accueil annoncer un rythme périmé.
+  renderRhythm();
   welcome();
   startCooldown();
 
