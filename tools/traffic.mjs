@@ -52,7 +52,7 @@ async function gql(query, variables) {
  * un jour à la fois et on agrège nous-mêmes.
  */
 const QUERY_DAY = `
-query ($zone: String!, $since: Time!, $until: Time!, $host: String!) {
+query ($zone: String!, $since: Time!, $until: Time!, $host: String!, $page: String!) {
   viewer {
     zones(filter: { zoneTag: $zone }) {
       toutes: httpRequestsAdaptiveGroups(
@@ -72,7 +72,7 @@ query ($zone: String!, $since: Time!, $until: Time!, $host: String!) {
       pays: httpRequestsAdaptiveGroups(
         limit: 10
         orderBy: [count_DESC]
-        filter: { datetime_geq: $since, datetime_lt: $until, clientRequestHTTPHost: $host, edgeResponseContentTypeName: "html" }
+        filter: { datetime_geq: $since, datetime_lt: $until, clientRequestHTTPHost: $host, clientRequestPath: $page }
       ) {
         count
         dimensions { clientCountryName }
@@ -109,9 +109,14 @@ try {
   const manquants = [];
   let requetesTotales = 0;
 
-  // Une requête par tranche de 24 h, du plus ancien au plus récent.
-  for (let d = 0; d < DAYS; d++) {
-    const from = new Date(since.getTime() + d * 86400_000);
+  // Une requête par journée calendaire UTC, du plus ancien au plus récent.
+  // Des tranches glissantes de 24 h donneraient des étiquettes de date
+  // trompeuses : « 05/09 » désignerait en fait hier midi → aujourd'hui midi.
+  const minuit = new Date(until);
+  minuit.setUTCHours(0, 0, 0, 0);
+
+  for (let d = DAYS - 1; d >= 0; d--) {
+    const from = new Date(minuit.getTime() - d * 86400_000);
     const to = new Date(Math.min(from.getTime() + 86400_000, until.getTime()));
     if (to <= from) continue;
 
@@ -122,6 +127,7 @@ try {
         since: iso(from),
         until: iso(to),
         host: HOST,
+        page: `${PREFIX}/`,
       });
       z = data.viewer.zones[0];
     } catch (dayErr) {
