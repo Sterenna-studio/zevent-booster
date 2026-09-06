@@ -6,7 +6,7 @@
  *
  *   POST /zevent-booster/api/pulls    { cards: [id…], mode?: "backfill" }
  *   POST /zevent-booster/api/complete { packs }  → { rank }
- *   GET  /zevent-booster/api/stats    { total, packs, completions, cards }
+ *   GET  /zevent-booster/api/stats    { total, packs, completions, board, cards }
  *
  * Ce qui est stocké : un compteur par carte, et un budget horaire par IP
  * *hachée* pour l'anti-abus. Aucune IP en clair, aucun identifiant de
@@ -33,6 +33,8 @@ const HOURLY_BUDGET = 2500;
 const COMPLETION_COST = 500;
 /** Garde-fou de vraisemblance sur le nombre de boosters annoncé. */
 const PACKS_MAX = 100_000;
+/** Albums complétés renvoyés avec les statistiques (les premiers arrivés). */
+const BOARD_MAX = 25;
 
 const json = (data, init = {}) =>
   new Response(JSON.stringify(data), {
@@ -169,9 +171,12 @@ async function handleComplete(request, env) {
 }
 
 async function handleStats(env) {
-  const [pulls, totals] = await env.DB.batch([
+  const [pulls, totals, board] = await env.DB.batch([
     env.DB.prepare('SELECT card_id, pulls FROM card_pulls'),
     env.DB.prepare('SELECT key, value FROM totals'),
+    // Le tableau d'honneur. Borné : la page n'en montre qu'une poignée, et la
+    // réponse est déjà chargée des 255 compteurs de cartes.
+    env.DB.prepare(`SELECT rank, packs, at FROM completions ORDER BY rank LIMIT ${BOARD_MAX}`),
   ]);
 
   const cards = {};
@@ -184,7 +189,13 @@ async function handleStats(env) {
   const counters = Object.fromEntries(totals.results.map((r) => [r.key, r.value]));
 
   return json(
-    { total, packs: counters.packs ?? 0, completions: counters.completions ?? 0, cards },
+    {
+      total,
+      packs: counters.packs ?? 0,
+      completions: counters.completions ?? 0,
+      board: board.results,
+      cards,
+    },
     {
       headers: {
         // Mis en cache au bord : la fraîcheur à la minute suffit largement.

@@ -2748,6 +2748,269 @@ dialog::backdrop {
   }
 }
 
+/* ───────────────────────────  PAGE STATS  ───────────────────────────── */
+.stats-head {
+  margin-bottom: 1.6rem;
+}
+
+.stats-head__note {
+  margin-top: 0.4rem;
+  max-width: 46rem;
+  font-size: 0.9rem;
+  color: var(--txt-dim);
+}
+
+.stats-head__note span {
+  display: block;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.74rem;
+  color: var(--txt-faint);
+}
+
+/* Le `display` reste conditionné : sans le [hidden], le message d'indisponibilité
+   s'afficherait par-dessus des chiffres parfaitement valides. */
+.stats-offline:not([hidden]) {
+  display: block;
+}
+
+.stats-offline {
+  padding: 1rem 1.2rem;
+  border-radius: var(--radius);
+  background: var(--glass);
+  border: 1px solid var(--line);
+  color: var(--txt-dim);
+}
+
+.stat-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.9rem;
+  margin-bottom: 1.4rem;
+}
+
+.stat-card {
+  padding: 1.1rem 1.2rem;
+  border-radius: var(--radius);
+  background: var(--glass);
+  border: 1px solid var(--line);
+}
+
+.stat-card strong {
+  display: block;
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(1.7rem, 4vw, 2.3rem);
+  line-height: 1.05;
+  color: var(--zgreen);
+}
+
+.stat-card span {
+  font-size: 0.85rem;
+  color: var(--txt-dim);
+}
+
+.stats-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+}
+
+.stats-block {
+  padding: 1.2rem 1.3rem;
+  border-radius: var(--radius);
+  background: var(--glass);
+  border: 1px solid var(--line);
+}
+
+.stats-block h3 {
+  margin: 0 0 0.9rem;
+  font-family: 'Anton', sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.stats-note {
+  margin-top: 0.8rem;
+  font-size: 0.76rem;
+  color: var(--txt-faint);
+}
+
+.stats-empty {
+  color: var(--txt-dim);
+}
+
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.stats-table th,
+.stats-table td {
+  padding: 0.5rem 0.4rem;
+  text-align: right;
+  border-bottom: 1px solid var(--line);
+}
+
+.stats-table thead th {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--txt-faint);
+}
+
+.stats-table tbody th {
+  text-align: left;
+  font-weight: 500;
+  color: var(--txt);
+}
+
+.stats-table tbody th .dot {
+  margin-right: 0.45rem;
+}
+
+.stats-table td {
+  font-family: 'Geist Mono', monospace;
+  color: var(--txt-dim);
+}
+
+.stats-table tbody tr:last-child th,
+.stats-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.stats-defs {
+  display: grid;
+  margin: 0;
+}
+
+.stats-defs > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.stats-defs > div:last-child {
+  border-bottom: 0;
+}
+
+.stats-defs dt {
+  font-size: 0.9rem;
+  color: var(--txt-dim);
+}
+
+.stats-defs dd {
+  margin: 0;
+  font-family: 'Geist Mono', monospace;
+  color: var(--txt);
+}
+
+.stats-rank {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stats-rank button {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: 100%;
+  padding: 0.42rem 0.2rem;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s, padding 0.2s;
+}
+
+.stats-rank li:last-child button {
+  border-bottom: 0;
+}
+
+.stats-rank button:hover {
+  padding-left: 0.5rem;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.stats-rank__num {
+  flex: none;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.74rem;
+  color: var(--txt-faint);
+}
+
+.stats-rank__name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 0.92rem;
+}
+
+.stats-rank__pulls {
+  flex: none;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.82rem;
+  color: var(--zgreen);
+}
+
+.stats-board {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stats-board li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+  padding: 0.5rem 0.2rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.stats-board li:last-child {
+  border-bottom: 0;
+}
+
+.stats-board__rank {
+  flex: none;
+  min-width: 2.6rem;
+  font-family: 'Anton', sans-serif;
+  font-size: 1.15rem;
+  color: var(--zgreen);
+}
+
+.stats-board__rank sup {
+  font-size: 0.5em;
+}
+
+.stats-board li.is-first .stats-board__rank {
+  color: #ffd166;
+}
+
+.stats-board__packs {
+  flex: 1;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.86rem;
+  color: var(--txt);
+}
+
+.stats-board__at {
+  flex: none;
+  font-size: 0.76rem;
+  color: var(--txt-faint);
+}
+
 /* ──────────────────────────────  FOOTER  ────────────────────────────── */
 .foot {
   display: flex;
@@ -2807,6 +3070,19 @@ dialog::backdrop {
     width: 100%;
     justify-content: center;
     margin-inline: 0;
+    /* Quatre onglets ne tiennent plus sur un écran de 320 px : la rangée défile
+       toute seule plutôt que de déborder la page. `flex: none` empêche le
+       dernier onglet d'être comprimé jusqu'à l'illisible. */
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .nav__tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav__tabs .tab {
+    flex: none;
   }
 
   .filters {

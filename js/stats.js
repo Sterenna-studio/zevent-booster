@@ -36,11 +36,23 @@ const READ_ONLY = LOCAL;
 /** Plafond accepté par le Worker pour une reprise de sauvegarde. */
 const BACKFILL_MAX = 2000;
 
-/** { total, cards: { id: tirages } }, ou null tant qu'on n'a rien. */
+/** { total, packs, completions, board, cards: { id: tirages } }, ou null. */
 let data = null;
+/** Date du dernier chargement réussi, pour dater l'affichage. */
+let fetchedAt = 0;
 
 export function statsReady() {
   return data !== null;
+}
+
+/** Les chiffres bruts, pour la page qui les met en forme. */
+export function snapshot() {
+  return data;
+}
+
+/** Âge des chiffres en millisecondes, null si on n'a jamais rien reçu. */
+export function statsAge() {
+  return fetchedAt ? Date.now() - fetchedAt : null;
 }
 
 /** Boosters ouverts sur le site, tous visiteurs confondus. */
@@ -62,6 +74,7 @@ export async function loadStats() {
     const res = await fetch(`${BASE}stats`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     data = await res.json();
+    fetchedAt = Date.now();
   } catch {
     // On garde les données précédentes plutôt que de vider l'affichage : une
     // coupure passagère ne doit pas faire disparaître le compteur déjà à l'écran.

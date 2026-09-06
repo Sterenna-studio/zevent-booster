@@ -11,6 +11,7 @@ import { loadStreamers, initStreamerPicker } from './streamers.js';
 import { initLightbox } from './lightbox.js';
 import { initCompletion, startCompletion, isComplete, claimRank } from './completion.js';
 import { loadStats, backfillOnce, totalPacks, watchStats } from './stats.js';
+import { initStatsView, enterStats, renderStats } from './statsview.js';
 import { watchVersion } from './version.js';
 
 const GAUGE_CIRCUMFERENCE = 2 * Math.PI * 86;
@@ -34,6 +35,7 @@ function showView(name) {
   }
   if (name === 'collection') renderGrid();
   if (name === 'opening') refreshOpening();
+  if (name === 'stats') enterStats();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -179,6 +181,7 @@ async function main() {
   initLightbox();
   initCompletion(showView);
   initCollection();
+  initStatsView();
   initOpening();
   initStreamerPicker(setChannel);
 
@@ -262,6 +265,7 @@ async function main() {
   loadStats().then(() => {
     renderTally(totalPacks());
     syncStatsSort();
+    renderStats();
     backfillOnce();
     watchStats(renderTally);
 

@@ -40,6 +40,7 @@
         <button class="tab is-active" data-view="stream" type="button">Stream</button>
         <button class="tab" data-view="opening" type="button">Ouverture</button>
         <button class="tab" data-view="collection" type="button">Collection</button>
+        <button class="tab" data-view="stats" type="button">Stats</button>
       </nav>
 
       <div class="nav__right">
@@ -277,6 +278,52 @@
           <button class="btn btn--primary" type="button" data-place-card>Placer la dernière carte</button>
         </div>
         <p class="grid__empty" data-grid-empty hidden>Aucune Kard ne correspond à ces filtres.</p>
+      </section>
+
+      <!-- ───────────────────────────  VUE STATS  ──────────────────────── -->
+      <section class="view" id="view-stats" data-view-panel="stats" hidden>
+        <div class="stats-head">
+          <h2 class="section-title">Les chiffres du site</h2>
+          <p class="stats-head__note">
+            Comptés chez l'ensemble des visiteurs, sans compte ni identité.
+            <span data-stats-age></span>
+          </p>
+        </div>
+
+        <p class="stats-offline" data-stats-offline hidden>
+          Les statistiques ne répondent pas pour le moment. Le reste du site fonctionne normalement.
+        </p>
+
+        <div data-stats-body hidden>
+          <div class="stat-cards" data-stats-keys></div>
+
+          <div class="stats-cols">
+            <section class="stats-block">
+              <h3>Par rareté</h3>
+              <div data-stats-rarity></div>
+            </section>
+            <section class="stats-block">
+              <h3>Ta progression</h3>
+              <div data-stats-me></div>
+            </section>
+          </div>
+
+          <div class="stats-cols">
+            <section class="stats-block">
+              <h3>Les Kards qui tombent le plus</h3>
+              <ol class="stats-rank" data-stats-top></ol>
+            </section>
+            <section class="stats-block">
+              <h3>Celles qui se font désirer</h3>
+              <ol class="stats-rank" data-stats-flop></ol>
+            </section>
+          </div>
+
+          <section class="stats-block">
+            <h3>Albums complétés</h3>
+            <div data-stats-board></div>
+          </section>
+        </div>
       </section>
     </main>
 
