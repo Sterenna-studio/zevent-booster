@@ -6,6 +6,7 @@ import { sfx } from './audio.js';
 import { openCard } from './collection.js';
 import { bindZoom } from './lightbox.js';
 import { isComplete, startCompletion } from './completion.js';
+import { reportPack } from './stats.js';
 
 const root = document.querySelector('.opening');
 const scenes = {
@@ -93,6 +94,9 @@ async function openPack() {
   if (actionsEl) actionsEl.hidden = true;
   showScene('reveal');
   buildDeck();
+  // Un seul envoi par booster, au tirage : les cartes sont déjà décidées, et
+  // ça évite une requête par carte retournée.
+  reportPack(cards);
   updateHint();
   busy = false;
 }

@@ -4,6 +4,7 @@ import { getCards } from './cards.js';
 import { state, ownedCount } from './state.js';
 import { bindTilt } from './tilt.js';
 import { openLightbox, bindZoom } from './lightbox.js';
+import { cardStats } from './stats.js';
 
 const RARITY_RANK = { common: 0, rare: 1, epic: 2 };
 
@@ -138,6 +139,38 @@ const NETWORK_LABEL = {
   bluesky: 'Bluesky',
 };
 
+/**
+ * Ce que la carte pèse chez l'ensemble des visiteurs. Absent tant que l'API
+ * n'a rien renvoyé ou que la carte n'est jamais tombée — le site doit rester
+ * entier sans ces chiffres.
+ */
+function statsBlock(card) {
+  const stats = cardStats(card.id);
+  if (!stats) return '';
+
+  const nb = new Intl.NumberFormat('fr-FR');
+  const share = (stats.share * 100).toFixed(1).replace('.', ',');
+
+  let luck = '';
+  if (stats.luck !== null) {
+    // Au-dessus de 1 elle sort plus que la moyenne de sa rareté, en dessous
+    // elle se fait désirer. On ne l'affiche que loin de 1, sinon c'est du bruit.
+    if (stats.luck <= 0.8) luck = `<span class="pulls__luck is-rare">se fait désirer</span>`;
+    else if (stats.luck >= 1.2) luck = `<span class="pulls__luck is-common">tombe souvent</span>`;
+  }
+
+  return `
+    <div class="pulls">
+      <p class="pulls__kicker">Chez les visiteurs</p>
+      <p class="pulls__line">
+        <strong>${nb.format(stats.pulls)}</strong> fois tirée
+        <span class="pulls__share">${share} % des cartes distribuées</span>
+        ${luck}
+      </p>
+      <p class="pulls__note">Chiffres indicatifs, comptés depuis la mise en place du compteur.</p>
+    </div>`;
+}
+
 /** Crédits et liens de l'artiste — seules les épiques en ont un. */
 function artistBlock(card) {
   const artist = card.artist;
@@ -188,6 +221,7 @@ export function openCard(cardId) {
         <div><dt>Exemplaires</dt> <dd><b>${count}</b></dd></div>
         <div><dt>Statut</dt> <dd><b>${owned ? (count > 1 ? `${count - 1} doublon${count > 2 ? 's' : ''}` : 'Unique') : 'Pas encore tombée'}</b></dd></div>
       </dl>
+      ${statsBlock(card)}
       ${artistBlock(card)}
     </div>`;
 

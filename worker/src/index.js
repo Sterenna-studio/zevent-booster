@@ -119,8 +119,16 @@ async function handleStats(env) {
 
   return json(
     { total, cards },
-    // Mis en cache au bord : la fraîcheur à la minute suffit largement.
-    { headers: { 'cache-control': 'public, max-age=60' } }
+    {
+      headers: {
+        // Mis en cache au bord : la fraîcheur à la minute suffit largement.
+        'cache-control': 'public, max-age=60',
+        // Lecture publique assumée : ces compteurs n'ont rien de confidentiel,
+        // et l'ouvrir permet de travailler l'affichage depuis un poste local.
+        // Le POST, lui, reste sans en-tête CORS.
+        'access-control-allow-origin': '*',
+      },
+    }
   );
 }
 

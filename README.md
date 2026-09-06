@@ -139,11 +139,41 @@ retourne, et couper la révélation ferait perdre celles qui restent dans le paq
 
  rejoue la cérémonie en local.
 
+## Combien de fois chaque Kard est tombée
+
+La fiche d'une carte affiche le nombre de fois où elle est tombée chez l'ensemble
+des visiteurs, sa part des cartes distribuées, et — dès qu'il y a du volume — si
+elle sort plus ou moins souvent que ses sœurs de même rareté.
+
+Le compteur est un Worker Cloudflare adossé à une base D1, monté sur
+`nitro.sterenna.fr/zevent-booster/api/*` : même origine que le site, donc ni CORS
+ni requête préliminaire. Voir [`worker/README.md`](worker/README.md).
+
+Un envoi par booster ouvert, plus une reprise unique de la collection déjà
+constituée à la première visite après la mise en place. Le drapeau de reprise
+**survit à la réinitialisation** de la progression : sans ça, chaque
+« recommencer » redéclarerait tout et gonflerait les compteurs.
+
+Tout est facultatif et silencieux : API muette, le site fonctionne exactement
+comme avant et la fiche n'affiche simplement rien. En local on lit la production
+mais on n'écrit jamais, pour ne pas polluer les vrais compteurs depuis un poste
+de développement.
+
+**Ces chiffres sont indicatifs.** L'endpoint est public, donc gonflable ; un
+budget de 2 500 tirages par heure et par IP hachée borne les dégâts sans les
+empêcher. L'interface le dit sous chaque chiffre. Et le comparateur « tombe
+souvent / se fait désirer » ne s'affiche qu'au-delà d'une moyenne de 8 tirages
+par carte : en dessous, une épique tombée une fois passerait pour commune.
+
 ## Progression
 
-Tout est en `localStorage` (clé `zevent-booster.v1`) : horodatage du cooldown,
-boosters en attente, cartes possédées et leurs doublons, chaîne choisie. Pas de
-compte, pas de serveur, pas de données qui sortent du navigateur.
+Toute la progression est en `localStorage` (clé `zevent-booster.v1`) : horodatage
+du cooldown, boosters en attente, cartes possédées et leurs doublons, chaîne
+choisie. Pas de compte, pas de connexion, rien à créer.
+
+Une seule chose quitte le navigateur : **les identifiants des cartes tirées**,
+envoyés au compteur partagé (voir ci-dessous). Pas de cookie, pas d'identifiant
+de visiteur, pas d'adresse conservée.
 
 ## Structure
 
@@ -159,6 +189,8 @@ js/packs.js           tirage d'un booster
 js/opening.js         scène d'ouverture et de révélation
 js/collection.js      grille, filtres, fiche détaillée
 js/lightbox.js        zoom plein écran sur une carte
+js/stats.js           compteur de tirages partagé
+js/completion.js      cérémonie de fin de collection
 js/tilt.js            inclinaison 3D partagée par la fiche et le zoom
 js/app.js             navigation et tableau de bord
 data/cards.json       manifeste des 255 Kards
@@ -166,6 +198,7 @@ data/streamers.json   plateau du ZEvent (~340 chaînes)
 data/cards.raw.json   extraction brute (source du manifeste, non déployée)
 assets/cards/         les 255 artworks en webp
 tools/                récupération des artworks, des artistes et du plateau
+worker/               Worker Cloudflare + base D1 du compteur partagé
 ```
 
 ## Régénérer les artworks

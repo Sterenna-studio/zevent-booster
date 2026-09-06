@@ -10,6 +10,7 @@ import { sfx, toggleSound } from './audio.js';
 import { loadStreamers, initStreamerPicker } from './streamers.js';
 import { initLightbox } from './lightbox.js';
 import { initCompletion, startCompletion } from './completion.js';
+import { loadStats, backfillOnce } from './stats.js';
 
 const GAUGE_CIRCUMFERENCE = 2 * Math.PI * 86;
 
@@ -215,6 +216,10 @@ async function main() {
       'Ouvrir'
     );
   });
+
+  // Les statistiques ne bloquent rien : on les charge à côté, et la fiche
+  // s'en passe si elles n'arrivent pas.
+  loadStats().then(backfillOnce);
 
   initPlayer();
   renderStatus();

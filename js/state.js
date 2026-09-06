@@ -29,6 +29,8 @@ const EMPTY = {
   welcomed: false,
   /** La cérémonie de complétion a-t-elle déjà eu lieu ? */
   completed: false,
+  /** La collection existante a-t-elle déjà été déclarée aux statistiques ? */
+  statsBackfilled: false,
 };
 
 const listeners = new Set();
@@ -151,6 +153,9 @@ export function reset() {
     // Préférences et chaîne choisie ne font pas partie de la progression.
     sound: state.sound,
     channel: state.channel,
+    // Ce drapeau non plus : sans lui, chaque « recommencer » redéclarerait
+    // toute la collection aux statistiques et gonflerait les compteurs.
+    statsBackfilled: state.statsBackfilled,
     cooldownAt: Date.now(),
   });
   commit('reset');
