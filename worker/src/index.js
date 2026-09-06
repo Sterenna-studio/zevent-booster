@@ -1,11 +1,12 @@
 /**
  * Compteur de tirages partagé — Worker Cloudflare + base D1.
  *
- * Deux routes, montées sur le domaine du site pour rester en même origine
+ * Trois routes, montées sur le domaine du site pour rester en même origine
  * (ni CORS ni requête préliminaire) :
  *
- *   POST /zevent-booster/api/pulls   { cards: [id…], mode?: "backfill" }
- *   GET  /zevent-booster/api/stats   { total, cards: { id: tirages } }
+ *   POST /zevent-booster/api/pulls    { cards: [id…], mode?: "backfill" }
+ *   POST /zevent-booster/api/complete { packs }  → { rank }
+ *   GET  /zevent-booster/api/stats    { total, packs, completions, cards }
  *
  * Ce qui est stocké : un compteur par carte, et un budget horaire par IP
  * *hachée* pour l'anti-abus. Aucune IP en clair, aucun identifiant de
@@ -24,6 +25,14 @@ const BACKFILL_MAX = 2000;
  * d'une session normale, assez serré pour qu'un script n'inonde pas la base.
  */
 const HOURLY_BUDGET = 2500;
+/**
+ * Ce que coûte l'enregistrement d'un album complet sur ce même budget. Compléter
+ * demande des centaines de boosters : personne ne le fait cinq fois dans l'heure,
+ * et une IP ne peut donc pas fabriquer un palmarès.
+ */
+const COMPLETION_COST = 500;
+/** Garde-fou de vraisemblance sur le nombre de boosters annoncé. */
+const PACKS_MAX = 100_000;
 
 const json = (data, init = {}) =>
   new Response(JSON.stringify(data), {
@@ -117,10 +126,52 @@ async function handlePulls(request, env) {
   return new Response(null, { status: 204 });
 }
 
+/**
+ * Enregistre un album complet et renvoie son rang. Le rang, c'est le compteur
+ * global incrémenté : le premier à finir reçoit 1.
+ *
+ * L'incrément et la lecture se font dans la même instruction (`RETURNING`) —
+ * lire après écrire donnerait le même rang à deux joueurs qui terminent en même
+ * temps, et ça se verrait le jour où ça compte.
+ */
+async function handleComplete(request, env) {
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: 'corps illisible' }, { status: 400 });
+  }
+
+  const packs = body?.packs;
+  if (!Number.isInteger(packs) || packs < 1 || packs > PACKS_MAX) {
+    return json({ error: 'nombre de boosters invalide' }, { status: 400 });
+  }
+
+  const key = await ipKey(request, env.IP_SALT ?? 'zevent');
+  if (!(await takeBudget(env.DB, key, COMPLETION_COST))) {
+    return json({ error: 'budget horaire atteint' }, { status: 429 });
+  }
+
+  const row = await env.DB.prepare(
+    `INSERT INTO totals (key, value) VALUES ('completions', 1)
+     ON CONFLICT(key) DO UPDATE SET value = totals.value + 1
+     RETURNING value`
+  ).first();
+
+  const rank = row?.value ?? null;
+  if (!rank) return json({ error: 'rang indisponible' }, { status: 500 });
+
+  await env.DB.prepare('INSERT OR IGNORE INTO completions (rank, packs, at) VALUES (?, ?, ?)')
+    .bind(rank, packs, Date.now())
+    .run();
+
+  return json({ rank, packs });
+}
+
 async function handleStats(env) {
-  const [pulls, packsRow] = await env.DB.batch([
+  const [pulls, totals] = await env.DB.batch([
     env.DB.prepare('SELECT card_id, pulls FROM card_pulls'),
-    env.DB.prepare("SELECT value FROM totals WHERE key = 'packs'"),
+    env.DB.prepare('SELECT key, value FROM totals'),
   ]);
 
   const cards = {};
@@ -130,10 +181,10 @@ async function handleStats(env) {
     total += row.pulls;
   }
 
-  const packs = packsRow.results[0]?.value ?? 0;
+  const counters = Object.fromEntries(totals.results.map((r) => [r.key, r.value]));
 
   return json(
-    { total, packs, cards },
+    { total, packs: counters.packs ?? 0, completions: counters.completions ?? 0, cards },
     {
       headers: {
         // Mis en cache au bord : la fraîcheur à la minute suffit largement.
@@ -153,6 +204,9 @@ export default {
 
     if (request.method === 'POST' && pathname.endsWith('/api/pulls')) {
       return handlePulls(request, env);
+    }
+    if (request.method === 'POST' && pathname.endsWith('/api/complete')) {
+      return handleComplete(request, env);
     }
     if (request.method === 'GET' && pathname.endsWith('/api/stats')) {
       return handleStats(env);

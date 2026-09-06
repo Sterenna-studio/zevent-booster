@@ -2463,6 +2463,77 @@ dialog::backdrop {
   color: var(--txt);
 }
 
+/* Rang d'arrivée dans le classement des albums complétés. Le `display` est
+   conditionné à l'absence de [hidden] : une règle auteur non conditionnée
+   écraserait le display:none du navigateur et le bloc resterait à l'écran,
+   vide, quand le serveur n'a pas de rang à annoncer. */
+.bravo__rank:not([hidden]) {
+  display: flex;
+}
+
+.bravo__rank {
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  margin: 0.6rem 0 0.9rem;
+  padding: 0.7rem 0.9rem;
+  text-align: left;
+  border-radius: 12px;
+  background: rgba(58, 243, 64, 0.07);
+  border: 1px solid rgba(58, 243, 64, 0.3);
+}
+
+.bravo__rank-badge {
+  flex: none;
+  min-width: 3.2rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 10px;
+  background: rgba(6, 3, 10, 0.6);
+  border: 1px solid rgba(58, 243, 64, 0.45);
+  font-family: 'Anton', sans-serif;
+  font-size: 1.75rem;
+  line-height: 1.15;
+  text-align: center;
+  color: var(--zgreen);
+}
+
+.bravo__rank-badge sup {
+  margin-left: 0.06em;
+  font-size: 0.45em;
+}
+
+.bravo__rank-text {
+  font-size: 0.92rem;
+  line-height: 1.35;
+  color: var(--txt);
+}
+
+.bravo__rank-text sup {
+  font-size: 0.62em;
+}
+
+.bravo__rank-text em {
+  display: block;
+  margin-top: 0.2rem;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.72rem;
+  font-style: normal;
+  color: var(--txt-dim);
+}
+
+/* La toute première personne à boucler l'album : ça n'arrive qu'une fois, la
+   fenêtre a le droit de changer de couleur pour elle. */
+.bravo__rank.is-first {
+  background: linear-gradient(120deg, rgba(255, 209, 102, 0.18), rgba(255, 158, 61, 0.07));
+  border-color: rgba(255, 209, 102, 0.55);
+  box-shadow: 0 0 34px -12px rgba(255, 209, 102, 0.75);
+}
+
+.bravo__rank.is-first .bravo__rank-badge {
+  color: #ffd166;
+  border-color: rgba(255, 209, 102, 0.6);
+}
+
 .bravo__stats {
   margin-bottom: 1.4rem;
   font-family: 'Geist Mono', monospace;

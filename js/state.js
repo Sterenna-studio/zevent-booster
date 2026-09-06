@@ -31,6 +31,10 @@ const EMPTY = {
   completed: false,
   /** La collection existante a-t-elle déjà été déclarée aux statistiques ? */
   statsBackfilled: false,
+  /** Rang d'arrivée dans le classement des albums complétés (null = pas encore). */
+  completionRank: null,
+  /** Boosters ouverts au moment de compléter l'album. */
+  completionPacks: 0,
 };
 
 const listeners = new Set();
@@ -134,6 +138,15 @@ export function ownedCount(cardId) {
 }
 
 /**
+ * Boosters réellement ouverts. On ne le stocke pas : un booster ne quitte le
+ * stock qu'en s'ouvrant, donc la soustraction est exacte — et elle vaut aussi
+ * pour les sauvegardes antérieures à ce compteur.
+ */
+export function openedBoosters() {
+  return Math.max(0, state.earned - state.boosters);
+}
+
+/**
  * Crédite les boosters d'accueil à la première visite. Après un reset le
  * drapeau repart à false : recommencer, c'est recommencer pour de bon.
  * Renvoie le nombre offert, 0 si c'était déjà fait.
@@ -156,6 +169,10 @@ export function reset() {
     // Ce drapeau non plus : sans lui, chaque « recommencer » redéclarerait
     // toute la collection aux statistiques et gonflerait les compteurs.
     statsBackfilled: state.statsBackfilled,
+    // Un album complété l'a été une fois pour toutes. Le rang se garde, sinon
+    // recommencer suffirait à reprendre un ticket dans le classement.
+    completionRank: state.completionRank,
+    completionPacks: state.completionPacks,
     cooldownAt: Date.now(),
   });
   commit('reset');

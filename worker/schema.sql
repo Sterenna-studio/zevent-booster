@@ -12,8 +12,17 @@ CREATE TABLE IF NOT EXISTS ip_budget (
   pulls   INTEGER NOT NULL DEFAULT 0
 );
 
--- Compteurs globaux affichés sur le site (nombre de boosters ouverts).
+-- Compteurs globaux affichés sur le site (boosters ouverts, albums complétés).
 CREATE TABLE IF NOT EXISTS totals (
   key   TEXT PRIMARY KEY,
   value INTEGER NOT NULL DEFAULT 0
+);
+
+-- Albums complétés, dans l'ordre d'arrivée. Le rang est le numéro d'ordre :
+-- c'est lui qu'on annonce au joueur. On garde le nombre de boosters qu'il lui
+-- aura fallu, et rien d'autre — ni identité, ni empreinte.
+CREATE TABLE IF NOT EXISTS completions (
+  rank  INTEGER PRIMARY KEY,
+  packs INTEGER NOT NULL,
+  at    INTEGER NOT NULL
 );

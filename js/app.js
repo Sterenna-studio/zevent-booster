@@ -9,7 +9,7 @@ import { initOpening, refreshOpening } from './opening.js';
 import { sfx, toggleSound } from './audio.js';
 import { loadStreamers, initStreamerPicker } from './streamers.js';
 import { initLightbox } from './lightbox.js';
-import { initCompletion, startCompletion } from './completion.js';
+import { initCompletion, startCompletion, isComplete, claimRank } from './completion.js';
 import { loadStats, backfillOnce, totalPacks, watchStats } from './stats.js';
 import { watchVersion } from './version.js';
 
@@ -264,6 +264,11 @@ async function main() {
     syncStatsSort();
     backfillOnce();
     watchStats(renderTally);
+
+    // Les albums terminés avant l'ouverture du classement prennent leur rang en
+    // silence, sans cérémonie : ils l'ont déjà eue. Sans eux, le palmarès
+    // sacrerait « première » une personne qui ne l'est pas.
+    if (state.completed && state.completionRank === null && isComplete()) claimRank();
   });
 
   initPlayer();

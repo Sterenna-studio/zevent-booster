@@ -101,6 +101,31 @@ export function watchStats(onChange) {
   });
 }
 
+/**
+ * Déclare un album complet et renvoie le rang d'arrivée, ou null si le serveur
+ * n'a rien pu dire. Le seul appel du site dont on attend la réponse : c'est
+ * elle qu'on affiche au joueur. L'appelant doit donc prévoir de s'en passer.
+ *
+ * En local, on annonce le rang qui serait attribué sans rien écrire — de quoi
+ * régler l'affichage sans prendre une place dans le vrai classement.
+ */
+export async function registerCompletion(packs) {
+  if (READ_ONLY) return (data?.completions ?? 0) + 1;
+
+  try {
+    const res = await fetch(`${BASE}complete`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ packs }),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const out = await res.json();
+    return Number.isInteger(out?.rank) ? out.rank : null;
+  } catch {
+    return null;
+  }
+}
+
 /** Envoi silencieux, sans attente ni reprise sur échec. */
 function post(body) {
   if (READ_ONLY) return;

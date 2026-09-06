@@ -8,9 +8,10 @@
  * couper la révélation en cours ferait perdre celles qui restent dans le paquet.
  */
 import { getCards } from './cards.js';
-import { state, commit } from './state.js';
+import { state, commit, openedBoosters } from './state.js';
 import { renderGrid, setMaskedCard } from './collection.js';
 import { sfx } from './audio.js';
+import { registerCompletion } from './stats.js';
 
 const bar = document.querySelector('[data-place-bar]');
 const placeBtn = document.querySelector('[data-place-card]');
@@ -83,6 +84,58 @@ export async function startCompletion(cardId) {
   if (bar) bar.hidden = false;
 }
 
+/* ── rang d'arrivée ────────────────────────────────────────────────────── */
+
+/**
+ * Prend son ticket dans le classement des albums complétés, une fois pour
+ * toutes. Le rang obtenu est gardé en local : il ne se redemande pas, sinon
+ * chaque nouvelle partie prendrait une place de plus.
+ */
+export async function claimRank() {
+  if (state.completionRank !== null) return state.completionRank;
+
+  const packs = openedBoosters();
+  const rank = await registerCompletion(packs);
+  if (rank === null) return null;
+
+  state.completionRank = rank;
+  state.completionPacks = packs;
+  commit('completed');
+  return rank;
+}
+
+/**
+ * Écrit le rang dans la fenêtre de félicitations. Muet tant qu'on ne l'a pas :
+ * mieux vaut un « Bravo » sans classement qu'un classement inventé.
+ */
+function renderRank() {
+  const el = dialog?.querySelector('[data-bravo-rank]');
+  if (!el) return;
+
+  const rank = state.completionRank;
+  if (!rank) {
+    el.hidden = true;
+    return;
+  }
+
+  const packs = state.completionPacks || openedBoosters();
+  const nb = new Intl.NumberFormat('fr-FR');
+  const first = rank === 1;
+
+  el.classList.toggle('is-first', first);
+  el.innerHTML = `
+    <span class="bravo__rank-badge">${nb.format(rank)}<sup>${first ? 're' : 'e'}</sup></span>
+    <span class="bravo__rank-text">
+      ${
+        first
+          ? 'Tu es la <b>toute première personne</b> à compléter la collection.'
+          : `Tu es la <b>${nb.format(rank)}<sup>${first ? 're' : 'e'}</sup> personne</b> à compléter la collection.`
+      }
+      <em>Il t'aura fallu ${nb.format(packs)} booster${packs > 1 ? 's' : ''} pour y arriver.</em>
+    </span>`;
+  el.hidden = false;
+}
+
 /** Le joueur pose la dernière carte. */
 async function placeLast() {
   if (!lastCardId) return;
@@ -103,11 +156,20 @@ async function placeLast() {
   document.body.classList.add('is-quaking');
   setTimeout(() => document.body.classList.remove('is-quaking'), 500);
 
+  // La demande de rang part pendant l'animation : le temps réseau se cache
+  // derrière l'éclat au lieu de retarder la fenêtre.
+  const ranking = claimRank();
+
   await wait(1100);
 
   state.completed = true;
   commit('completed');
+
+  // On lui laisse un instant de plus, pas davantage : un serveur muet ne doit
+  // pas retenir le « Bravo ». S'il répond après coup, la ligne s'ajoute.
+  await Promise.race([ranking, wait(1500)]);
   openBravo();
+  ranking.then(() => renderRank()).catch(() => {});
 }
 
 function openBravo() {
@@ -115,8 +177,10 @@ function openBravo() {
   const total = getCards().cards.length;
   const stat = dialog.querySelector('[data-bravo-stats]');
   if (stat) {
-    stat.textContent = `${total} Kards réunies · ${state.earned} boosters ouverts en tout.`;
+    const packs = state.completionPacks || openedBoosters();
+    stat.textContent = `${total} Kards réunies · ${packs} boosters ouverts en tout.`;
   }
+  renderRank();
   dialog.showModal();
 }
 
