@@ -4,7 +4,7 @@ import { getCards } from './cards.js';
 import { state, ownedCount } from './state.js';
 import { bindTilt } from './tilt.js';
 import { openLightbox, bindZoom } from './lightbox.js';
-import { cardStats } from './stats.js';
+import { cardStats, pullsOf, statsReady } from './stats.js';
 
 const RARITY_RANK = { common: 0, rare: 1, epic: 2 };
 
@@ -38,11 +38,32 @@ function sortCards(cards) {
       const rank = new Map(state.order.map((id, i) => [id, i]));
       return list.sort((a, b) => (rank.get(b.id) ?? -1) - (rank.get(a.id) ?? -1));
     }
+    // Tirages chez l'ensemble des visiteurs, pas dans la collection du joueur.
+    // Une carte jamais tombée compte zéro : c'est précisément ce qu'on veut voir
+    // en tête du classement croissant.
+    case 'pulls-desc':
+      return list.sort((a, b) => pullsOf(b.id) - pullsOf(a.id) || collator.compare(a.number, b.number));
+    case 'pulls-asc':
+      return list.sort((a, b) => pullsOf(a.id) - pullsOf(b.id) || collator.compare(a.number, b.number));
     default:
       return list.sort(
         (a, b) => RARITY_RANK[a.rarity] - RARITY_RANK[b.rarity] || collator.compare(a.number, b.number)
       );
   }
+}
+
+const nbFmt = new Intl.NumberFormat('fr-FR');
+
+/**
+ * Trier par tirages sans afficher le chiffre laisserait deviner : tant que ce
+ * classement est actif, chaque vignette porte son compteur.
+ */
+function pullsBadge(card) {
+  if (!filters.sort.startsWith('pulls-')) return '';
+  const pulls = pullsOf(card.id);
+  if (pulls === null) return '';
+  return `<span class="kard__pulls" title="${nbFmt.format(pulls)} tirages sur le site">
+    ${nbFmt.format(pulls)}<i>tirages</i></span>`;
 }
 
 function cardNode(card) {
@@ -69,6 +90,7 @@ function cardNode(card) {
             : ''
           : `<span class="kard__lock"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>`
       }
+      ${pullsBadge(card)}
     </span>
     <span class="kard__meta">
       <span class="kard__num">#${escapeAttr(card.number)}</span>
@@ -232,7 +254,19 @@ export function openCard(cardId) {
 
 /* ── câblage des contrôles ─────────────────────────────────────────────── */
 
+/**
+ * Ouvre les tris par tirages une fois les chiffres arrivés. Tant que l'API n'a
+ * rien dit, les deux options restent grisées : mieux vaut une option
+ * indisponible qu'un classement qui ment.
+ */
+export function syncStatsSort() {
+  const ready = statsReady();
+  for (const opt of document.querySelectorAll('[data-sort-stats]')) opt.disabled = !ready;
+}
+
 export function initCollection() {
+  syncStatsSort();
+
   for (const btn of document.querySelectorAll('[data-filter-rarity]')) {
     btn.addEventListener('click', () => {
       filters.rarity = btn.dataset.filterRarity;

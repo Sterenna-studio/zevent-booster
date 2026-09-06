@@ -48,6 +48,15 @@ export function totalPacks() {
   return data?.packs ?? null;
 }
 
+/**
+ * Tirages bruts d'une carte, sans mise en perspective. Zéro est une valeur qui
+ * a un sens ici — une carte jamais tombée nulle part est justement ce qu'on
+ * cherche en triant par rareté réelle. `null` veut dire « on ne sait pas ».
+ */
+export function pullsOf(cardId) {
+  return data ? (data.cards[cardId] ?? 0) : null;
+}
+
 export async function loadStats() {
   try {
     const res = await fetch(`${BASE}stats`);

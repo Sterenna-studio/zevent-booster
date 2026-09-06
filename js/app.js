@@ -4,7 +4,7 @@ import { loadCards, getCards } from './cards.js';
 import { state, subscribe, commit, reset, claimWelcome, msToNextBooster } from './state.js';
 import { initPlayer, playerStatus, setChannel, getPlayer } from './twitch.js';
 import { startCooldown, onTick, onBoosterEarned } from './cooldown.js';
-import { initCollection, renderGrid } from './collection.js';
+import { initCollection, renderGrid, syncStatsSort } from './collection.js';
 import { initOpening, refreshOpening } from './opening.js';
 import { sfx, toggleSound } from './audio.js';
 import { loadStreamers, initStreamerPicker } from './streamers.js';
@@ -261,6 +261,7 @@ async function main() {
 
   loadStats().then(() => {
     renderTally(totalPacks());
+    syncStatsSort();
     backfillOnce();
     watchStats(renderTally);
   });

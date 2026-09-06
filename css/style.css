@@ -1977,6 +1977,31 @@ body.is-quaking main {
   font-size: 0.62rem;
 }
 
+/* Compteur de tirages du site, visible seulement pendant un tri par tirages.
+   En bas à gauche : le coin haut droit est déjà pris par les doublons. */
+.kard__pulls {
+  position: absolute;
+  left: 6px;
+  bottom: 6px;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25em;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: rgba(6, 3, 10, 0.86);
+  border: 1px solid rgba(58, 243, 64, 0.35);
+  color: var(--zgreen);
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.66rem;
+  line-height: 1.5;
+}
+
+.kard__pulls i {
+  color: var(--txt-faint);
+  font-style: normal;
+  font-size: 0.82em;
+}
+
 .kard__meta {
   display: flex;
   align-items: baseline;
